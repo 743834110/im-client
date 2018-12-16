@@ -1,0 +1,15 @@
+// redux中state的组织方式
+{
+  "clientConfig": {
+
+  },
+  "user": {
+
+  },
+  "routine": {
+
+  },
+  "org": {
+
+  }
+}
