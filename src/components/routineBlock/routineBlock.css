@@ -1,0 +1,77 @@
+.index {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  color: #333333;
+}
+
+.view-container {
+  background-color: white;
+  padding: 30px 0 30px 30px;
+  border: 1px #E4E4E4 solid;
+  box-shadow: #E4E4E4 0 0 10px;
+  width: 95vw;
+  margin: 0 auto;
+}
+
+.routine-image {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title {
+  font-size: 35px;
+  width: 60vw;
+  margin-left: 30px;
+}
+
+.end {
+  font-size: 20px;
+  color: red;
+  text-align: right;
+  margin-right: 40px;
+  flex: 1;
+}
+
+.content {
+  color: #AEAEAE;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  font-size: 25px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+.org-name {
+  color: #AEAEAE;
+  font-size: 25px;
+  text-align: right;
+}
+
+.extra-info {
+  display: flex;
+  margin-top: 8px;
+  font-size: 25px;
+}
+
+.attachment {
+  
+}
+.date {
+
+}
+.read {
+
+}
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,9 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import './index.scss'
+import BannerNavBar from "../../components/bannerNavBar/BannerNavBar";
+import {AtTabsPane} from "taro-ui";
+import RoutineBlock from "../../components/routineBlock/routineBlock";
 
 
 @connect(
@@ -28,12 +31,21 @@ export default class Index extends Component {
 
   componentDidHide () { }
 
+  handleOnclick = (value) => {
+    console.log(value)
+  };
+
   render () {
-    console.log(this.props)
     return (
-      <View className='index'>
-        <Text>Hello world!</Text>
-        <Text>Hello world!</Text>
+      <View style={{
+        "backgroundColor": "#F5F5F9",
+        "height": "100vh",
+        "width": "100vw"
+      }}
+      >
+        {/*<BannerNavBar onClick={this.handleOnclick}>*/}
+        {/*</BannerNavBar>*/}
+        <RoutineBlock />
       </View>
     )
   }
