@@ -1,0 +1,19 @@
+
+.routine-list {
+  flex: 1;
+  padding-bottom: 50px;
+  .routine-list-element {
+    margin-top: 50px;
+    transition:margin-top 1s;
+    &:first-child {
+      margin-top: 100px;
+    }
+    &:hover {
+      margin-top: 200px;
+    }
+  }
+}
+
+
+
+

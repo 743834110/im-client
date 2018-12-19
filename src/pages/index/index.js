@@ -4,16 +4,14 @@ import {connect} from "@tarojs/redux";
 import './index.scss'
 import RoutineBlock from "../../components/routineBlock/routineBlock";
 import ListRoutine from "../../components/listRoutine/listRoutine";
+import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import RoutineList from "../../components/routineList/routineList";
 
-
-@connect(
-  (state) => ({
-    state
-  }),
-  (dispatch) => ({
-    dispatch
-  })
-)
+@connect((state) => ({
+  state
+}), (dispatch) => ({
+  dispatch
+}))
 export default class Index extends Component {
 
   config = {
@@ -35,6 +33,7 @@ export default class Index extends Component {
   };
 
   render () {
+    console.log(this.props)
     return (
       <View className='index' style={{
         "backgroundColor": "#F5F5F9",
@@ -45,7 +44,7 @@ export default class Index extends Component {
       >
         {/*<BannerNavBar onClick={this.handleOnclick}>*/}
         {/*</BannerNavBar>*/}
-        <ListRoutine name='fdfdfd' />
+        <RoutineList />
       </View>
     )
   }

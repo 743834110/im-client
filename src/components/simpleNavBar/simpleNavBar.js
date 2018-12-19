@@ -24,7 +24,6 @@ export default class SimpleNavBar extends Component{
   render() {
 
     let {title} = this.props;
-
     return (
       <AtNavBar
         color={'#2697EB'}

@@ -51,9 +51,9 @@ export default class RoutineBlock extends Component{
 
 
   render() {
-    let {onClick, className, orgImageUrl, title, end, content, orgName, files, createTime, read} = this.props;
+    let {onClick, orgImageUrl, title, end, content, orgName, files, createTime, read} = this.props;
     return (
-      <View className={`${className} routine-block-index`} onClick={onClick}>
+      <View className='routine-block-index' onClick={onClick}>
         <View className='view-container'>
           <View className='routine-image'>
             <AtAvatar image={orgImageUrl} size='small' />
