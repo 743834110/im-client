@@ -1,16 +1,14 @@
-.index {
+.routine-block-index {
   display: flex;
   flex-direction: column;
-  padding-top: 24px;
   color: #333333;
 }
 
 .view-container {
   background-color: white;
-  padding: 30px 0 30px 30px;
+  padding: 30px 15px 30px 30px;
   border: 1px #E4E4E4 solid;
-  box-shadow: #E4E4E4 0 0 10px;
-  width: 95vw;
+  box-shadow: #E4E4E4 0 0 20px;
   margin: 0 auto;
 }
 
@@ -55,18 +53,27 @@
   display: flex;
   margin-top: 8px;
   font-size: 25px;
+  align-items: flex-end;
 }
 
 .attachment {
-  
-}
-.date {
-
-}
-.read {
-
+  display: flex;
+  color: #29A1F7;
+  width: 55%;
+  justify-content: start;
+  flex-wrap: wrap;
 }
 
+.text {
+  padding: 0 5px 5px 5px;
+}
+
+.date-read {
+  flex: 1;
+  display: flex;
+  color: #AEAEAE;
+  justify-content: space-between;
+}
 
 
 

@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import {View, Text} from '@tarojs/components'
 import {AtAvatar} from "taro-ui";
 import './routineBlock.css'
+import DateText from "../dateText/dateText";
 
 
 /**
@@ -9,11 +10,6 @@ import './routineBlock.css'
  *
  */
 
-if (process.env.TARO_ENV === "weapp") {
-  require("taro-ui/dist/weapp/css/index.css")
-} else if (process.env.TARO_ENV === "h5") {
-  require("taro-ui/dist/h5/css/index.css")
-}
 
 export default class RoutineBlock extends Component{
 
@@ -25,19 +21,39 @@ export default class RoutineBlock extends Component{
     orgName: "中央人民出版社",
     files: [
       {
-
+        fileId: "1",
+        orgName: "XXX",
+        extension: "doc",
+        filePath: "/power"
       },
       {
-
+        fileId: "2",
+        orgName: "XXXX",
+        extension: "doc",
+        filePath: "/angle/beat"
+      },
+      {
+        fileId: "3",
+        orgName: "XXXX",
+        extension: "doc",
+        filePath: "/angle/beat"
+      },
+      {
+        fileId: "4",
+        orgName: "XXXX",
+        extension: "doc",
+        filePath: "/angle/beat"
       }
-    ]
+    ],
+    createTime: Date.now(),
+    read: 5
   };
 
-  render() {
 
-    let {orgImageUrl, title, end, content, orgName, files} = this.props;
+  render() {
+    let {onClick, className, orgImageUrl, title, end, content, orgName, files, createTime, read} = this.props;
     return (
-      <View className='index'>
+      <View className={`${className} routine-block-index`} onClick={onClick}>
         <View className='view-container'>
           <View className='routine-image'>
             <AtAvatar image={orgImageUrl} size='small' />
@@ -55,15 +71,25 @@ export default class RoutineBlock extends Component{
               {content}
             </Text>
           </View>
-          <View className='org-name'>
+          <View className='org-name text'>
             {orgName}
           </View>
           <View className='extra-info'>
             <View className='attachment'>
+              {
+                files.map((file, index) => (
+                  <Text className='text' key={file.fileId}>
+                    附件{index + 1}
+                  </Text>
+                ))
+              }
             </View>
-            <Text>
-              中央人名出版社
-            </Text>
+            <View className='date-read'>
+              <DateText className='text' date={createTime} />
+              <Text className='text'>
+                {read}人已读
+              </Text>
+            </View>
           </View>
         </View>
       </View>

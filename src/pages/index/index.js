@@ -2,9 +2,8 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import './index.scss'
-import BannerNavBar from "../../components/bannerNavBar/BannerNavBar";
-import {AtTabsPane} from "taro-ui";
 import RoutineBlock from "../../components/routineBlock/routineBlock";
+import ListRoutine from "../../components/listRoutine/listRoutine";
 
 
 @connect(
@@ -37,15 +36,16 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View style={{
+      <View className='index' style={{
         "backgroundColor": "#F5F5F9",
         "height": "100vh",
-        "width": "100vw"
+        "width": "100vw",
+        display: "flex"
       }}
       >
         {/*<BannerNavBar onClick={this.handleOnclick}>*/}
         {/*</BannerNavBar>*/}
-        <RoutineBlock />
+        <ListRoutine name='fdfdfd' />
       </View>
     )
   }
