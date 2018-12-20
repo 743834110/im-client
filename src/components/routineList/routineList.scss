@@ -2,6 +2,12 @@
 .routine-list {
   flex: 1;
   padding-bottom: 50px;
+  .indicator-container {
+    display: flex;
+    justify-content: center;
+    .activity-indicator {
+    }
+  }
   .routine-list-element {
     margin-top: 50px;
     &:first-child {
