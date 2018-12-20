@@ -16,7 +16,9 @@ export default class Index extends Component {
 
   config = {
     navigationBarTitleText: '首页'
-  }
+  };
+
+
 
   componentWillMount () { }
 
@@ -32,8 +34,28 @@ export default class Index extends Component {
     console.log(value)
   };
 
+  handleUpperRefresh = () => {
+    setTimeout(() => {
+      console.log("刷新状态")
+      this.setState({
+        routineList: [
+          {
+
+          },
+          {
+
+          },
+          {
+
+          }
+        ]
+      })
+    }, 2000)
+  }
+
   render () {
-    console.log(this.props)
+    let {routineList} = this.state;
+    console.log(routineList)
     return (
       <View className='index' style={{
         "backgroundColor": "#F5F5F9",
@@ -44,7 +66,10 @@ export default class Index extends Component {
       >
         {/*<BannerNavBar onClick={this.handleOnclick}>*/}
         {/*</BannerNavBar>*/}
-        <RoutineList />
+        <RoutineList
+          routineList={routineList}
+          onUpperRefresh={this.handleUpperRefresh}
+        />
       </View>
     )
   }

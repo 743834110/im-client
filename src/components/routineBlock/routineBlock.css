@@ -8,7 +8,8 @@
   background-color: white;
   padding: 30px 15px 30px 30px;
   border: 1px #E4E4E4 solid;
-  box-shadow: #E4E4E4 0 0 20px;
+  /*box-shadow: #E4E4E4 0 0 20px;*/
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
   margin: 0 auto;
 }
 
