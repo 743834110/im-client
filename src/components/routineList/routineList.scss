@@ -1,6 +1,6 @@
 
 .routine-list {
-  flex: 1;
+  box-sizing: border-box;
   padding-bottom: 50px;
   .indicator-container {
     display: flex;
@@ -9,9 +9,9 @@
     }
   }
   .routine-list-element {
-    margin-top: 50px;
+    padding-top: 50px;
     &:first-child {
-      margin-top: 70px;
+      padding-top: 70px;
     }
   }
 }

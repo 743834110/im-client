@@ -1,5 +1,5 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import Taro, {Component} from '@tarojs/taro'
+import {View, Text, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import './index.scss'
 import RoutineBlock from "../../components/routineBlock/routineBlock";
@@ -18,44 +18,60 @@ export default class Index extends Component {
     navigationBarTitleText: '首页'
   };
 
-
-
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  handleOnclick = (value) => {
-    console.log(value)
-  };
-
-  handleUpperRefresh = () => {
-    setTimeout(() => {
-      console.log("刷新状态")
-      this.setState({
-        routineList: [
-          {
-
-          },
-          {
-
-          },
-          {
-
-          }
-        ]
-      })
-    }, 2000)
+  constructor(props) {
+    super(props)
+    this.state = {
+      routineList: []
+    }
   }
 
-  render () {
+  componentWillMount() {
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount() {
+  }
+
+  componentDidShow() {
+  }
+
+  componentDidHide() {
+  }
+
+
+
+  handleOnUpperRefresh = () => {
+    setTimeout(() => {
+      this.setState(prevState => {
+        return {
+          routineList: [
+            ...prevState.routineList,
+            {}, {}, {}
+          ]
+        }
+      })
+    }, 1000)
+  };
+
+  handleOnLowerRefresh = () => {
+    console.log("滚动加载")
+    setTimeout(() => {
+      this.setState(prevState => {
+        return {
+          routineList: [
+            ...prevState.routineList,
+          ]
+        }
+      })
+    }, 1000)
+  };
+
+
+
+  render() {
     let {routineList} = this.state;
-    console.log(routineList)
     return (
       <View className='index' style={{
         "backgroundColor": "#F5F5F9",
@@ -64,12 +80,21 @@ export default class Index extends Component {
         display: "flex"
       }}
       >
-        {/*<BannerNavBar onClick={this.handleOnclick}>*/}
-        {/*</BannerNavBar>*/}
-        <RoutineList
-          routineList={routineList}
-          onUpperRefresh={this.handleUpperRefresh}
-        />
+        <View
+          className='scroll-wrapper'
+          style={{
+          flex: 1
+        }}
+        >
+          <RoutineList
+            onUpperRefresh={this.handleOnUpperRefresh}
+            onLowerRefresh={this.handleOnLowerRefresh}
+            routineList={routineList}
+          />
+        </View>
+        <View>
+          fdfd
+        </View>
       </View>
     )
   }
