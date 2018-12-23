@@ -1,11 +1,12 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text, ScrollView} from '@tarojs/components'
+import {AtTabBar} from "taro-ui";
 import {connect} from "@tarojs/redux";
 import './index.scss'
-import RoutineBlock from "../../components/routineBlock/routineBlock";
-import ListRoutine from "../../components/listRoutine/listRoutine";
-import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import RoutineList from "../../components/routineList/routineList";
+import TabBar from "../../components/tabBar/tabBar";
+import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import RoutineContainer from "../../components/routineContainer/routineContainer";
 
 @connect((state) => ({
   state
@@ -15,7 +16,7 @@ import RoutineList from "../../components/routineList/routineList";
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: ''
   };
 
   constructor(props) {
@@ -29,6 +30,7 @@ export default class Index extends Component {
   }
 
   componentDidMount() {
+
   }
 
   componentWillUnmount() {
@@ -40,9 +42,12 @@ export default class Index extends Component {
   componentDidHide() {
   }
 
-
-
-  handleOnUpperRefresh = () => {
+  /**
+   * 顶部刷新事件
+   */
+  handleOnUpperRefresh = (target) => {
+    let {type} = target.props;
+    console.log(type)
     setTimeout(() => {
       this.setState(prevState => {
         return {
@@ -55,6 +60,9 @@ export default class Index extends Component {
     }, 1000)
   };
 
+  /**
+   * 底部刷新事件
+   */
   handleOnLowerRefresh = () => {
     console.log("滚动加载")
     setTimeout(() => {
@@ -69,7 +77,6 @@ export default class Index extends Component {
   };
 
 
-
   render() {
     let {routineList} = this.state;
     return (
@@ -80,20 +87,21 @@ export default class Index extends Component {
         display: "flex"
       }}
       >
+
         <View
-          className='scroll-wrapper'
           style={{
           flex: 1
         }}
         >
-          <RoutineList
-            onUpperRefresh={this.handleOnUpperRefresh}
+          <RoutineContainer
             onLowerRefresh={this.handleOnLowerRefresh}
+            onUpperRefresh={this.handleOnUpperRefresh}
             routineList={routineList}
           />
         </View>
-        <View>
-          fdfd
+
+        <View className='tab-bar-container'>
+          <TabBar />
         </View>
       </View>
     )

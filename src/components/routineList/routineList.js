@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import {View, ScrollView} from "@tarojs/components";
-import {AtActivityIndicator, AtDivider, AtLoadMore, AtToast} from "taro-ui";
+import PropTypes from "prop-types";
+import {AtActivityIndicator, AtLoadMore} from "taro-ui";
 import './routineList.scss'
 import RoutineBlock from "../routineBlock/routineBlock";
 
@@ -17,6 +18,8 @@ export default class RoutineList extends Component {
   stateUpdateFinish = true;
 
   static defaultProps = {
+    // 是否能够进行下拉刷新
+    useUpperRefresh: true,
     routineList: [],
     onLowerRefresh: () => {},
     onUpperRefresh: () => {}
@@ -28,28 +31,16 @@ export default class RoutineList extends Component {
       upperLoading: false,
       lowerLoading: 'more',
       styl: {
-        height: '100px'
+        height: '10px'
       }
     }
   }
 
-  componentDidMount() {
-    let query = Taro.createSelectorQuery();
-    query = query
-      .select(".scroll-wrapper");
-    query.boundingClientRect(rect => {
-      this.setState({
-        styl: {
-          height: rect.height + 'px'
-        }
-      })
-    }).exec()
-  }
 
   componentWillReceiveProps(props) {
-    let {lowerLoading} = props;
+    let {lowerLoading, scrollHeight} = props;
     let {routineList} = this.props;
-
+    console.log(scrollHeight)
     if (props.routineList.length <= routineList.length) {
       lowerLoading = 'noMore'
     }
@@ -57,17 +48,15 @@ export default class RoutineList extends Component {
       lowerLoading = 'more'
     }
 
-    this.setState(prevState => {
-      return {
+    this.setState({
         upperLoading: false,
         lowerLoading: lowerLoading,
         styl: {
-          height: prevState.styl.height,
+          height: scrollHeight,
           transition: "transform 0.5s ease 1s",
           transform: "translateY(0px)"
         }
-      }
-    })
+      })
 
   }
 
@@ -85,7 +74,8 @@ export default class RoutineList extends Component {
 
   handleTouchMove = (event) => {
     let {lowerLoading} = this.state;
-    if (lowerLoading === 'loading') {
+    let {useUpperRefresh} = this.props;
+    if (lowerLoading === 'loading' || useUpperRefresh === false) {
       return;
     }
 
@@ -165,7 +155,7 @@ export default class RoutineList extends Component {
 
   render() {
     let {upperLoading, styl, lowerLoading} = this.state;
-    let {routineList} = this.props;
+    let {routineList, useUpperRefresh, type} = this.props;
     return (
       <ScrollView
         style={styl}
@@ -180,7 +170,7 @@ export default class RoutineList extends Component {
         className='routine-list'
       >
 
-        {upperLoading === true?
+        {(upperLoading === true && useUpperRefresh === true)?
           <View className='indicator-container'>
             <AtActivityIndicator
               content='加载中...'
@@ -206,5 +196,32 @@ export default class RoutineList extends Component {
       </ScrollView>
     )
   }
+}
+
+RoutineList.propTypes = {
+  /**
+   * 日常活动类型
+   */
+  type: PropTypes.string,
+  /**
+   * 日常数据
+   */
+  routineList: PropTypes.array,
+  /**
+   * 滚动列表的高度
+   */
+  scrollHeight: PropTypes.string,
+  /**
+   * 底部刷新事件
+   */
+  onLowerRefresh: PropTypes.func,
+  /**
+   * 底部刷新事件
+   */
+  onUpperRefresh: PropTypes.func,
+  /**
+   * 是否开启顶部刷新事件
+   */
+  useUpperRefresh: PropTypes.bool
 }
 

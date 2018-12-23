@@ -8,8 +8,17 @@ import { AtNavBar } from 'taro-ui'
 export default class SimpleNavBar extends Component{
 
   static defaultProps = {
-
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+
+  componentWillMount() {
+  }
 
   /**
    * 处理左边按钮点击事件：
@@ -24,15 +33,17 @@ export default class SimpleNavBar extends Component{
   render() {
 
     let {title} = this.props;
+    let {styl} = this.state;
     return (
       <AtNavBar
+        customStyle={styl}
         color={'#2697EB'}
         title={title}
         leftText='返回'
         onClickLeftIcon={this.handleLeftIconClick}
         leftIconType='chevron-left'
-        fixed
-        className='fixed'
+        rightFirstIconType='bullet-list'
+        rightSecondIconType='user'
       />
     )
   }
