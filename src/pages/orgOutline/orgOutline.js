@@ -1,8 +1,12 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text, ScrollView} from '@tarojs/components'
-import './orgOutline.scss'
 import {connect} from "@tarojs/redux";
+import './orgOutline.scss'
 
+
+/**
+ *
+ */
 @connect((state) => ({
   state
 }), (dispatch) => ({

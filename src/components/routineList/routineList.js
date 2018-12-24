@@ -18,6 +18,8 @@ export default class RoutineList extends Component {
   stateUpdateFinish = true;
 
   static defaultProps = {
+    onRoutineClick: () => {},
+    onRoutineLongPress: () => {},
     // 是否能够进行下拉刷新
     useUpperRefresh: true,
     routineList: [],
@@ -155,7 +157,7 @@ export default class RoutineList extends Component {
 
   render() {
     let {upperLoading, styl, lowerLoading} = this.state;
-    let {routineList, useUpperRefresh, type} = this.props;
+    let {routineList, useUpperRefresh, type, onRoutineClick, onRoutineLongPress} = this.props;
     return (
       <ScrollView
         style={styl}
@@ -184,7 +186,10 @@ export default class RoutineList extends Component {
         {routineList.map((routine, index) => {
           return (
             <View key={index} className='routine-list-element'>
-              <RoutineBlock />
+              <RoutineBlock
+                onRoutineClick={onRoutineClick}
+                onRoutineLongPress={onRoutineLongPress}
+              />
             </View>
           )
         })
@@ -222,6 +227,14 @@ RoutineList.propTypes = {
   /**
    * 是否开启顶部刷新事件
    */
-  useUpperRefresh: PropTypes.bool
+  useUpperRefresh: PropTypes.bool,
+  /**
+   * 日常活动点击事件
+   */
+  onRoutineClick: PropTypes.func,
+  /**
+   * 日常活动长按事件
+   */
+  onRoutineLongPress: PropTypes.func
 }
 

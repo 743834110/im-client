@@ -13,6 +13,11 @@
   margin: 0 auto;
 }
 
+.view-container:active {
+  background-color: rgba(0, 0, 0, .1);
+  transition: 0.3s ease-out;
+}
+
 .routine-image {
   display: flex;
   flex-direction: row;

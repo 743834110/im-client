@@ -18,6 +18,7 @@ class App extends Component {
       'pages/index/index',
       'pages/orgOutline/orgOutline',
       'pages/routineSearch/routineSearch',
+      'pages/routineDetail/routineDetail'
     ],
     window: {
       backgroundTextStyle: 'light',

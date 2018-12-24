@@ -19,6 +19,12 @@ export default class Index extends Component {
     navigationBarTitleText: ''
   };
 
+  /**
+   * 日常活动页面路径
+   * @type {string}
+   */
+  routineDetailPath = '/pages/routineDetail/routineDetail';
+
   constructor(props) {
     super(props)
     this.state = {
@@ -76,6 +82,23 @@ export default class Index extends Component {
     }, 1000)
   };
 
+  /**
+   * 日常活动点击事件
+   * @param target
+   */
+  handleRoutineClick = (target) => {
+    let {routine} = target.props;
+    Taro.navigateTo({
+      url: this.routineDetailPath + '?routine=' + JSON.stringify(routine),
+    })
+  };
+
+  /**
+   * 日常活动长按事件
+   * @param target
+   */
+  handleRoutinePress = (target) => {
+  };
 
   render() {
     let {routineList} = this.state;
@@ -97,6 +120,8 @@ export default class Index extends Component {
             onLowerRefresh={this.handleOnLowerRefresh}
             onUpperRefresh={this.handleOnUpperRefresh}
             routineList={routineList}
+            onRoutineClick={this.handleRoutineClick}
+            onRoutineLongPress={this.handleRoutinePress}
           />
         </View>
 

@@ -12,6 +12,8 @@ import RoutineList from "../routineList/routineList";
 export default class RoutineContainer extends Component{
 
   static defaultProps = {
+    onRoutineClick: () => {},
+    onRoutineLongPress: () => {},
     onUpperRefresh: () => {},
     onLowerRefresh: () => {},
     navigateToPath: '/pages/routineSearch/routineSearch',
@@ -149,9 +151,8 @@ export default class RoutineContainer extends Component{
   };
 
   render() {
-    let {dict, routineList, onLowerRefresh, onUpperRefresh} = this.props;
+    let {dict, routineList, onLowerRefresh, onUpperRefresh, onRoutineClick, onRoutineLongPress} = this.props;
     let {current, scrollHeight} = this.state;
-
     return (
       <View style={{
         height: '100%'
@@ -173,6 +174,8 @@ export default class RoutineContainer extends Component{
                     onLowerRefresh={onLowerRefresh}
                     routineList={routineList}
                     scrollHeight={scrollHeight}
+                    onRoutineLongPress={onRoutineLongPress}
+                    onRoutineClick={onRoutineClick}
                   />
                 </View>
               </AtTabsPane>
@@ -208,5 +211,13 @@ RoutineContainer.propTypes = {
   /**
    * 将要被导航到指定页面的路径
    */
-  navigateToPath: PropTypes.string
+  navigateToPath: PropTypes.string,
+  /**
+   * 日常活动点击事件
+   */
+  onRoutineClick: PropTypes.func,
+  /**
+   * 日常活动长按事件
+   */
+  onRoutineLongPress: PropTypes.func
 };
