@@ -131,6 +131,8 @@ export default class RoutineContainer extends Component{
     }, 500);
   }
 
+  componentWillUnmount() {
+  }
 
   /**
    * 处理标签标题点击事件

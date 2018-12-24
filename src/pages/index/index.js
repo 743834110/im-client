@@ -40,6 +40,7 @@ export default class Index extends Component {
   }
 
   componentWillUnmount() {
+
   }
 
   componentDidShow() {
@@ -99,6 +100,7 @@ export default class Index extends Component {
    */
   handleRoutinePress = (target) => {
   };
+
 
   render() {
     let {routineList} = this.state;

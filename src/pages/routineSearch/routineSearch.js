@@ -36,7 +36,6 @@ export default class RoutineSearch extends Component{
   componentDidMount() {
     getSystemInfo()
       .then(value => {
-        console.log(value)
         this.setState({
           windowHeight: value.windowHeight
         })

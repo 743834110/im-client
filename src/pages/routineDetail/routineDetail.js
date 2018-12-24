@@ -14,6 +14,9 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 }))
 export default class RoutineDetail extends Component{
 
+  config = {
+    navigationBarTitleText: ''
+  };
 
 
   constructor(props) {
@@ -33,7 +36,7 @@ export default class RoutineDetail extends Component{
     let {routine} = this.state;
     return (
       <View>
-        <SimpleNavBar title='' />
+        <SimpleNavBar title='详情' backToPath='' />
         <RoutineDesc />
       </View>
     )

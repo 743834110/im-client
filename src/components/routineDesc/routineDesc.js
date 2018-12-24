@@ -15,7 +15,6 @@ if (process.env.TARO_ENV === 'weapp') {
 export default class RoutineDesc extends Component{
 
   static defaultProps = {
-
   };
 
   state = {

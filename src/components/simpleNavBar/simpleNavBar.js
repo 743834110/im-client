@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import PropTypes from "prop-types";
 import { AtNavBar } from 'taro-ui'
+import {View} from "@tarojs/components";
 
 /**
  * 简单导航栏组件
@@ -8,6 +9,8 @@ import { AtNavBar } from 'taro-ui'
 export default class SimpleNavBar extends Component{
 
   static defaultProps = {
+    title: '',
+    backToPath: ''
   };
 
   constructor(props) {
@@ -22,34 +25,50 @@ export default class SimpleNavBar extends Component{
 
   /**
    * 处理左边按钮点击事件：
-   * 返回上一页
+   * 当返回的页面为空是返回上一页
+   * 不为时则返回指定的页面
    */
   handleLeftIconClick = () => {
-    Taro.navigateBack({
-      delta: 1
-    })
+    let {backToPath} = this.props;
+    if (backToPath === '') {
+      Taro.navigateBack({
+        delta: 1
+      })
+    }
+    else {
+      Taro.redirectTo({
+        url: backToPath
+      })
+    }
   };
 
   render() {
 
-    let {title} = this.props;
+    let {title, backToPath} = this.props;
     let {styl} = this.state;
     return (
-      <AtNavBar
-        customStyle={styl}
-        color={'#2697EB'}
-        title={title}
-        leftText='返回'
-        onClickLeftIcon={this.handleLeftIconClick}
-        leftIconType='chevron-left'
-        rightFirstIconType='bullet-list'
-        rightSecondIconType='user'
-      />
+      <View>
+        <AtNavBar
+          customStyle={styl}
+          color={'#2697EB'}
+          title={title}
+          leftText='返回'
+          onClickLeftIcon={this.handleLeftIconClick}
+          leftIconType='chevron-left'
+        />
+      </View>
     )
   }
 }
 
 
 SimpleNavBar.propTypes = {
-  title: PropTypes.string.isRequired
+  /**
+   * 菜单标题
+   */
+  title: PropTypes.string.isRequired,
+  /**
+   * 返回页面路径
+   */
+  backToPath: PropTypes.string
 };
