@@ -105,19 +105,9 @@ export default class Index extends Component {
   render() {
     let {routineList} = this.state;
     return (
-      <View className='index' style={{
-        "backgroundColor": "#F5F5F9",
-        "height": "100vh",
-        "width": "100vw",
-        display: "flex"
-      }}
-      >
+      <View className='container'>
 
-        <View
-          style={{
-          flex: 1
-        }}
-        >
+        <View className='flex-1'>
           <RoutineContainer
             onLowerRefresh={this.handleOnLowerRefresh}
             onUpperRefresh={this.handleOnUpperRefresh}
@@ -127,7 +117,7 @@ export default class Index extends Component {
           />
         </View>
 
-        <View className='tab-bar-container'>
+        <View>
           <TabBar />
         </View>
       </View>

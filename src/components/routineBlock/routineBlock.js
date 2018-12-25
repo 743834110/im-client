@@ -23,6 +23,7 @@ export default class RoutineBlock extends Component{
       end: "Y",
       content: "党支部统一要求围绕话题一“习近平总书记视察广东重要讲话精神”撰写文章，然后私发到邮箱到邮箱412730497@qq.com",
       orgName: "中央人民出版社",
+      userName: '吴俊佑',
       files: [
         {
           fileId: "1",

@@ -3,7 +3,6 @@ import {View} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import SearchBar from "../../components/searchBar/searchBar";
 import {getHeightOfComponent, getSystemInfo} from "../../utils/display";
-import './routineSearch.scss'
 import RoutineList from "../../components/routineList/routineList";
 
 /**
@@ -87,26 +86,19 @@ export default class RoutineSearch extends Component{
 
   render() {
     let {windowHeight, routineList} = this.state;
-    console.log(windowHeight)
     return (
-      <View className='routine-search-container' style={{
-        height: windowHeight + 'px',
-        backgroundColor: "#F5F5F9",
-      }}
-      >
+      <View className='container'>
         <View>
           <SearchBar
             onKeywordSearch={this.handleOnKeywordSearch}
           />
         </View>
 
-        <View style={{
-          height: (windowHeight - 42) + 'px',
-        }}
-        >
+        <View className='flex-1'>
           <RoutineList
             type='default'
             routineList={routineList}
+            scrollHeight={(windowHeight - 42) + 'px'}
             onUpperRefresh={this.handleOnUpperRefresh}
             onLowerRefresh={this.handleOnLowerRefresh}
           />

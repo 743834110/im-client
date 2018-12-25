@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import {View, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import RoutineDesc from "../../components/routineDesc/routineDesc";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
@@ -34,11 +34,22 @@ export default class RoutineDetail extends Component{
 
   render() {
     let {routine} = this.state;
+    let {discussion} = this.props;
     return (
-      <View>
-        <SimpleNavBar title='详情' backToPath='' />
-        <RoutineDesc />
+      <View className='container white'>
+        <View>
+          <SimpleNavBar title='详情' backToPath='' />
+        </View>
+        <View className='flex-1'>
+          <RoutineDesc discussion={discussion} routine={routine} />
+          
+        </View>
+        <View>
+          fdfd
+        </View>
       </View>
     )
   }
 }
+
+

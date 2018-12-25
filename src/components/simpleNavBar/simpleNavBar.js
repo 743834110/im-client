@@ -53,6 +53,7 @@ export default class SimpleNavBar extends Component{
           color={'#2697EB'}
           title={title}
           leftText='返回'
+          border
           onClickLeftIcon={this.handleLeftIconClick}
           leftIconType='chevron-left'
         />
