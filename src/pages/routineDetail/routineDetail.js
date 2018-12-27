@@ -3,6 +3,7 @@ import {View, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import RoutineDesc from "../../components/routineDesc/routineDesc";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import FrequentAsk from "../../components/frequentAsk/frequentAsk";
 
 /**
  * 日常活动详情页面
@@ -24,8 +25,8 @@ export default class RoutineDetail extends Component{
   }
 
   componentWillMount() {
-    let routine = JSON.parse(this.$router.params.routine);
-
+   let param = decodeURIComponent(this.$router.params.routine).trim();
+    let routine = JSON.parse(param);
     this.setState({
       routine: routine
     })
@@ -34,16 +35,19 @@ export default class RoutineDetail extends Component{
 
   render() {
     let {routine} = this.state;
-    let {discussion} = this.props;
+    let {discussionList} = this.props;
     return (
       <View className='container white'>
         <View>
           <SimpleNavBar title='详情' backToPath='' />
         </View>
-        <View className='flex-1'>
-          <RoutineDesc discussion={discussion} routine={routine} />
-          
-        </View>
+        <ScrollView
+          className='flex-1'
+          scrollY
+        >
+          <RoutineDesc routine={routine} />
+          <FrequentAsk />
+        </ScrollView>
         <View>
           fdfd
         </View>

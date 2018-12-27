@@ -1,8 +1,8 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Image, Text, RichText} from '@tarojs/components'
 import PropTypes from "prop-types";
-import DateText from "../dateText/dateText";
 import {AtAvatar, AtDivider} from "taro-ui";
+import DateText from "../dateText/dateText";
 import './routineDesc.scss'
 
 
@@ -30,11 +30,10 @@ export default class RoutineDesc extends Component {
   }
 
   render() {
-    let {routine, discussion} = this.props;
+    let {routine} = this.props;
     console.log(routine);
-    console.log(discussion);
     return (
-      <View className='container at-article'>
+      <View className='routine-desc-container at-article'>
         <View className='at-article__h1'>
           {routine.title}
         </View>
@@ -81,10 +80,7 @@ RoutineDesc.propTypes = {
    * 日常活动数据
    */
   routine: PropTypes.object,
-  /**
-   * 讨论数据
-   */
-  discussion: PropTypes.object
+
 }
 
 
