@@ -37,7 +37,10 @@ export default class FrequentAsk extends Component {
     ]
   };
 
+
   state = {};
+
+
 
   render() {
     let {discussionList} = this.props;

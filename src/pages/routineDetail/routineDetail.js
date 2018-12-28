@@ -4,6 +4,7 @@ import {connect} from "@tarojs/redux";
 import RoutineDesc from "../../components/routineDesc/routineDesc";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import FrequentAsk from "../../components/frequentAsk/frequentAsk";
+import InputBar from "../../components/inputBar/inputBar";
 
 /**
  * 日常活动详情页面
@@ -20,6 +21,7 @@ export default class RoutineDetail extends Component{
   };
 
 
+
   constructor(props) {
     super(props)
   }
@@ -30,8 +32,12 @@ export default class RoutineDetail extends Component{
     this.setState({
       routine: routine
     })
-
   }
+
+  handleOnClick = (value) => {
+    console.log(value)
+  };
+
 
   render() {
     let {routine} = this.state;
@@ -42,14 +48,16 @@ export default class RoutineDetail extends Component{
           <SimpleNavBar title='详情' backToPath='' />
         </View>
         <ScrollView
-          className='flex-1'
+          className='display-flex-column flex-1'
           scrollY
         >
           <RoutineDesc routine={routine} />
-          <FrequentAsk />
+          <View style={{flex: 1}}>
+            <FrequentAsk discussionList={discussionList} />
+          </View>
         </ScrollView>
         <View>
-          fdfd
+          <InputBar onClick={this.handleOnClick} />
         </View>
       </View>
     )

@@ -1,6 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
+import InstituteSwiper from "../../components/instituteSwiper/instituteSwiper";
 
 /**
  *
@@ -28,12 +29,10 @@ export default class OrgOutline extends Component{
 
     return (
       <View>
-        机构预览
+        <InstituteSwiper />
       </View>
     )
 
   }
-
-
 
 }
