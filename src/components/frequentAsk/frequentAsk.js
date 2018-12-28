@@ -46,7 +46,6 @@ export default class FrequentAsk extends Component {
     let {discussionList} = this.props;
     let askList = discussionList.filter(value => !value.parentId);
     let answerList = discussionList.filter(value => value.parentId);
-
     return (
       <View className='sub-container'>
         <View className='icon-container'>
@@ -56,7 +55,6 @@ export default class FrequentAsk extends Component {
           </Text>
         </View>
         <View className='discuss-container'>
-
           {
             askList.map((askValue, index) => (
               <View className='discuss' key={askValue.discussionId}>
@@ -72,7 +70,7 @@ export default class FrequentAsk extends Component {
                 <AtIcon value='chevron-right' size={20} color='#FBBE93' className='prefix' />
                 {
                   answerList
-                    .filter(answerValue => answerValue.parentId === askValue.discussionId)
+                    .filter(answerValue => typeof askValue !==  "undefined" && answerValue.parentId === askValue.discussionId)
                     .map((answerValue) => (
 
                       <Text key={answerValue.discussionId}>
@@ -94,7 +92,7 @@ FrequentAsk.propTypes = {
   /**
    * 有关于日常活动的问答数据
    */
-  discussionList: PropTypes.object,
+  discussionList: PropTypes.array,
 
 
 };

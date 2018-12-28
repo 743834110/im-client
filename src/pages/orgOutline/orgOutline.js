@@ -25,11 +25,20 @@ export default class OrgOutline extends Component{
     console.log(this.$router)
   }
 
+  handleOnClick = (value) => {
+    console.log(value)
+  };
+
   render() {
 
     return (
-      <View>
-        <InstituteSwiper />
+      <View className='container'>
+        <View>
+          <InstituteSwiper onClick={this.handleOnClick} />
+        </View>
+        <View>
+          fdfdf
+        </View>
       </View>
     )
 

@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Swiper, SwiperItem, Image} from '@tarojs/components'
+import {View, Swiper, SwiperItem, Image, Text} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import './instituteSwiper.scss'
 
@@ -31,7 +31,9 @@ export default class InstituteSwiper extends Component{
         bannerTitle: 'XXX院',
         routineId: '',
       }
-    ]
+    ],
+
+    onClick: () => {}
   };
 
   state = {
@@ -39,7 +41,7 @@ export default class InstituteSwiper extends Component{
   };
 
   render() {
-    let {bannerList} = this.props;
+    let {bannerList, onClick} = this.props;
     return (
       <View>
         <Swiper
@@ -47,20 +49,22 @@ export default class InstituteSwiper extends Component{
           indicatorColor='#999'
           indicatorActiveColor='#333'
           circular
-          indicatorDots
           autoplay
         >
           {
             bannerList.map((value, index) => (
-              <SwiperItem key={index}>
-                <View>
+              <SwiperItem key={index} className='swiper-item-container'>
+                <View className='banner-wrapper' onClick={onClick.bind(this, value)}>
                   <Image
+                    className='banner-image'
                     src={value.bannerImageUrl}
                     style={{
-                      width: '100%',
-                      height: '100%'
+                      width: '100%'
                     }}
                   />
+                  <Text className='banner-title'>
+                    {value.bannerTitle}
+                  </Text>
                 </View>
               </SwiperItem>
             ))
@@ -75,6 +79,10 @@ InstituteSwiper.propTypes = {
   /**
    * 横幅信息列表
    */
-  bannerList: PropTypes.object
+  bannerList: PropTypes.array,
+  /**
+   * 横幅点击事件
+   */
+  onClick: PropTypes.func
 };
 

@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Image} from '@tarojs/components'
+import {View, Text} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import {AtButton, AtInput} from "taro-ui";
 import './inputBar.scss'
@@ -37,15 +37,11 @@ export default class InputBar extends Component{
           placeholder='提问的内容'
           value={value}
           onChange={this.handleChange}
-          customStyle={{
-            flex: 1,
-            marginRight: '8px',
-          }}
         >
+          <Text className='input-bar-button' onClick={onClick.bind(this, value)}>
+            提问
+          </Text>
         </AtInput>
-        <AtButton customStyle={{color: '#346FC2'}} onClick={value !== '' && onClick.bind(this, value)}>
-          提问
-        </AtButton>
       </View>
     )
   }
