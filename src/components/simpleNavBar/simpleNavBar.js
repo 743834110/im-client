@@ -10,7 +10,8 @@ export default class SimpleNavBar extends Component{
 
   static defaultProps = {
     title: '',
-    backToPath: ''
+    backToPath: '',
+    isBack: true
   };
 
   constructor(props) {
@@ -44,18 +45,23 @@ export default class SimpleNavBar extends Component{
 
   render() {
 
-    let {title, backToPath} = this.props;
-    let {styl} = this.state;
+    let {title, isBack} = this.props;
+    let leftText;
+    let leftIconType;
+    if (isBack) {
+      leftText = '返回';
+      leftIconType = 'chevron-left';
+    }
+
     return (
       <View>
         <AtNavBar
-          customStyle={styl}
           color={'#2697EB'}
           title={title}
-          leftText='返回'
+          leftText={leftText}
           border
           onClickLeftIcon={this.handleLeftIconClick}
-          leftIconType='chevron-left'
+          leftIconType={leftIconType}
         />
       </View>
     )
@@ -71,5 +77,9 @@ SimpleNavBar.propTypes = {
   /**
    * 返回页面路径
    */
-  backToPath: PropTypes.string
+  backToPath: PropTypes.string,
+  /**
+   * 是否需要返回按钮
+   */
+  isBack: PropTypes.bool
 };

@@ -23,7 +23,8 @@ class App extends Component {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black',
     }
-  }
+
+  };
 
 
 

@@ -1,5 +1,4 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, ScrollView} from "@tarojs/components";
 import PropTypes from "prop-types";
 import {AtTabBar} from "taro-ui";
 
@@ -15,24 +14,12 @@ export default class TabBar extends Component {
       {title: '通讯', iconType: 'folder', text: '100', max: '99', path: 'C'},
       {title: '我的', iconType: 'folder', text: '100', max: '99', path: 'D'}
     ],
-    currentPath: 'D'
+    current: 0
   };
 
   constructor(props) {
     super(props);
 
-    let {tabList, currentPath} = this.props;
-    let current = 0;
-    for (let i = 0; i < tabList; i++) {
-      if (currentPath === tabList[i].path) {
-        current = i;
-        break;
-      }
-    }
-
-    this.state = {
-      current: current
-    }
   }
 
   componentWillMount() {
@@ -43,7 +30,10 @@ export default class TabBar extends Component {
    * 标签栏点击事件
    */
   handleClick = (selectedTab) => {
-    let {tabList} = this.props;
+    let {tabList, current} = this.props;
+    if (current === selectedTab) {
+      return;
+    }
     Taro.navigateTo({
       url: tabList[selectedTab].path + '?id=55'
     })
@@ -53,8 +43,7 @@ export default class TabBar extends Component {
 
   render() {
 
-    let {current} = this.state;
-    let {tabList} = this.props;
+    let {tabList, current} = this.props;
 
     return (
       <AtTabBar
@@ -64,4 +53,11 @@ export default class TabBar extends Component {
       />
     )
   }
+}
+
+TabBar.propTypes = {
+  /**
+   * 当前标签栏索引
+   */
+  current: PropTypes.number
 }

@@ -158,6 +158,8 @@ export default class RoutineList extends Component {
   render() {
     let {upperLoading, styl, lowerLoading} = this.state;
     let {routineList, useUpperRefresh, type, onRoutineClick, onRoutineLongPress} = this.props;
+    routineList.
+
     return (
       <ScrollView
         style={styl}

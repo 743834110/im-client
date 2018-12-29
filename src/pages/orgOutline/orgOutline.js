@@ -2,19 +2,52 @@ import Taro, {Component} from '@tarojs/taro'
 import {View, Text, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import InstituteSwiper from "../../components/instituteSwiper/instituteSwiper";
+import CommonList from "../../components/commonList/commonList";
+import TabBar from "../../components/tabBar/tabBar";
+import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 
 /**
- *
+ * 机构轮廓页面
  */
-@connect((state) => ({
-  state
-}), (dispatch) => ({
-  dispatch
-}))
-export default class OrgOutline extends Component{
+
+const mapStateToProps = ({tabPage}) => ({
+  tabPage
+});
+
+const mapDispatchToProps = ({tabPage: {switchTab}}) => ({
+  dispatchSwitchTab: (props) => {
+    switchTab(props)
+  }
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class OrgOutline extends Component {
+
+  config = {
+    navigationBarTitleText: ''
+  };
 
   static defaultProps = {
-
+    currentOrgEntrance: [
+      {
+        title: '15外包1班',
+        ext: {
+          path: ''
+        }
+      },
+      {
+        title: '朝歌艺术团',
+        ext: {
+          path: ''
+        }
+      },
+      {
+        title: 'ReflectMind',
+        ext: {
+          path: ''
+        }
+      }
+    ]
   };
 
   constructor(props) {
@@ -22,22 +55,58 @@ export default class OrgOutline extends Component{
   }
 
   componentWillMount() {
-    console.log(this.$router)
+
   }
 
-  handleOnClick = (value) => {
+  handleSwiperClick = (value) => {
     console.log(value)
   };
 
-  render() {
+  /**
+   * 机构选择入口点击事件
+   * @param value
+   */
+  handleCommonListClick = (value) => {
+    console.log(value)
+  };
 
+
+
+  render() {
+    let {currentOrgEntrance} = this.props;
     return (
       <View className='container'>
         <View>
-          <InstituteSwiper onClick={this.handleOnClick} />
+          <SimpleNavBar title='学院机构' isBack={false} />
         </View>
+        <ScrollView
+          className='flex-1'
+          scrollY
+        >
+          <View>
+            <InstituteSwiper onClick={this.handleSwiperClick} />
+          </View>
+
+          <View className='margin-top-24'>
+            <CommonList onClick={this.handleCommonListClick} />
+          </View>
+          <View className='margin-top-24 white'>
+            <Text style={{
+              color: '#999999',
+              fontSize: '17px',
+              marginLeft: '12px'
+            }}
+            >
+              我的机构
+            </Text>
+            <CommonList data={currentOrgEntrance} />
+            <CommonList data={currentOrgEntrance} />
+            <CommonList data={currentOrgEntrance} />
+            <CommonList data={currentOrgEntrance} />
+          </View>
+        </ScrollView>
         <View>
-          fdfdf
+          <TabBar current={1} />
         </View>
       </View>
     )

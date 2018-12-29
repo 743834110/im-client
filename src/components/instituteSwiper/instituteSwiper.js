@@ -55,6 +55,9 @@ export default class InstituteSwiper extends Component{
             bannerList.map((value, index) => (
               <SwiperItem key={index} className='swiper-item-container'>
                 <View className='banner-wrapper' onClick={onClick.bind(this, value)}>
+                  <Text className='banner-title'>
+
+                  </Text>
                   <Image
                     className='banner-image'
                     src={value.bannerImageUrl}
@@ -62,9 +65,6 @@ export default class InstituteSwiper extends Component{
                       width: '100%'
                     }}
                   />
-                  <Text className='banner-title'>
-                    {value.bannerTitle}
-                  </Text>
                 </View>
               </SwiperItem>
             ))
