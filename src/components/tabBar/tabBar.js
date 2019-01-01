@@ -34,7 +34,7 @@ export default class TabBar extends Component {
     if (current === selectedTab) {
       return;
     }
-    Taro.navigateTo({
+    Taro.redirectTo({
       url: tabList[selectedTab].path + '?id=55'
     })
 

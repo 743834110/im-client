@@ -15,6 +15,7 @@ export default class CommonList extends Component {
     data: [
       {
         title: '校园级机构',
+        url: '/pages/orgReview/orgReview',
         arrow: 'right',
         note: '',
         iconInfo: {
@@ -28,6 +29,7 @@ export default class CommonList extends Component {
       },
       {
         title: '学生社团',
+        url: '/pages/studentSocietySearch/studentSocietySearch',
         arrow: 'right',
         note: '',
         iconInfo: {

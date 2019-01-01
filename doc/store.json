@@ -1,15 +1,16 @@
 // redux中state的组织方式
+// 首先是首页要显示动态，其次是要按照组织和用户划分
 {
-  "clientConfig": {
-
-  },
-  "user": {
-
-  },
   "routine": {
+    "001": {
+      "routineId": "001"
+    }
+  },
+  "indexRoutineIds": [],
+  "homeRoutineIds": {
 
   },
-  "org": {
+  "personalRoutineIds": {
 
   }
 }

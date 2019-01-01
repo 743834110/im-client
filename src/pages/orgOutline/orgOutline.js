@@ -59,7 +59,7 @@ export default class OrgOutline extends Component {
   }
 
   handleSwiperClick = (value) => {
-    console.log(value)
+    console.log(value);
   };
 
   /**
@@ -67,7 +67,10 @@ export default class OrgOutline extends Component {
    * @param value
    */
   handleCommonListClick = (value) => {
-    console.log(value)
+    console.log(value);
+    Taro.navigateTo({
+      url: value.url
+    })
   };
 
 
@@ -82,6 +85,9 @@ export default class OrgOutline extends Component {
         <ScrollView
           className='flex-1'
           scrollY
+          style={{
+            height: '10px'
+          }}
         >
           <View>
             <InstituteSwiper onClick={this.handleSwiperClick} />
@@ -93,7 +99,7 @@ export default class OrgOutline extends Component {
           <View className='margin-top-24 white'>
             <Text style={{
               color: '#999999',
-              fontSize: '17px',
+              fontSize: '0.68267rem',
               marginLeft: '12px'
             }}
             >
