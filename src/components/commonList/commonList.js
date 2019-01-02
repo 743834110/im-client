@@ -16,6 +16,7 @@ export default class CommonList extends Component {
       {
         title: '校园级机构',
         url: '/pages/orgReview/orgReview',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         arrow: 'right',
         note: '',
         iconInfo: {
@@ -30,6 +31,7 @@ export default class CommonList extends Component {
       {
         title: '学生社团',
         url: '/pages/studentSocietySearch/studentSocietySearch',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         arrow: 'right',
         note: '',
         iconInfo: {
@@ -44,6 +46,7 @@ export default class CommonList extends Component {
       {
         title: '我的学院',
         arrow: 'right',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         note: '',
         iconInfo: {
           size: 25,
@@ -67,6 +70,7 @@ export default class CommonList extends Component {
           {
             data.map((value, index) => (
               <AtListItem
+                thumb={typeof value.iconInfo === 'undefined'? value.thumb: ''}
                 key={index}
                 iconInfo={value.iconInfo}
                 title={value.title}

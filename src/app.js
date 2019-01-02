@@ -18,6 +18,7 @@ class App extends Component {
       'pages/routineDetail/routineDetail',
       'pages/orgReview/orgReview',
       'pages/studentSocietySearch/studentSocietySearch',
+      'pages/orgHome/orgHome',
     ],
     window: {
       backgroundTextStyle: 'light',

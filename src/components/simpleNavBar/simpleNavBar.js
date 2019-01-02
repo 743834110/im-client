@@ -11,7 +11,10 @@ export default class SimpleNavBar extends Component{
   static defaultProps = {
     title: '',
     backToPath: '',
-    isBack: true
+    isBack: true,
+    leftText: '返回',
+    rightFirstIconType: null,
+    onRightFirstIconClick: () => {}
   };
 
   constructor(props) {
@@ -45,12 +48,13 @@ export default class SimpleNavBar extends Component{
 
   render() {
 
-    let {title, isBack} = this.props;
+    let {title, isBack, rightFirstIconType, onRightFirstIconClick} = this.props;
     let leftText;
-    let leftIconType;
     if (isBack) {
       leftText = '返回';
-      leftIconType = 'chevron-left';
+    }
+    else {
+      leftText = ''
     }
 
     return (
@@ -61,7 +65,9 @@ export default class SimpleNavBar extends Component{
           leftText={leftText}
           border
           onClickLeftIcon={this.handleLeftIconClick}
-          leftIconType={leftIconType}
+          leftIconType='chevron-left'
+          rightFirstIconType={rightFirstIconType}
+          onClickRgIconSt={onRightFirstIconClick}
         />
       </View>
     )
@@ -81,5 +87,18 @@ SimpleNavBar.propTypes = {
   /**
    * 是否需要返回按钮
    */
-  isBack: PropTypes.bool
+  isBack: PropTypes.bool,
+  /**
+   * 左边文字
+   */
+  leftText: PropTypes.string,
+  /**
+   * 右边第一个图标类型
+   */
+  rightFirstIconType: PropTypes.string,
+  /**
+   * 右边第一个图标点击事件
+   */
+  onRightFirstIconClick: PropTypes.func
+
 };
