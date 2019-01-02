@@ -73,7 +73,7 @@ export default class StudentSocietySearch extends Component{
           <CustomTagBar onPickerChange={this.handlePickerChange} onSearchClick={this.handleSearchClick} />
         </View>
         <ScrollView
-          className='flex-1'
+          className='flex-1 margin-top-24'
           scrollY
           style={{
             height: '10px'

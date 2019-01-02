@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {AtSearchBar} from "taro-ui";
 import CategoryTag from "../categoryTag/categoryTag";
 import './customTagBar.scss'
+import {isRequireEnvironment} from "../../utils/display";
 
 
 /**
@@ -116,13 +117,19 @@ export default class CustomTagBar extends Component{
             <CategoryTag iconType='chevron-down' tagName='搜索' />
           </View>
         </View>
-        <AtSearchBar
-          className={`search-bar ${hiddenClassName}`}
-          showActionButton
-          value={searchBarValue}
-          onChange={this.handleSearchBarChange}
-          onActionClick={this.handleSearchClick}
-        />
+
+
+        {
+          // 不提倡 暂时这样写
+          hiddenClassName !== 'search-bar-hidden' || isRequireEnvironment('h5')?
+            <AtSearchBar
+              className={`search-bar ${hiddenClassName}`}
+              showActionButton
+              value={searchBarValue}
+              onChange={this.handleSearchBarChange}
+              onActionClick={this.handleSearchClick}
+            />: ''
+        }
       </View>
     );
   }

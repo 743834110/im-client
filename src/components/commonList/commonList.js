@@ -64,13 +64,16 @@ export default class CommonList extends Component {
 
   render() {
     let {data, onClick} = this.props;
+
     return (
       <View>
         <AtList>
           {
-            data.map((value, index) => (
+            data.map((value, index) => {
+              let thumb = typeof value.iconInfo !== 'undefined'? null: value.thumb;
+              return (
               <AtListItem
-                thumb={typeof value.iconInfo === 'undefined'? value.thumb: ''}
+                thumb={thumb}
                 key={index}
                 iconInfo={value.iconInfo}
                 title={value.title}
@@ -78,7 +81,7 @@ export default class CommonList extends Component {
                 note={value.note}
                 onClick={onClick.bind(this, value)}
               />
-            ))
+            )})
           }
         </AtList>
       </View>
