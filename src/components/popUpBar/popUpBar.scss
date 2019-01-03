@@ -1,0 +1,33 @@
+
+.pop-up-bar-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 12px;
+  width: 280px;
+  padding: 19px 32px 32px 32px;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width:0;
+    height:0;
+    bottom: 100%;
+    right: 6%;
+    border-left:20px solid transparent;
+    border-right:20px solid transparent;
+    border-bottom:23px solid #fff;
+  }
+
+  .pop-up-block-wrapper {
+
+    border-bottom: 1px solid #d6e4ef;
+    padding-bottom: 8px;
+    transition: 0.3s background-color;
+
+    &:active {
+      background-color: #F0F0F0;
+    }
+  }
+}

@@ -2,6 +2,8 @@ import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import PopUpBar from "../../components/popUpBar/popUpBar";
+import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 
 const mapStateToProps = (state) => ({
   state
@@ -37,19 +39,15 @@ export default class OrgHome extends Component{
     super(props)
   }
 
-  handleExtraClick = (event) => {
-    console.log(event)
-  };
 
   render() {
     return (
       <View className='container'>
         <View>
-          <SimpleNavBar
-            title='机构简称'
-            rightFirstIconType='add-circle'
-            onRightFirstIconClick={this.handleExtraClick}
-          />
+          <PopUpNavBar />
+        </View>
+        <View className='flex-1'>
+          fdfdfdf
         </View>
       </View>
     )

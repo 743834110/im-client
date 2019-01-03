@@ -1,0 +1,27 @@
+.pop-up-nav-bar-container {
+  position: relative;
+
+  .mask {
+    content: "";
+    position: fixed;
+    top: 46px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    visibility: hidden;
+    transition: background-color 0.3s;
+    opacity: 0.6;
+
+    &-hidden {
+      background-color: rgba(0, 0, 0, 0.6);
+      visibility: inherit;
+    }
+  }
+
+  .pop-up-bar-wrapper {
+    position: absolute;
+    top: 130%;
+    right: 5%;
+  }
+}

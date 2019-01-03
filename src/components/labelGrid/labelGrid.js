@@ -1,8 +1,8 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View,Text} from '@tarojs/components'
+import {AtGrid} from "taro-ui";
 import PropTypes from 'prop-types'
 import './labelGrid.scss'
-import {AtGrid} from "taro-ui";
 
 /**
  * @author litianfeng
