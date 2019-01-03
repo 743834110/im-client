@@ -14,7 +14,8 @@ export default class PopUpNavBar extends Component{
 
   static defaultProps = {
     rightFirstIconType: 'add-circle',
-    title: '机构简称'
+    title: '机构简称',
+    onPopUpBlockClick: () => {}
   };
 
   state = {
@@ -46,7 +47,7 @@ export default class PopUpNavBar extends Component{
 
 
   render() {
-    let {rightFirstIconType, title} = this.props;
+    let {rightFirstIconType, title, onPopUpBlockClick} = this.props;
     let {hiddenStyle} = this.state;
 
     return (
@@ -59,7 +60,7 @@ export default class PopUpNavBar extends Component{
           onRightFirstIconClick={this.handleExtraClick}
         />
         <View ref='popUpBarWrapper' className='pop-up-bar-wrapper' style={hiddenStyle}>
-          <PopUpBar />
+          <PopUpBar onPopUpBlockClick={onPopUpBlockClick} />
         </View>
       </View>
     )
@@ -74,5 +75,9 @@ PopUpNavBar.propTypes = {
   /**
    * 导航栏名称
    */
-  title: PropTypes.string
+  title: PropTypes.string,
+  /**
+   * 弹窗元素点击事件
+   */
+  onPopUpBlockClick: PropTypes.func
 };

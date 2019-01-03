@@ -1,8 +1,6 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
-import {connect} from "@tarojs/redux";
-import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
-import PopUpBar from "../../components/popUpBar/popUpBar";
+import {connect} from "@tarojs/redux"
 import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 
 const mapStateToProps = (state) => ({
@@ -39,12 +37,15 @@ export default class OrgHome extends Component{
     super(props)
   }
 
+  handlePopUpBlockClick(value) {
+    console.log(value)
+  }
 
   render() {
     return (
       <View className='container'>
         <View>
-          <PopUpNavBar />
+          <PopUpNavBar  onPopUpBlockClick={this.handlePopUpBlockClick} />
         </View>
         <View className='flex-1'>
           fdfdfdf
