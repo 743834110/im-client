@@ -36,8 +36,8 @@ export default class PopUpNavBar extends Component{
 
   handlePopDownClick = (event) => {
 
-    let rect = this.refs.popUpBarWrapper;
-    console.log(rect);
+    // let rect = this.refs.popUpBarWrapper;
+    // console.log(rect);
 
     // this.setState({
     //   hiddenStyle: {display: 'none'}
@@ -59,7 +59,7 @@ export default class PopUpNavBar extends Component{
           rightFirstIconType={rightFirstIconType}
           onRightFirstIconClick={this.handleExtraClick}
         />
-        <View ref='popUpBarWrapper' className='pop-up-bar-wrapper' style={hiddenStyle}>
+        <View className='pop-up-bar-wrapper' style={hiddenStyle}>
           <PopUpBar onPopUpBlockClick={onPopUpBlockClick} />
         </View>
       </View>

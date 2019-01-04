@@ -58,9 +58,8 @@ export default class StudentSocietySearch extends Component{
   };
 
   handleListClick = (value) => {
-    console.log(value);
     Taro.navigateTo({
-      url: '/pages/orgHome/orgHome'
+      url: '/pages/orgHome/orgHome?param=' + encodeURIComponent(JSON.stringify(value))
     })
   };
 

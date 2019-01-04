@@ -1,5 +1,6 @@
 .pop-up-nav-bar-container {
   position: relative;
+  z-index: 999;
 
   .mask {
     content: "";
