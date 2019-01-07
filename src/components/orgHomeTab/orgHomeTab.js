@@ -1,8 +1,10 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import {View, RichText} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import {AtTabs, AtTabsPane} from "taro-ui";
 import RoutineList from "../routineList/routineList";
+import {getSystemInfo} from "../../utils/display";
+import AccordionList from "../accordionList/accordionList";
 
 /**
  * @description 机构主页标签页
@@ -26,8 +28,19 @@ export default class OrgHomeTab extends Component {
 
   state = {
     current: 0,
-    routineList: []
+    routineList: [],
+    scrollHeight: '10px'
   };
+
+  componentWillMount() {
+    getSystemInfo()
+      .then((rect) => {
+        let scrollHeight = rect.windowHeight - 46 * 2 - 150;
+        this.setState({
+          scrollHeight: scrollHeight + 'px'
+        })
+      })
+  }
 
   handleTabClick = (current) => {
     this.setState({
@@ -36,17 +49,19 @@ export default class OrgHomeTab extends Component {
   };
 
   handleUpperRefresh = () => {
-    this.setState(prevState => ({
-      routineList: [
-        ...prevState.routineList,
-        {}, {}, {}
-      ]
-    }))
+    setTimeout(() => {
+      this.setState(prevState => ({
+        routineList: [
+          ...prevState.routineList,
+          {}, {}, {}
+        ]
+      }))
+    }, 300)
   };
 
   render() {
     let {tabList, org} = this.props;
-    let {routineList} = this.state;
+    let {routineList, scrollHeight} = this.state;
     return (
       <AtTabs
         customStyle={{
@@ -58,12 +73,13 @@ export default class OrgHomeTab extends Component {
       >
         <AtTabsPane current={this.state.current} index={0} >
           <View>
-
+            <RichText nodes={org.orgDescription} />
           </View>
         </AtTabsPane>
         <AtTabsPane current={this.state.current} index={1}>
           <View>
             <RoutineList
+              scrollHeight={scrollHeight}
               routineList={routineList}
               onUpperRefresh={this.handleUpperRefresh}
             />
@@ -73,7 +89,7 @@ export default class OrgHomeTab extends Component {
           tabList.length >= 3?
             <AtTabsPane current={this.state.current} index={2}>
             <View>
-
+              <AccordionList />
             </View>
           </AtTabsPane>: ''
         }
