@@ -13,11 +13,10 @@ export default class PopUpBar extends Component{
 
   static defaultProps = {
     popUpList: [
-      {iconType: 'message', title: '发布消息', url: ''},
+      {iconType: 'message', title: '发布消息', url: '/pages/routinePublish/routinePublish'},
       {iconType: 'link', title: '创建工作群', url: ''},
       {iconType: 'settings', title: '管理', url: ''},
       {iconType: 'help', title: '反馈', url: ''},
-
     ],
     onPopUpBlockClick: () => {}
   };

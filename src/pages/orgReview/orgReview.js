@@ -35,7 +35,7 @@ export default class OrgReview extends Component {
     return (
       <View className='container'>
         <View>
-          <SimpleNavBar title='校园级机构' />
+          <SimpleNavBar title='校园级机构'  />
         </View>
         <View className='flex-1' style={{
           height: '10px'

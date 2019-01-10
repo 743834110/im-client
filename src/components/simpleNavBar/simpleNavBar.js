@@ -49,12 +49,15 @@ export default class SimpleNavBar extends Component{
   render() {
 
     let {title, isBack, rightFirstIconType, onRightFirstIconClick} = this.props;
-    let leftText;
+    let leftText, leftIconType;
     if (isBack) {
       leftText = '返回';
+      leftIconType = 'chevron-left';
+
     }
     else {
-      leftText = ''
+      leftText = '';
+      leftIconType = '';
     }
 
     return (
@@ -65,7 +68,7 @@ export default class SimpleNavBar extends Component{
           leftText={leftText}
           border
           onClickLeftIcon={this.handleLeftIconClick}
-          leftIconType='chevron-left'
+          leftIconType={leftIconType}
           rightFirstIconType={rightFirstIconType}
           onClickRgIconSt={onRightFirstIconClick}
         />

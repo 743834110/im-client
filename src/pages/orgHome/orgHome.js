@@ -51,6 +51,9 @@ export default class OrgHome extends Component{
    */
   handlePopUpBlockClick(value) {
     console.log(value)
+    Taro.navigateTo({
+      url: value.url
+    })
   }
 
   render() {

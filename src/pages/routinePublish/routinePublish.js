@@ -1,6 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
-import {View} from '@tarojs/components'
-import {connect} from "@tarojs/redux/types/index";
+import {View, Form, Switch, Button} from '@tarojs/components'
+import {connect} from "@tarojs/redux"
+import {AtForm, AtButton, AtInput} from 'taro-ui'
+import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import CustomInput from "../../components/customInput/customInput";
+
+
 
 const mapStateToProps = ({tabPage}) => ({
   tabPage
@@ -26,4 +31,36 @@ export default class RoutinePublish extends Component{
   static defaultProps = {
 
   };
+
+  handleSubmit = (event) => {
+    console.log(event)
+    console.log(this.refs)
+    console.log(Object.getOwnPropertyNames(this.refs))
+  };
+
+  handleReSet = (event) => {
+    console.log(event)
+  };
+
+  render() {
+
+    return (
+      <View className='container'>
+        <View>
+          <SimpleNavBar title='消息发布' />
+        </View>
+        <View className='flex-1'>
+          <AtForm
+            reportSubmit
+            onSubmit={this.handleSubmit}
+            onReset={this.handleReSet}
+          >
+            <CustomInput ref='input' />
+            <AtButton formType='submit' onClick={this.handleSubmit}>提交</AtButton>
+            <AtButton formType='reset'>重置</AtButton>
+          </AtForm>
+        </View>
+      </View>
+    )
+  }
 }
