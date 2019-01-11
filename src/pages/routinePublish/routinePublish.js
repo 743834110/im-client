@@ -1,10 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
-import {View, Form, Switch, Button} from '@tarojs/components'
+import {View, Input} from '@tarojs/components'
 import {connect} from "@tarojs/redux"
-import {AtForm, AtButton, AtInput} from 'taro-ui'
+import {AtForm, AtButton, AtInput, AtImagePicker} from 'taro-ui'
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import CustomInput from "../../components/customInput/customInput";
-
+import {getSubmitObject} from "../../utils/common";
+import CustomTextarea from "../../components/customTextarea/customTextarea";
+import CustomImagePicker from "../../components/customImagePicker/customImagePicker";
 
 
 const mapStateToProps = ({tabPage}) => ({
@@ -33,9 +35,8 @@ export default class RoutinePublish extends Component{
   };
 
   handleSubmit = (event) => {
-    console.log(event)
-    console.log(this.refs)
-    console.log(Object.getOwnPropertyNames(this.refs))
+    let object = getSubmitObject(this.refs);
+    console.log(object)
   };
 
   handleReSet = (event) => {
@@ -45,20 +46,23 @@ export default class RoutinePublish extends Component{
   render() {
 
     return (
-      <View className='container'>
+      <View className='container white'>
         <View>
           <SimpleNavBar title='消息发布' />
         </View>
         <View className='flex-1'>
-          <AtForm
-            reportSubmit
-            onSubmit={this.handleSubmit}
-            onReset={this.handleReSet}
-          >
-            <CustomInput ref='input' />
-            <AtButton formType='submit' onClick={this.handleSubmit}>提交</AtButton>
-            <AtButton formType='reset'>重置</AtButton>
-          </AtForm>
+          <View className='default-padding-left '>
+            <CustomInput ref='title' placeholder='标题' />
+          </View>
+          <View className='margin-top-24'>
+            <CustomTextarea ref='content' placeholder='基本内容' maxLength={400} />
+          </View>
+          <View className='margin-top-24'>
+            <CustomImagePicker ref='files' />
+          </View>
+          <View className='margin-top-24'>
+          <AtButton type='primary' onClick={this.handleSubmit}>提交</AtButton>
+          </View>
         </View>
       </View>
     )

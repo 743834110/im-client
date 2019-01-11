@@ -2,7 +2,6 @@ import Taro, {Component} from '@tarojs/taro'
 import {View, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
-import TagBar from "../../components/tagBar/tagBar";
 import CustomTagBar from "../../components/customTagBar/customTagBar";
 import CommonList from "../../components/commonList/commonList";
 

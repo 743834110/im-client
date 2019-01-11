@@ -1,5 +1,4 @@
-import Taro, { Component } from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import { Component } from '@tarojs/taro'
 import { AtInput }  from 'taro-ui'
 import PropTypes from 'prop-types'
 
@@ -12,7 +11,9 @@ import PropTypes from 'prop-types'
 export default class CustomInput extends Component{
 
   static defaultProps = {
-
+    placeholder: null,
+    title: null,
+    type: null
   };
 
   state = {
@@ -31,12 +32,12 @@ export default class CustomInput extends Component{
 
   render() {
     let {value} = this.state;
+    let {placeholder, title, type} = this.props;
     return (
       <AtInput
-        name='value'
-        title='标准五个字'
-        type='text'
-        placeholder='标准五个字'
+        title={title}
+        type={type === null? 'text': type}
+        placeholder={placeholder === null? '占位符': placeholder}
         value={value}
         onChange={this.handleChange}
       />
@@ -45,5 +46,17 @@ export default class CustomInput extends Component{
 }
 
 CustomInput.propTypes = {
+  /**
+   * 占位字符
+   */
+  placeholder: PropTypes.string,
+  /**
+   * 标题
+   */
+  title: PropTypes.string,
+  /**
+   * 类型
+   */
+  type: PropTypes.string,
 
 };

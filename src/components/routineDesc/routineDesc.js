@@ -1,7 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Image, Text, RichText} from '@tarojs/components'
+import {View, Text, RichText} from '@tarojs/components'
 import PropTypes from "prop-types";
-import {AtAvatar, AtDivider} from "taro-ui";
+import {AtAvatar} from "taro-ui";
 import DateText from "../dateText/dateText";
 import './routineDesc.scss'
 

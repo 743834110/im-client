@@ -1,5 +1,4 @@
 import {downloadFile, getSystemInfoSync} from "@tarojs/taro";
-import {getCurrentPages} from "@tarojs/taro-h5";
 
 export const promisify = (func, ctx) => {
   // 返回一个新的function
@@ -47,18 +46,18 @@ export const downLoadImg = (imgurl, msg) => {
       }
     })
   })
-}
+};
 
 export const promiseImage = (url) => {
   return new Promise(function (resolve, reject) {
     resolve(url)
   })
-}
+};
 
 export const isChinese = (str) => {
   if (escape(str).indexOf("%u") < 0) return false
   return true
-}
+};
 
 export const handleName = (str) => {
   let res = emoj2str(str)
@@ -68,18 +67,19 @@ export const handleName = (str) => {
     res = res.length > 7 ? res.slice(0, 7) + '...' : res
   }
   return res
-}
+};
 
 export const emoj2str = (str) => {
   return unescape(escape(str).replace(/\%uD.{3}/g, ''))
-}
+};
+
 /*获取当前页url*/
 export const getCurrentPageUrl = () => {
   let pages = getCurrentPages();
   let currentPage = pages[pages.length - 1]
   let url = currentPage.route
   return url
-}
+};
 
 export const getSystemInfo = () => {
   try {
@@ -89,7 +89,7 @@ export const getSystemInfo = () => {
     console.error('not support getSystemInfoSync api', e.message)
   }
   return device;
-}
+};
 
 export const formatTime = date => {
   const year = date.getFullYear()
@@ -100,9 +100,23 @@ export const formatTime = date => {
   const second = date.getSeconds()
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
-}
+};
 
 export const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
-}
+};
+
+/**
+ * 根据既定的规则从
+ * 组件引用对象获取将要被提交的数据
+ * @author LTF
+ */
+export const getSubmitObject = (refs) => {
+  let keys = Object.getOwnPropertyNames(refs);
+  let object = {};
+  Object.values(refs).forEach(((value, index) => {
+    object[keys[index]] = value.state.value;
+  }));
+  return object;
+};
