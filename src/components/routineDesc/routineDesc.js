@@ -6,11 +6,6 @@ import DateText from "../dateText/dateText";
 import './routineDesc.scss'
 
 
-if (process.env.TARO_ENV === 'weapp') {
-  require('taro-ui/dist/weapp/css/index.css')
-} else if (process.env.TARO_ENV === 'h5') {
-  require('taro-ui/dist/h5/css/index.css')
-}
 /**
  * 日常活动描述组件
  * @author litianfeng

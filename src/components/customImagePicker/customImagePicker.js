@@ -13,12 +13,29 @@ export default class CustomImagePicker extends Component{
   };
 
   state = {
-    value: []
+    value: [
+      {
+        url: 'https://jimczj.gitee.io/lazyrepay/aragaki1.jpeg',
+      }
+    ]
   };
 
-  handleChange = (files) => {
+  handleChange = (files, type, index) => {
+    Taro.showToast({
+      title: "fdfd",
+      icon: 'success',
+      duration: 2000
+    })
     this.setState({
       value: files
+    })
+  };
+
+  handleFail = (message) => {
+    Taro.showToast({
+      title: message + "fdfd",
+      icon: 'success',
+      duration: 2000
     })
   };
 
@@ -29,6 +46,7 @@ export default class CustomImagePicker extends Component{
         multiple
         files={value}
         onChange={this.handleChange}
+        onFail={this.handleFail}
       />
     )
   }
