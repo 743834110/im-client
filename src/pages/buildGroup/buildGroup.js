@@ -36,7 +36,7 @@ export default class BuildGroup extends Component{
           <SimpleNavBar title='创建工作群' isBack />
         </View>
         <ScrollView scrollY className='flex-1' >
-
+          
         </ScrollView>
       </View>
     )
