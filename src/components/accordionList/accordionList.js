@@ -23,18 +23,7 @@ export default class AccordionList extends Component{
           {title: '张三', note: '描述信息', thumb: ''},
           {title: '张三', note: '描述信息', thumb: ''},
         ]
-      },
-      {
-        shortName: '资助部',
-        id: '2',
-        list: [
-          {title: '张三', note: '描述信息', thumb: ''},
-          {title: '张三', note: '描述信息', thumb: ''},
-          {title: '张三', note: '描述信息', thumb: ''},
-          {title: '张三', note: '描述信息', thumb: ''},
-          {title: '张三', note: '描述信息', thumb: ''},
-        ]
-      },
+      }
     ]
   };
 
@@ -43,7 +32,7 @@ export default class AccordionList extends Component{
   };
 
   handleOnClick = () => {
-
+    console.log("fdfdf")
   };
 
   render() {
@@ -64,7 +53,7 @@ export default class AccordionList extends Component{
                 backgroundColor: 'white'
               }}
             >
-              <CommonList />
+              <CommonList data={value.list} />
             </AtAccordion>
           ))
         }

@@ -20,6 +20,7 @@ class App extends Component {
       'pages/studentSocietySearch/studentSocietySearch',
       'pages/orgHome/orgHome',
       'pages/routinePublish/routinePublish',
+      'pages/buildGroup/buildGroup'
     ],
     window: {
       backgroundTextStyle: 'light',

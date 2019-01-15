@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, RichText} from '@tarojs/components'
+import {View, RichText, ScrollView} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import {AtTabs, AtTabsPane} from "taro-ui";
 import RoutineList from "../routineList/routineList";
@@ -88,7 +88,7 @@ export default class OrgHomeTab extends Component {
         {
           tabList.length >= 3?
             <AtTabsPane current={this.state.current} index={2}>
-            <View>
+            <View >
               <AccordionList />
             </View>
           </AtTabsPane>: ''

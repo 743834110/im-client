@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
-import {View, Input} from '@tarojs/components'
+import {View, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux"
-import {AtButton, AtList, AtListItem} from 'taro-ui'
+import {AtButton, AtList} from 'taro-ui'
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import CustomInput from "../../components/customInput/customInput";
 import {getSubmitObject} from "../../utils/common";
@@ -52,7 +52,13 @@ export default class RoutinePublish extends Component{
         <View>
           <SimpleNavBar title='消息发布' />
         </View>
-        <View className='flex-1'>
+        <ScrollView
+          style={{
+            height: '10px'
+          }}
+          scrollY
+          className='flex-1'
+        >
           <View className='default-padding-left '>
             <CustomInput ref='title' placeholder='标题' />
           </View>
@@ -73,7 +79,7 @@ export default class RoutinePublish extends Component{
           <View className='margin-top-24'>
             <AtButton type='primary' onClick={this.handleSubmit}>提交</AtButton>
           </View>
-        </View>
+        </ScrollView>
       </View>
     )
   }
