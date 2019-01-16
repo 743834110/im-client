@@ -1,4 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
+import {View, ScrollView} from '@tarojs/components'
 import {View, ScrollView, Checkbox} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import {AtCheckbox} from 'taro-ui'
@@ -20,14 +21,17 @@ const mapDispatchToProps = (dispatch) => ({
  * Created on 2019/1/15
  */
 @connect(mapStateToProps, mapDispatchToProps)
+export default class BuildGroup extends Component{
 export default class BuildGroup extends Component {
 
   config = {
     navigationBarTitleText: ''
   };
 
+  static defaultProps = {
   static defaultProps = {};
 
+  };
   handleChange(value) {
     this.setState({
       checkedList: value
@@ -52,6 +56,8 @@ export default class BuildGroup extends Component {
         <View>
           <SimpleNavBar title='创建工作群' isBack />
         </View>
+        <ScrollView scrollY className='flex-1' >
+
         <ScrollView scrollY className='flex-1'>
           <View>
             <AtCheckbox
@@ -73,6 +79,7 @@ export default class BuildGroup extends Component {
       </View>
     )
   }
+
 
 
 }
