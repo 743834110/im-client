@@ -64,4 +64,15 @@
   align-items: center;
 }
 
+.border-circle {
+  border-radius: 50%;
+  transition: all .3s;
+  size: 14px;
+}
+
+.border-circle:active {
+  background-color: #6190E8;
+}
+
+
 
