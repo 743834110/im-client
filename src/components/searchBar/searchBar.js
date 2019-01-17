@@ -1,6 +1,6 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
-import {AtSearchBar, AtForm, AtInput, AtButton, AtToast} from "taro-ui";
+import {AtSearchBar, AtForm} from "taro-ui";
 import PropTypes from "prop-types";
 
 /**

@@ -1,10 +1,11 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, ScrollView} from '@tarojs/components'
-import {View, ScrollView, Checkbox} from '@tarojs/components'
+import {View, ScrollView, Text} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
-import {AtCheckbox} from 'taro-ui'
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import CheckboxList from "../../components/checkboxList/checkboxList";
+import CommonList from "../../components/commonList/commonList";
+import SelectionButton from "../../components/selectionButton/selectionButton";
+import {AtSearchBar} from "taro-ui";
 
 
 const mapStateToProps = (state) => ({
@@ -21,65 +22,63 @@ const mapDispatchToProps = (dispatch) => ({
  * Created on 2019/1/15
  */
 @connect(mapStateToProps, mapDispatchToProps)
-export default class BuildGroup extends Component{
 export default class BuildGroup extends Component {
 
   config = {
     navigationBarTitleText: ''
   };
 
-  static defaultProps = {
   static defaultProps = {};
 
-  };
-  handleChange(value) {
-    this.setState({
-      checkedList: value
-    })
-    console.log(value)
-  }
+  commonListData = [
+    {
+      title: '面对面建群'
+    }
+  ];
 
+  handleCheckboxItemClick = (selectedList) => {
+    console.log(selectedList)
+  };
+
+  handleButtonClick = (event) => {
+    console.log(event)
+  };
+
+  handleNumberClick = (event) => {
+    console.log(event)
+  };
+
+  handleSearchBarFocus = (event) => {
+    console.log(event)
+  };
 
   render() {
-    this.checkboxOption = [{
-      value: 'list1',
-    }, {
-      value: 'list2',
-    }, {
-      value: 'list3',
-    }, {
-      value: 'list4',
-    }]
 
     return (
       <View className='container'>
         <View>
           <SimpleNavBar title='创建工作群' isBack />
+          <AtSearchBar
+            onFocus={this.handleSearchBarFocus}
+            placeholder='可批量搜索，以逗号隔开'
+            customStyle={{backgroundColor: '#f5f5f9'}}
+          />
         </View>
-        <ScrollView scrollY className='flex-1' >
-
-        <ScrollView scrollY className='flex-1'>
-          <View>
-            <AtCheckbox
-              options={this.checkboxOption}
-              selectedList={this.state.checkedList}
-              onChange={this.handleChange.bind(this)}
-            />
+        <ScrollView scrollY className='scroll-view-flex-1' >
+          <View className='margin-top-24'>
+            <CommonList data={this.commonListData} />
           </View>
-          <Checkbox
-            value='选中'
-            checked
-            color='#fff'
-            className=' border-circle'
-          >
-            选中
-          </Checkbox>
-          <CheckboxList />
+          <View className='margin-top-24'>
+            <Text className='common-desc-text'>部门联系人</Text>
+            <CheckboxList onCheckboxItemClick={this.handleCheckboxItemClick} />
+          </View>
         </ScrollView>
+        <View>
+          <SelectionButton onButtonClick={this.handleButtonClick} onNumberClick={this.handleNumberClick} />
+        </View>
       </View>
     )
   }
-
 
 
 }

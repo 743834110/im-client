@@ -1,0 +1,18 @@
+.selection-button-container {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px 5px 3px 5px;
+  transition: background-color .3s;
+
+  &:active {
+    background-color: #F0F0F0;
+  }
+
+  .text {
+    font-size: 28px;
+    flex: 1;
+
+  }
+}

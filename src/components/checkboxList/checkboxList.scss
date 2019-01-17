@@ -3,10 +3,26 @@
   align-items: center;
   flex-direction: row;
   transition: background-color 0.3s;
+  padding-left: 16px * 2;
 
   &:active {
     background-color: #F0F0F0;
   }
 
+  .checkbox{
+    border-radius: 50%;
+    transition: background-color .3s;
+    font-size: 18Px;
+    width: 20PX;
+    height: 20PX;
+    border: 2px solid #6190E8;
 
+    &-active {
+      background-color: #6190E8;
+    }
+  }
+
+  .list-item {
+    flex: 1;
+  }
 }

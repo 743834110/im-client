@@ -1,7 +1,9 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Checkbox} from '@tarojs/components'
+import PropTypes from 'prop-types'
 import {AtList, AtListItem} from 'taro-ui'
 import './checkboxList.scss'
+import {isRequireEnvironment} from "../../utils/display";
 
 /**
  * checkbox与AtList的集成组件
@@ -16,13 +18,21 @@ export default class CheckboxList extends Component{
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         title: '行者孙',
         extraText: '15软件服务外包1班'
+      },
+      {
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        title: '行者孙',
+        extraText: '15软件服务外包1班'
       }
-    ]
+    ],
+    onCheckboxItemClick: () => {}
   };
 
   constructor(props) {
     super(props);
-    this.state = props;
+    this.state = {
+      data: props.data,
+    };
   }
 
   handleCheckboxListClick = (index, event) => {
@@ -31,12 +41,16 @@ export default class CheckboxList extends Component{
 
   handleCheckboxClick = (index, event) => {
     event.stopPropagation();
-    console.log(index)
-    let {data} = this.props;
+    let {data} = this.state;
     data[index].checked = !data[index].checked;
+    let value = data.filter(value => value.checked);
     this.setState({
-      data: data
-    })
+      data: data,
+
+    });
+    let {onCheckboxItemClick} = this.props;
+    onCheckboxItemClick(value);
+
   };
 
   render() {
@@ -45,9 +59,19 @@ export default class CheckboxList extends Component{
       <AtList>
         {
           data.map((value, index) => (
-            <View className='checkbox-list-container' onClick={this.handleCheckboxListClick.bind(this, index)} >
-              <Checkbox checked={value.checked} onClick={this.handleCheckboxClick.bind(this, index)} />
+            <View
+              key={index}
+              className='checkbox-list-container'
+              onClick={this.handleCheckboxListClick.bind(this, index)}
+            >
+              <Checkbox
+                className={isRequireEnvironment('h5')?`checkbox ${value.checked?'checkbox-active': ''}`: ''}
+                color={isRequireEnvironment('h5')? '#fff': '#6190E8'}
+                checked={value.checked}
+                onClick={this.handleCheckboxClick.bind(this, index)}
+              />
               <AtListItem
+                className='list-item'
                 title={value.title}
                 key={index}
                 note={value.extraText}
@@ -60,3 +84,15 @@ export default class CheckboxList extends Component{
     )
   }
 }
+
+CheckboxList.propTypes = {
+  /**
+   * 被展示的数据
+   */
+  data: PropTypes.array,
+  /**
+   * 列表多选组件点击事件
+   */
+  onCheckboxItemClick: PropTypes.func,
+
+};
