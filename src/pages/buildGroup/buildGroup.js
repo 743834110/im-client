@@ -1,11 +1,12 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, ScrollView, Text} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
+import {AtSearchBar} from "taro-ui";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import CheckboxList from "../../components/checkboxList/checkboxList";
 import CommonList from "../../components/commonList/commonList";
 import SelectionButton from "../../components/selectionButton/selectionButton";
-import {AtSearchBar} from "taro-ui";
+
 
 
 const mapStateToProps = (state) => ({
@@ -48,8 +49,14 @@ export default class BuildGroup extends Component {
     console.log(event)
   };
 
-  handleSearchBarFocus = (event) => {
-    console.log(event)
+  /**
+   * 跳转至成员搜索界面
+   *
+   */
+  handleSearchBarFocus = () => {
+    Taro.navigateTo({
+      url: '/pages/searchMember/searchMember'
+    })
   };
 
   render() {

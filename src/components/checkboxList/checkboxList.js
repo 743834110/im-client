@@ -15,11 +15,13 @@ export default class CheckboxList extends Component{
   static defaultProps = {
     data: [
       {
+        id: '001',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         title: '行者孙',
         extraText: '15软件服务外包1班'
       },
       {
+        id: '002',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         title: '行者孙',
         extraText: '15软件服务外包1班'
@@ -94,5 +96,7 @@ CheckboxList.propTypes = {
    * 列表多选组件点击事件
    */
   onCheckboxItemClick: PropTypes.func,
+
+  selected
 
 };
