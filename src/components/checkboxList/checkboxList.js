@@ -18,24 +18,38 @@ export default class CheckboxList extends Component{
         id: '001',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         title: '行者孙',
-        extraText: '15软件服务外包1班'
+        note: '15软件服务外包1班',
+        extraText: '2015874136',
       },
       {
         id: '002',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         title: '行者孙',
-        extraText: '15软件服务外包1班'
+        note: '15软件服务外包1班',
+        extraText: '2015874136',
       }
     ],
-    onCheckboxItemClick: () => {}
+    onCheckboxItemClick: () => {},
+    excludeIds: [],
+    defaultIds: []
   };
 
   constructor(props) {
     super(props);
+
+    // 进行默认选中的数据和禁止点击的数据
+    let {excludeIds, defaultIds, data} = this.props;
+    data.forEach(value => {
+      value.disabled = excludeIds.some(excludeId => excludeId === value.id);
+      value.checked = defaultIds.some(defaultId => defaultId === value.id);
+    });
+
     this.state = {
-      data: props.data,
+      data: data,
     };
   }
+
+
 
   handleCheckboxListClick = (index, event) => {
     this.handleCheckboxClick(index, event);
@@ -44,8 +58,14 @@ export default class CheckboxList extends Component{
   handleCheckboxClick = (index, event) => {
     event.stopPropagation();
     let {data} = this.state;
+
+    // 检查该选项时候应该被排除在外
+    if (data[index].disabled) {
+      return;
+    }
+
     data[index].checked = !data[index].checked;
-    let value = data.filter(value => value.checked);
+    let value = data.filter(value => value.checked).map(value => value.id);
     this.setState({
       data: data,
 
@@ -71,13 +91,15 @@ export default class CheckboxList extends Component{
                 color={isRequireEnvironment('h5')? '#fff': '#6190E8'}
                 checked={value.checked}
                 onClick={this.handleCheckboxClick.bind(this, index)}
+                disabled={value.disabled}
               />
               <AtListItem
                 className='list-item'
                 title={value.title}
                 key={index}
-                note={value.extraText}
+                note={value.note}
                 thumb={value.thumb}
+                extraText={value.extraText}
               />
             </View>
           ))
@@ -96,7 +118,12 @@ CheckboxList.propTypes = {
    * 列表多选组件点击事件
    */
   onCheckboxItemClick: PropTypes.func,
-
-  selected
-
+  /**
+   * 排除在选则范围之外的Id数组
+   */
+  excludeIds: PropTypes.array,
+  /**
+   * 默认选中的Id数组
+   */
+  defaultIds: PropTypes.array
 };

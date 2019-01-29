@@ -64,6 +64,7 @@ export default class SearchBar extends Component {
 
   render() {
     let {value} = this.state;
+    let {placeholder} = this.props;
     return (
       <View>
         <AtForm
@@ -74,6 +75,7 @@ export default class SearchBar extends Component {
             value={value}
             onChange={this.handleOnChange}
             onActionClick={this.handleActionClick}
+            placeholder={placeholder}
           />
         </AtForm>
 
@@ -90,5 +92,9 @@ SearchBar.propTypes = {
   /**
    * 关键词搜索事件
    */
-  onKeywordSearch: PropTypes.func
+  onKeywordSearch: PropTypes.func,
+  /**
+   * 占位符
+   */
+  placeholder: PropTypes.string
 };

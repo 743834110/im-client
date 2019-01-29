@@ -21,7 +21,9 @@ class App extends Component {
       'pages/orgHome/orgHome',
       'pages/routinePublish/routinePublish',
       'pages/buildGroup/buildGroup',
-      'pages/searchMember/searchMember'
+      'pages/editGroup/editGroup',
+      'pages/searchMember/searchMember',
+      'pages/selectedMember/selectedMember',
     ],
     window: {
       backgroundTextStyle: 'light',

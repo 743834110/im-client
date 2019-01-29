@@ -9,12 +9,20 @@ import SelectionButton from "../../components/selectionButton/selectionButton";
 
 
 
-const mapStateToProps = (state) => ({
-  state
-});
+const mapStateToProps = (state) => {
+  return {
+    selectedMembers: [
+      ...new Set([
+        ...state.selectedMembers,
+        state.currentUser
+      ])
+    ],
+    currentUser: state.currentUser
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch
+  changeSelected: (selectedList) => dispatch.selectedMembers.changeSelected(selectedList),
 });
 
 /**
@@ -37,16 +45,36 @@ export default class BuildGroup extends Component {
     }
   ];
 
+  constructor(props) {
+    super(props);
+  }
+
+
+  /**
+   * 多选事件
+   * @param selectedList
+   */
   handleCheckboxItemClick = (selectedList) => {
     console.log(selectedList)
   };
 
+  /**
+   * 点击创建工作群事件
+   * @param event
+   */
   handleButtonClick = (event) => {
+
     console.log(event)
   };
 
+  /**
+   * 已选择工作群事件
+   * @param event
+   */
   handleNumberClick = (event) => {
-    console.log(event)
+    Taro.navigateTo({
+      url: ""
+    })
   };
 
   /**
@@ -60,7 +88,7 @@ export default class BuildGroup extends Component {
   };
 
   render() {
-
+    let {selectedMembers, currentUser, changeSelected} = this.props;
     return (
       <View className='container'>
         <View>
@@ -77,11 +105,11 @@ export default class BuildGroup extends Component {
           </View>
           <View className='margin-top-24'>
             <Text className='common-desc-text'>部门联系人</Text>
-            <CheckboxList onCheckboxItemClick={this.handleCheckboxItemClick} />
+            <CheckboxList onCheckboxItemClick={changeSelected} defaultIds={[currentUser]} excludeIds={[currentUser]} />
           </View>
         </ScrollView>
         <View>
-          <SelectionButton onButtonClick={this.handleButtonClick} onNumberClick={this.handleNumberClick} />
+          <SelectionButton number={selectedMembers.length} />
         </View>
       </View>
     )

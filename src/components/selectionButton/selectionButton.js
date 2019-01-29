@@ -13,8 +13,16 @@ export default class SelectionButton extends Component{
 
   static defaultProps = {
     number: 1,
-    onButtonClick: () => {},
-    onNumberClick: () => {}
+    onButtonClick: () => {
+      Taro.navigateTo({
+        url: "/pages/editGroup/editGroup"
+      })
+    },
+    onNumberClick: () => {
+      Taro.navigateTo({
+        url: "/pages/selectedMember/selectedMember"
+      })
+    }
   };
 
   state = {

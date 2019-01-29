@@ -1,10 +1,8 @@
 import {init} from '@rematch/core'
 import immerPlugin from '@rematch/immer'
-import {tabPage} from './models'
+import * as models from './models'
 
 export default init({
-  models: {
-    tabPage
-  },
+  models: models,
   plugins: [immerPlugin()]
 })

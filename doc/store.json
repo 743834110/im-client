@@ -6,11 +6,42 @@
       "routineId": "001"
     }
   },
-  "indexRoutineIds": [],
-  "homeRoutineIds": {
+  "org": {
 
   },
-  "personalRoutineIds": {
+  "users": {
 
-  }
+    "entities": {
+      "001": {
+
+      },
+      "002": {
+
+      }
+    }
+  },
+  // 用户所在部门
+  "userOrg": {
+
+    "entities": {
+      "001": {
+
+      },
+      "002": {
+
+      }
+    },
+    "mappings": {
+
+    }
+
+  },
+  // 创建工作群选中的人员ID数组
+  "selectedMembers": ["001", "002"],
+  // 当前用户
+  "currentUser": "001",
+  // 存放当前操作用户的数据ID
+  "currentOperate": []
+
+
 }

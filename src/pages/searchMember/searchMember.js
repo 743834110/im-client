@@ -1,15 +1,19 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, ScrollView} from '@tarojs/components'
+import {View, ScrollView, Text} from '@tarojs/components'
 import {connect} from '@tarojs/redux'
 import SearchBar from "../../components/searchBar/searchBar";
 import SelectionButton from "../../components/selectionButton/selectionButton";
+import CheckboxList from "../../components/checkboxList/checkboxList";
 
-const mapStateToProps = (state) => ({
-  state
-});
+const mapStateToProps = (state) => {
+  return {
+    selectedMembers: state.selectedMembers,
+    currentUser: state.currentUser
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch
+  changeSelected: (selectedList) => dispatch.selectedMembers.changeSelected(selectedList),
 });
 
 /**
@@ -24,21 +28,26 @@ export default class SearchMember extends Component {
     navigationBarTitleText: ''
   };
 
-  render() {
+  handleKeywordSearch = (value) => {
+    console.log(value)
+  };
 
+  render() {
+    let {selectedMembers, currentUser, changeSelected} = this.props;
     return (
       <View className='container'>
         <View>
-          <SearchBar />
+          <SearchBar placeholder='可批量搜索，以逗号隔开' onKeywordSearch={this.handleKeywordSearch} />
         </View>
         <ScrollView
           scrollY
           className='flex-1'
         >
-
+          <Text className='common-desc-text'>搜索结果</Text>
+          <CheckboxList onCheckboxItemClick={changeSelected} defaultIds={[currentUser]} excludeIds={[currentUser]} />
         </ScrollView>
         <View>
-          <SelectionButton  />
+          <SelectionButton number={selectedMembers.length}  />
         </View>
       </View>
     )

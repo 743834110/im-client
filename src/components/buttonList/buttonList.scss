@@ -1,0 +1,20 @@
+.swipe-list-item-container {
+  position: relative;
+
+  .button-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .button-wrapper {
+
+      &:nth-child(2n - 1) {
+        padding:0 4px;
+
+      }
+    }
+  }
+}
