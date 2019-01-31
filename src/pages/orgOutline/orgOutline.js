@@ -80,7 +80,7 @@ export default class OrgOutline extends Component {
     return (
       <View className='container'>
         <View>
-          <SimpleNavBar title='学院机构' isBack={false} />
+          <SimpleNavBar title={'学院机构'} isBack={false} />
         </View>
         <ScrollView
           className='flex-1'

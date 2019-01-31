@@ -92,12 +92,14 @@ export default class BuildGroup extends Component {
     return (
       <View className='container'>
         <View>
-          <SimpleNavBar title='创建工作群' isBack />
-          <AtSearchBar
-            onFocus={this.handleSearchBarFocus}
-            placeholder='可批量搜索，以逗号隔开'
-            customStyle={{backgroundColor: '#f5f5f9'}}
-          />
+          <SimpleNavBar title={'创建工作群'} isBack />
+          <View onClick={this.handleSearchBarFocus}>
+            <AtSearchBar
+              fixed={false}
+              placeholder={'可批量搜索，以逗号隔开'}
+              customStyle={{backgroundColor: '#f5f5f9'}}
+            />
+          </View>
         </View>
         <ScrollView scrollY className='scroll-view-flex-1' >
           <View className='margin-top-24'>

@@ -114,7 +114,7 @@ export default class CustomTagBar extends Component{
             ))
           }
           <View className='category-tag-wrapper' onClick={this.handleShowBarClick}>
-            <CategoryTag iconType='chevron-down' tagName='搜索' />
+            <CategoryTag iconType='chevron-down' tagName={'搜索'} />
           </View>
         </View>
 

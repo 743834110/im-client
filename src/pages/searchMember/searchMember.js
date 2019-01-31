@@ -37,7 +37,7 @@ export default class SearchMember extends Component {
     return (
       <View className='container'>
         <View>
-          <SearchBar placeholder='可批量搜索，以逗号隔开' onKeywordSearch={this.handleKeywordSearch} />
+          <SearchBar placeholder={'可批量搜索，以逗号隔开'} onKeywordSearch={this.handleKeywordSearch} />
         </View>
         <ScrollView
           scrollY

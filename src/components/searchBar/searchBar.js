@@ -71,7 +71,7 @@ export default class SearchBar extends Component {
           onSubmit={this.handleOnConfirm}
         >
           <AtSearchBar
-            actionName='取消'
+            actionName={'取消'}
             value={value}
             onChange={this.handleOnChange}
             onActionClick={this.handleActionClick}

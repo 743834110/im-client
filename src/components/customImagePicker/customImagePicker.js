@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import {AtImagePicker} from "taro-ui";
+import PropTypes from 'prop-types'
 
 /**
  * 自定义文件上传组件
@@ -9,46 +10,54 @@ import {AtImagePicker} from "taro-ui";
 export default class CustomImagePicker extends Component{
 
   static defaultProps = {
-
+    length: 4,
+    limit: 999,
   };
 
   state = {
     value: [
-      {
-        url: 'https://jimczj.gitee.io/lazyrepay/aragaki1.jpeg',
-      }
-    ]
+
+    ],
+    showAddButton: true
   };
 
   handleChange = (files, type, index) => {
-    Taro.showToast({
-      title: "fdfd",
-      icon: 'success',
-      duration: 2000
-    })
+    let {limit} = this.props;
+    let showAddButton = true;
+    if (limit === files.length) {
+      showAddButton = false;
+    }
     this.setState({
-      value: files
+      value: files,
+      showAddButton
     })
   };
 
   handleFail = (message) => {
-    Taro.showToast({
-      title: message + "fdfd",
-      icon: 'success',
-      duration: 2000
-    })
   };
 
   render() {
-    let {value} = this.state;
+    let {value, showAddButton} = this.state;
+    let {length} = this.props;
     return (
       <AtImagePicker
-        multiple
+        showAddBtn={showAddButton}
+        length={length}
         files={value}
         onChange={this.handleChange}
         onFail={this.handleFail}
       />
     )
   }
-
 }
+
+CustomImagePicker.propTypes = {
+  /**
+   * 每行显示的图片的数量
+   */
+  length: PropTypes.number,
+  /**
+   * 显示上传的图片数量
+   */
+  limit: PropTypes.number
+};

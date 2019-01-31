@@ -67,7 +67,7 @@ export default class StudentSocietySearch extends Component{
     return (
       <View className='container white'>
         <View>
-          <SimpleNavBar title='学生社团' />
+          <SimpleNavBar title={'学生社团'} />
           <CustomTagBar onPickerChange={this.handlePickerChange} onSearchClick={this.handleSearchClick} />
         </View>
         <ScrollView

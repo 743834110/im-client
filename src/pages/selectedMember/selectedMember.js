@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 /**
  * @author LTF
- * @description
+ * @description 已选择成员界面容器组件
  */
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SelectedMember extends Component {
@@ -66,7 +66,7 @@ export default class SelectedMember extends Component {
     return (
       <View className='container'>
         <View>
-          <SimpleNavBar title='已选成员' />
+          <SimpleNavBar title={'已选成员'} />
         </View>
         <ScrollView className='flex-1' scrollY>
           <ButtonList data={data} options={options} onButtonItemClick={this.handleButtonItemClick} onListItemClick={this.handleListItemClick} />

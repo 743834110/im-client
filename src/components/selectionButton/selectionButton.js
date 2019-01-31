@@ -19,6 +19,7 @@ export default class SelectionButton extends Component{
       })
     },
     onNumberClick: () => {
+
       Taro.navigateTo({
         url: "/pages/selectedMember/selectedMember"
       })
@@ -29,15 +30,26 @@ export default class SelectionButton extends Component{
 
   };
 
+  handleNumberClick = () => {
+    Taro.navigateTo({
+      url: "/pages/selectedMember/selectedMember"
+    })
+  };
+
+  handleButtonClick = () => {
+    Taro.navigateTo({
+      url: "/pages/editGroup/editGroup"
+    })
+  };
+
   render() {
     let {number, onNumberClick, onButtonClick} = this.props;
-
     return (
       <View className='selection-button-container' >
-        <View className='text' onClick={onNumberClick}>
+        <View className='text' onClick={this.handleNumberClick}>
           已选择：{number}
         </View>
-        <AtButton className='button' size='small' type='primary' onClick={onButtonClick} >创建</AtButton>
+        <AtButton className='button' size='small' type='primary' onClick={this.handleButtonClick} >创建</AtButton>
       </View>
     )
   }

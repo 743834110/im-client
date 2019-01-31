@@ -50,7 +50,7 @@ export default class RoutinePublish extends Component{
     return (
       <View className='container white'>
         <View>
-          <SimpleNavBar title='消息发布' />
+          <SimpleNavBar title={'消息发布'} />
         </View>
         <ScrollView
           style={{
@@ -60,20 +60,20 @@ export default class RoutinePublish extends Component{
           className='flex-1'
         >
           <View className='default-padding-left '>
-            <CustomInput ref='title' placeholder='标题' />
+            <CustomInput ref='title' placeholder={'标题'} />
           </View>
           <View className='margin-top-24'>
-            <CustomTextarea ref='content' placeholder='基本内容' maxLength={400} />
+            <CustomTextarea ref='content' placeholder={'基本内容'} maxLength={400} />
           </View>
           <View className='margin-top-24'>
             <CustomImagePicker ref='files' />
           </View>
           <View className='margin-top-24'>
             <AtList>
-              <ItemPicker title='可见范围' />
-              <ItemPicker title='消息分类' />
-              <ItemPicker title='截止日期' mode='date' />
-              <ItemSwitch title='启用横幅' ref='banner' />
+              <ItemPicker title={'可见范围'} />
+              <ItemPicker title={'消息分类'} />
+              <ItemPicker title={'截止日期'} mode='date' />
+              <ItemSwitch title={'启用横幅'} ref='banner' />
             </AtList>
           </View>
           <View className='margin-top-24'>

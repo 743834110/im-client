@@ -24,6 +24,7 @@ class App extends Component {
       'pages/editGroup/editGroup',
       'pages/searchMember/searchMember',
       'pages/selectedMember/selectedMember',
+      'pages/manageGroup/manageGroup',
     ],
     window: {
       backgroundTextStyle: 'light',
