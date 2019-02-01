@@ -3,6 +3,7 @@ import {View} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import {AtAccordion, AtList, AtListItem} from "taro-ui";
 import CommonList from "../commonList/commonList";
+import ButtonList from "../buttonList/buttonList";
 
 /**
  * 数据驱动手风琴组件
@@ -24,7 +25,10 @@ export default class AccordionList extends Component{
           {title: '张三', note: '描述信息', thumb: ''},
         ]
       }
-    ]
+    ],
+    options: null,
+    onButtonItemClick: () => {},
+    onListItemClick: () => {}
   };
 
   state = {
@@ -36,7 +40,7 @@ export default class AccordionList extends Component{
   };
 
   render() {
-    let {data} = this.props;
+    let {data, options, onButtonItemClick, onListItemClick} = this.props;
     return (
       <View
         style={{
@@ -53,7 +57,7 @@ export default class AccordionList extends Component{
                 backgroundColor: 'white'
               }}
             >
-              <CommonList data={value.list} />
+              <ButtonList data={value.list} options={options} onButtonItemClick={onButtonItemClick} onListItemClick={onListItemClick}  />
             </AtAccordion>
           ))
         }
@@ -66,5 +70,17 @@ AccordionList.propTypes = {
   /**
    * 数据数组
    */
-  data: PropTypes.array
+  data: PropTypes.array,
+  /**
+   * 按钮文本列表
+   */
+  options: PropTypes.array,
+  /**
+   * 按钮项目点击事件
+   */
+  onButtonItemClick: PropTypes.func,
+  /**
+   * 列表项点击事件
+   */
+  onListItemClick: PropTypes.func
 };

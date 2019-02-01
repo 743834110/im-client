@@ -10,14 +10,12 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
  * 机构轮廓页面
  */
 
-const mapStateToProps = ({tabPage}) => ({
-  tabPage
+const mapStateToProps = (state) => ({
+  state
 });
 
-const mapDispatchToProps = ({tabPage: {switchTab}}) => ({
-  dispatchSwitchTab: (props) => {
-    switchTab(props)
-  }
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
 });
 
 @connect(mapStateToProps, mapDispatchToProps)

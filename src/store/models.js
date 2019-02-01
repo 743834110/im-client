@@ -1,23 +1,4 @@
 /**
- * 标签页切换的state
- * @type {{state: {currentTabIndex: number}, reducers: {switchTab({currentTabIndex: *}, *): void}}}
- * 在redux中，原本的state的类型应该和输出的类型想匹配
- */
-export const tabPage = {
-  state: {
-    currentTabIndex: 0
-  },
-  reducers: {
-    switchTab(state, action) {
-      console.log(state.currentTabIndex)
-      return {
-        currentTabIndex: action
-      }
-    }
-  }
-};
-
-/**
  * 用户state结构
  * @type {{state: {"001": {}, "002": {}}}}
  */
@@ -58,6 +39,35 @@ export const userOrg = {
 
   })
 };
+
+/**
+ * 组织state
+ *
+ */
+export const org = {
+  state: {
+
+  },
+  reducers: {
+
+  },
+  effects: (dispatch) => ({
+
+  })
+};
+
+/**
+ * 被选择的state数据项
+ *
+ */
+export const selected = {
+  state: {
+    org: "",
+
+  }
+};
+
+
 
 /**
  * 改变创建工作群state

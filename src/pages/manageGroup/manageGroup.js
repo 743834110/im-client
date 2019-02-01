@@ -26,15 +26,31 @@ export default class ManagerGroup extends Component {
 
   static defaultProps = {
     data: [
-      {title: '简介', url: '/pages/orgReview/orgReview', arrow: 'right'},
-      {title: '公告', url: '/pages/orgReview/orgReview', arrow: 'right'},
-      {title: '成员调整', url: '/pages/orgReview/orgReview', arrow: 'right'},
-      {title: '反馈信息', url: '/pages/orgReview/orgReview', arrow: 'right'},
+      {title: '简介', url: '/pages/singleFieldEdit/singleFieldEdit', arrow: 'right', data: {
+          title: '简介',
+          ref: 'orgDescription',
+          url: '',
+          keyName: 'orgId',
+          keyValue: ''
+        }},
+      {title: '公告', url: '/pages/singleFieldEdit/singleFieldEdit', arrow: 'right', data: {
+          title: '公告',
+          ref: 'orgAnnounce',
+          url: '',
+          keyName: 'OrgId',
+          keyValue: ''
+        }},
+      {title: '成员调整', url: '/pages/editMember/editMember', arrow: 'right'},
+      {title: '反馈信息', url: '/pages/feedbackGroup/feedbackGroup', arrow: 'right'},
     ]
   };
 
   handleOnClick = (value) => {
-    console.log(value)
+    let params = JSON.stringify(value.data);
+    let url = encodeURI(value.url + "?params=" + params);
+    Taro.navigateTo({
+      url: url
+    })
   };
 
   render() {

@@ -11,14 +11,12 @@ import ItemPicker from "../../components/itemPicker/itemPicker";
 import ItemSwitch from "../../components/itemSwitch/itemSwitch";
 
 
-const mapStateToProps = ({tabPage}) => ({
-  tabPage
+const mapStateToProps = (state) => ({
+  state
 });
 
-const mapDispatchToProps = ({tabPage: {switchTab}}) => ({
-  dispatchSwitchTab: (props) => {
-    switchTab(props)
-  }
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
 });
 
 /**

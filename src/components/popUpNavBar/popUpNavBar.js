@@ -20,7 +20,7 @@ export default class PopUpNavBar extends Component{
       {iconType: 'message', title: '发布消息', url: '/pages/routinePublish/routinePublish'},
       {iconType: 'link', title: '创建工作群', url: '/pages/buildGroup/buildGroup'},
       {iconType: 'settings', title: '管理', url: '/pages/manageGroup/manageGroup'},
-      {iconType: 'help', title: '反馈', url: ''},
+      {iconType: 'help', title: '反馈', url: '/pages/feedbackGroup/feedbackGroup'},
     ],
   };
 

@@ -25,6 +25,9 @@ class App extends Component {
       'pages/searchMember/searchMember',
       'pages/selectedMember/selectedMember',
       'pages/manageGroup/manageGroup',
+      'pages/singleFieldEdit/singleFieldEdit',
+      'pages/editMember/editMember',
+      'pages/feedbackGroup/feedbackGroup',
     ],
     window: {
       backgroundTextStyle: 'light',

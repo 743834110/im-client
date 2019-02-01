@@ -176,7 +176,7 @@ export default class RoutineList extends Component {
         {(upperLoading === true && useUpperRefresh === true)?
           <View className='indicator-container'>
             <AtActivityIndicator
-              content='加载中...'
+              content={'加载中...'}
               mode='normal'
               size={32}
               className='activity-indicator'

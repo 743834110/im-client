@@ -54,10 +54,13 @@ export default class ButtonList extends Component {
                 key={value.id}
                 note={value.note}
                 thumb={value.thumb}
+                iconInfo={value.iconInfo}
+                arrow={value.arrow}
                 onClick={onListItemClick.bind(this, value, index)}
               />
               <View className='button-container'>
                 {
+                  options &&
                   options.map((title, optionIndex) => (
                     <View className='button-wrapper' key={optionIndex}>
                       <AtButton
