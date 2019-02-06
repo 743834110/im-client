@@ -24,7 +24,7 @@ export default class ManagerGroup extends Component {
     navigationBarTitleText: ''
   };
 
-  static defaultProps = {
+  state = {
     data: [
       {title: '简介', url: '/pages/singleFieldEdit/singleFieldEdit', arrow: 'right', data: {
           title: '简介',
@@ -54,7 +54,7 @@ export default class ManagerGroup extends Component {
   };
 
   render() {
-    let {data} = this.props;
+    let {data} = this.state;
     return (
       <View className='container white'>
         <View>

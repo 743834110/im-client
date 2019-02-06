@@ -1,0 +1,43 @@
+.feedback-list-block-wrapper {
+
+  font-size: 28px;
+  color: #333;
+  background-color: white;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+  padding: 16px 9px;
+  transition: background-color 0.3s ease-out;
+
+  &:active {
+    background-color: #F0F0F0;
+  }
+
+  .feedback-list-block-container {
+
+    .text {
+      text-indent: 2em;
+    }
+
+    .image-container {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 16px;
+
+      .image {
+        width: 50%;
+        height: 240px;
+
+        &:nth-child(2n-1) {
+          padding-right: 8px;
+        }
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+    }
+  }
+}

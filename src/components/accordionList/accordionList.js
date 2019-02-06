@@ -1,8 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import PropTypes from 'prop-types'
-import {AtAccordion, AtList, AtListItem} from "taro-ui";
-import CommonList from "../commonList/commonList";
+import {AtAccordion} from "taro-ui";
 import ButtonList from "../buttonList/buttonList";
 
 /**
@@ -32,15 +31,20 @@ export default class AccordionList extends Component{
   };
 
   state = {
-
+    opens: []
   };
 
-  handleOnClick = () => {
-    console.log("fdfdf")
+  handleOnClick = (index, open, event) => {
+    let {opens} = this.state;
+    opens[index] = !opens[index];
+    this.setState({
+      opens
+    })
   };
 
   render() {
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
+    let {opens} = this.state;
     return (
       <View
         style={{
@@ -48,14 +52,17 @@ export default class AccordionList extends Component{
         }}
       >
         {
-          data.map((value) => (
+          data.map((value, index) => (
             <AtAccordion
+              open={opens[index]}
               key={value.id}
-              onClick={this.handleOnClick}
+              onClick={this.handleOnClick.bind(this, index)}
               title={value.shortName}
               customStyle={{
-                backgroundColor: 'white'
+                backgroundColor: 'white',
+
               }}
+
             >
               <ButtonList data={value.list} options={options} onButtonItemClick={onButtonItemClick} onListItemClick={onListItemClick}  />
             </AtAccordion>

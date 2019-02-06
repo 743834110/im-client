@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import {Picker, View} from '@tarojs/components'
 import {AtList, AtListItem, AtButton} from 'taro-ui'
 import PropTypes from 'prop-types'
 import './buttonList.scss'
@@ -42,7 +42,7 @@ export default class ButtonList extends Component {
 
   render() {
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
-    console.log(data)
+    console.log(data);
     return (
       <AtList >
         {
@@ -61,17 +61,31 @@ export default class ButtonList extends Component {
               <View className='button-container'>
                 {
                   options &&
-                  options.map((title, optionIndex) => (
-                    <View className='button-wrapper' key={optionIndex}>
-                      <AtButton
-                        type='primary'
-                        size='small'
-                        onClick={onButtonItemClick.bind(this, optionIndex, value, index)}
-                      >
-                        {title}
-                      </AtButton>
-                    </View>
-                  ))
+                  options.map((option, optionIndex) => {
+                    let isObject = typeof option === "object";
+                    return (
+                      <View className='button-wrapper' key={optionIndex}>
+                        {
+                          isObject?
+                            <Picker mode={option.mode} onChange={option.onChange.bind(this, optionIndex, value, index)} range={option.range} >
+                              <AtButton
+                                type='primary'
+                                size='small'
+                              >
+                                {option.title}
+                              </AtButton>
+                            </Picker>:
+                            <AtButton
+                              type='primary'
+                              size='small'
+                              onClick={onButtonItemClick.bind(this, optionIndex, value, index)}
+                            >
+                              {option}
+                            </AtButton>
+                        }
+                      </View>
+                    )
+                  })
                 }
               </View>
             </View>
@@ -98,6 +112,8 @@ ButtonList.propTypes = {
   /**
    * 列表项中按钮点击事件
    */
-  onButtonItemClick: PropTypes.func
+  onButtonItemClick: PropTypes.func,
+
+
 
 };

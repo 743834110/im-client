@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import {Provider} from '@tarojs/redux'
+import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 import Index from './pages/index'
 import store from './store'
 import './app.scss'

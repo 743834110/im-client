@@ -57,6 +57,22 @@ export const org = {
 };
 
 /**
+ *
+ * 角色state
+ */
+export const role = {
+  state: {
+
+  },
+  reducers: {
+
+  },
+  effects: (dispatch) => ({
+
+  })
+};
+
+/**
  * 被选择的state数据项
  *
  */

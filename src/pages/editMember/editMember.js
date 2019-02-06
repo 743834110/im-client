@@ -19,11 +19,39 @@ export default class EditMember extends Component{
     navigationBarTitleText: ''
   };
 
+  static defaultProps = {
+    options: [
+      {
+        title: '兼职',
+        range: ["本部门", "本机构", "本学院", "不限"],
+        onChange: (optionIndex, value, index, event) => {
+
+        }
+      },
+      {
+        title: '转职',
+        range: ['干事', '部长', '副会长', '会长'],
+        onChange: (optionIndex, value, index, event) => {
+
+        }
+      },
+      '移除'
+    ],
+    commonListData: [
+      {
+        title: '添加成员',
+        url: '/pages/orgReview/orgReview',
+        arrow: 'right',
+      }
+    ]
+  };
+
   handleButtonItemClick = (optionIndex, value, index) => {
-    console.log(optionIndex)
+
   };
 
   render() {
+    let {options, commonListData} = this.props;
     return (
       <View className='container'>
         <View>
@@ -31,10 +59,10 @@ export default class EditMember extends Component{
         </View>
         <View className='flex-1'>
           <View className='margin-top-24'>
-            <CommonList />
+            <CommonList data={commonListData} />
           </View>
           <View className='margin-top-24'>
-            <AccordionList options={['兼任', '转职', '移除']} onButtonItemClick={this.handleButtonItemClick} />
+            <AccordionList options={options} onButtonItemClick={this.handleButtonItemClick} />
           </View>
         </View>
       </View>
