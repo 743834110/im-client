@@ -1,6 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import {AtSearchBar, AtForm} from "taro-ui";
+
 import PropTypes from "prop-types";
 
 /**
@@ -12,6 +13,8 @@ export default class SearchBar extends Component {
 
   static defaultProps = {
     navigateBackPath: '',
+    actionName: '取消',
+    showModal: false,
     onKeywordSearch: () => {}
   };
 
@@ -30,6 +33,22 @@ export default class SearchBar extends Component {
    *
    */
   handleActionClick = () => {
+    let {showModal} = this.props;
+    showModal?
+    Taro.showModal({
+      title: '提示',
+      content: '操作不可逆，是否确认取消？',
+    })
+      .then(res => {
+        if (res.cancel) {
+          return;
+        }
+        this.navigateBack();
+      }):
+      this.navigateBack();
+  };
+
+  navigateBack = () => {
     let {navigateBackPath} = this.props;
     if (typeof navigateBackPath === "undefined" || navigateBackPath === '') {
       Taro.navigateBack({
@@ -41,7 +60,9 @@ export default class SearchBar extends Component {
         url: navigateBackPath
       })
     }
-  };
+  }
+
+
 
   /**
    * 搜索栏输入事件
@@ -64,14 +85,14 @@ export default class SearchBar extends Component {
 
   render() {
     let {value} = this.state;
-    let {placeholder} = this.props;
+    let {placeholder, actionName} = this.props;
     return (
       <View>
         <AtForm
           onSubmit={this.handleOnConfirm}
         >
           <AtSearchBar
-            actionName={'取消'}
+            actionName={actionName}
             value={value}
             onChange={this.handleOnChange}
             onActionClick={this.handleActionClick}
@@ -96,5 +117,13 @@ SearchBar.propTypes = {
   /**
    * 占位符
    */
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  /**
+   * 动作名称
+   */
+  actionName: PropTypes.string,
+  /**
+   * 是否显示取消对话框
+   */
+  showModal: PropTypes.bool
 };

@@ -29,6 +29,7 @@ class App extends Component {
       'pages/singleFieldEdit/singleFieldEdit',
       'pages/editMember/editMember',
       'pages/feedbackGroup/feedbackGroup',
+      'pages/addMember/addMember',
     ],
     window: {
       backgroundTextStyle: 'light',

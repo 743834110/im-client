@@ -40,14 +40,21 @@ export default class EditMember extends Component{
     commonListData: [
       {
         title: '添加成员',
-        url: '/pages/orgReview/orgReview',
+        url: '/pages/addMember/addMember',
         arrow: 'right',
+
       }
     ]
   };
 
   handleButtonItemClick = (optionIndex, value, index) => {
 
+  };
+
+  handleCommonListClick = (value, event) => {
+    Taro.navigateTo({
+      url: value.url
+    })
   };
 
   render() {
@@ -59,7 +66,7 @@ export default class EditMember extends Component{
         </View>
         <View className='flex-1'>
           <View className='margin-top-24'>
-            <CommonList data={commonListData} />
+            <CommonList data={commonListData} onClick={this.handleCommonListClick}  />
           </View>
           <View className='margin-top-24'>
             <AccordionList options={options} onButtonItemClick={this.handleButtonItemClick} />
