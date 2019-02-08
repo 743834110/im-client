@@ -27,7 +27,7 @@ export default class AddMember extends Component {
 
   handleButtonClick = () => {
     Taro.navigateTo({
-      url: ""
+      url: "/pages/operateStatus/operateStatus"
     })
   };
 

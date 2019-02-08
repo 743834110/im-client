@@ -30,6 +30,7 @@ class App extends Component {
       'pages/editMember/editMember',
       'pages/feedbackGroup/feedbackGroup',
       'pages/addMember/addMember',
+      'pages/operateStatus/operateStatus',
     ],
     window: {
       backgroundTextStyle: 'light',
