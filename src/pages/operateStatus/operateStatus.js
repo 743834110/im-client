@@ -5,6 +5,12 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 
 /**
  * @description 操作状态容器组件，从效率至上出发，与原型有所冲突。
+ * @input {url, delta, success, _false, status, message}
+ * <pre>
+ *  当 delta不位空时， url无效,表示回退的页面数，url表示回退的指定页面,
+ *  status 表示成功或者失败的操作状态，status为
+ *  true时，显示success的信息，status为false时显示_false和message的消息
+ * </pre>
  * @author LTF
  * Created on 2019/2/7
  */

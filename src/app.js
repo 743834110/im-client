@@ -31,6 +31,8 @@ class App extends Component {
       'pages/feedbackGroup/feedbackGroup',
       'pages/addMember/addMember',
       'pages/operateStatus/operateStatus',
+      'pages/chatOutline/chatOutline',
+      'pages/chatSearch/chatSearch',
     ],
     window: {
       backgroundTextStyle: 'light',

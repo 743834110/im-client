@@ -71,7 +71,7 @@ export default class FeedbackGroup extends Component {
           <AtTabs customStyle={{overflowY: 'auto'}}  current={current} tabList={tabList} onClick={this.handleTabClick}>
             {
               tabList.map((value, index) => (
-                <AtTabsPane current={current} index={index}>
+                <AtTabsPane current={current} index={index} key={index} >
                   <FeedbackList
                     list={value.list}
                     onImageClick={this.handleImageClick}

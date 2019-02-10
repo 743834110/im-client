@@ -3,8 +3,8 @@ import {View} from '@tarojs/components'
 import {connect} from '@tarojs/redux';
 import {AtButton} from "taro-ui";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
-import CustomTextarea from "../../../.temp/components/customTextarea/customTextarea";
 import {getSubmitObject} from "../../utils/common";
+import CustomTextarea from "../../components/customTextarea/customTextarea";
 
 
 const mapStateToProps = (state) => ({
@@ -27,15 +27,21 @@ export default class SingleFieldEdit extends Component {
     this.setState(JSON.parse(params))
   }
 
+  /**
+   * 此处做一些兼容小程序使用ref变量的操作
+   */
   handleOnClick = () => {
    let data = getSubmitObject(this.refs);
    let {keyName, keyValue} = this.state;
    data[keyName] = keyValue;
-   console.log(data)
+   let {ref} = this.state;
+   data[ref] = data["_input"];
+   delete data["_input"];
+   console.log(data, ref)
   };
 
   render() {
-    let {title, ref} = this.state;
+    let {title} = this.state;
     return (
       <View className='container'>
         <View>
@@ -45,7 +51,7 @@ export default class SingleFieldEdit extends Component {
           marginTop: '48px'
         }}
         >
-          <CustomTextarea height={400} ref={ref} />
+          <CustomTextarea height={400} ref='_input' />
         </View>
         <View className='margin-bottom-24'>
           <AtButton full type='primary' onClick={this.handleOnClick}>保存</AtButton>
