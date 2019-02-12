@@ -15,7 +15,8 @@ export default class SearchBar extends Component {
     navigateBackPath: '',
     actionName: '取消',
     showModal: false,
-    onKeywordSearch: () => {}
+    onKeywordSearch: () => {},
+    onFocus: () => {}
   };
 
   state = {
@@ -85,7 +86,7 @@ export default class SearchBar extends Component {
 
   render() {
     let {value} = this.state;
-    let {placeholder, actionName} = this.props;
+    let {placeholder, actionName, onFocus} = this.props;
     return (
       <View>
         <AtForm
@@ -97,6 +98,7 @@ export default class SearchBar extends Component {
             onChange={this.handleOnChange}
             onActionClick={this.handleActionClick}
             placeholder={placeholder}
+            onFocus={onFocus}
           />
         </AtForm>
 
@@ -125,5 +127,9 @@ SearchBar.propTypes = {
   /**
    * 是否显示取消对话框
    */
-  showModal: PropTypes.bool
+  showModal: PropTypes.bool,
+  /**
+   * 获得焦点事件
+   */
+  onFocus: PropTypes.func
 };

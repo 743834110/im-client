@@ -22,6 +22,10 @@
   display: flex;
   flex-direction: column;
 }
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
 .default-bottom-border {
   border-bottom: 1px solid #e4e4e4;
 }
@@ -41,6 +45,7 @@
   flex: 1;
   height: 10px;
 }
+
 
 .default-padding-left {
   padding-left: 0.68267rem;;

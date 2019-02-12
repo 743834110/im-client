@@ -46,11 +46,7 @@ export default class AccordionList extends Component{
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
     let {opens} = this.state;
     return (
-      <View
-        style={{
-          marginTop: '24px'
-        }}
-      >
+      <View>
         {
           data.map((value, index) => (
             <AtAccordion
@@ -60,7 +56,6 @@ export default class AccordionList extends Component{
               title={value.shortName}
               customStyle={{
                 backgroundColor: 'white',
-
               }}
 
             >

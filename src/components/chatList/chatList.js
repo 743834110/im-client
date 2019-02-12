@@ -5,6 +5,7 @@ import {AtList} from "taro-ui";
 import CustomListItem from "../customListItem/customListItem";
 import './chatList.scss'
 import UnReadTag from "../unReadTag/unReadTag";
+import DateText from "../dateText/dateText";
 
 /**
  * @author LTF
@@ -30,9 +31,9 @@ export default class ChatList extends Component{
               <CustomListItem onClick={onListItemClick.bind(this, index)} />
               <View className='read-container'>
                 <UnReadTag />
-                <Text className='desc-text'>
-                  fdfd
-                </Text>
+                <View className='desc-text'>
+                  <DateText type='time' />
+                </View>
               </View>
             </View>
           ))

@@ -15,7 +15,7 @@ export default class CustomListItem extends Component{
       id: '002',
       thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
       title: '行者孙',
-      note: '15软件服务外包1班',
+      note: '15软件服务外包1班1班1班1班1班1班1班1班1班1班',
       extraText: '2015874136',
     }
   };

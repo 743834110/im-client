@@ -1,11 +1,11 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, ScrollView} from '@tarojs/components'
 import {connect} from '@tarojs/redux';
-import {AtSearchBar} from 'taro-ui';
+import {AtSearchBar, AtTabs, AtTabsPane } from 'taro-ui';
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import TabBar from "../../components/tabBar/tabBar";
-import SearchBar from "../../components/searchBar/searchBar";
 import ChatList from "../../components/chatList/chatList";
+import AccordionList from "../../components/accordionList/accordionList";
 
 const mapStateToProps = (state) => ({
   state
@@ -23,7 +23,18 @@ export default class ChatOutline extends Component {
   };
 
   state = {
+    current: 0,
+    tabList: [{
+      title: '消息'
+    }, {
+      title: '联系人'
+    }]
+  };
 
+  handleTabsClick = (value) => {
+    this.setState({
+      current: value
+    })
   };
 
   handleSearchBarClick = () => {
@@ -33,6 +44,7 @@ export default class ChatOutline extends Component {
   };
 
   render() {
+    let {current, tabList} = this.state
     return (
       <View className='container'>
         <View>
@@ -45,7 +57,14 @@ export default class ChatOutline extends Component {
           </View>
         </View>
         <ScrollView scrollY className='flex-1'>
-          <ChatList />
+          <AtTabs className='overflow-y-auto' current={current} tabList={tabList} onClick={this.handleTabsClick}>
+            <AtTabsPane current={current} index={0}>
+              <ChatList />
+            </AtTabsPane>
+            <AtTabsPane className='overflow-y-auto' current={current} index={1}>
+              <AccordionList />
+            </AtTabsPane>
+          </AtTabs>
         </ScrollView>
         <View>
           <TabBar current={2} />

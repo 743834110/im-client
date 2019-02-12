@@ -49,6 +49,7 @@ export default class ButtonList extends Component {
           data.map((value, index) => (
             <View className='swipe-list-item-container' key={value.id}>
               <AtListItem
+
                 className='list-item'
                 title={value.title}
                 key={value.id}
