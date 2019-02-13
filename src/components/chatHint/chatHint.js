@@ -28,7 +28,7 @@ export default class ChatHint extends Component{
         <View className='body'>
           {
             data.map((value) => (
-              <Text>{value}</Text>
+              <Text className='text'>{value}</Text>
             ))
           }
         </View>

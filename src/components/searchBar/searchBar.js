@@ -16,7 +16,8 @@ export default class SearchBar extends Component {
     actionName: '取消',
     showModal: false,
     onKeywordSearch: () => {},
-    onFocus: () => {}
+    onFocus: () => {},
+    onBlur: () => {},
   };
 
   state = {
@@ -86,7 +87,7 @@ export default class SearchBar extends Component {
 
   render() {
     let {value} = this.state;
-    let {placeholder, actionName, onFocus} = this.props;
+    let {placeholder, actionName, onFocus, onBlur} = this.props;
     return (
       <View>
         <AtForm
@@ -99,6 +100,7 @@ export default class SearchBar extends Component {
             onActionClick={this.handleActionClick}
             placeholder={placeholder}
             onFocus={onFocus}
+            onBlur={onBlur}
           />
         </AtForm>
 
@@ -131,5 +133,9 @@ SearchBar.propTypes = {
   /**
    * 获得焦点事件
    */
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  /**
+   * 失去焦点事件
+   */
+  onBlur: PropTypes.func
 };

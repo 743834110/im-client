@@ -1,12 +1,25 @@
 .chat-hint-container {
   font-size: 24px;
   color: #999999;
-
+  padding: 32px 0 48px 0;
+  border-top: 2px #d6e4ef solid;
+  border-bottom: 2px #d6e4ef solid;
 
   .header {
+    margin-left: 48px;
   }
 
   .body {
-    margin-top: 24px;
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+
+    .text {
+      margin-right: 24px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
