@@ -1,13 +1,19 @@
 /**
  * 用户state结构
- * @type {{state: {"001": {}, "002": {}}}}
+ * @type {{state: {entities: {}}, reducers: {}, effects: (function(*): {})}}
  */
 export const users = {
   state: {
     entities: {
 
     }
-  }
+  },
+  reducers: {
+
+  },
+  effects: (dispatch) => ({
+
+  })
 
 };
 
@@ -46,7 +52,9 @@ export const userOrg = {
  */
 export const org = {
   state: {
+    entities: {
 
+    }
   },
   reducers: {
 
@@ -63,6 +71,70 @@ export const org = {
 export const role = {
   state: {
 
+  },
+  reducers: {
+
+  },
+  effects: (dispatch) => ({
+
+  })
+};
+
+/**
+ * 群组state
+ * @type {{state: {}, reducers: {}, effects: (function(*): {})}}
+ */
+export const chatGroup = {
+  state: {
+    entities: {
+      "001": {
+        groupId: "001",
+        name: "朝歌艺术团",
+        avatar: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png"
+      },
+      "002": {
+        groupId: "002",
+        name: "15软件服务外包",
+        avatar: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png"
+      }
+    }
+  },
+  reducers: {
+    listChatGroupsByName(name) {
+
+    }
+
+  },
+  effects: (dispatch) => ({
+
+  })
+};
+
+/**
+ * 聊天消息state
+ * @type {{state: {}, reducers: {}, effects: (function(*): {})}}
+ */
+export const message = {
+  state: {
+
+  },
+  reducers: {
+
+  },
+  effects: (dispatch) => ({
+
+  })
+};
+
+/**
+ * 被搜索的信息state
+ * @type {{state: {}, reducers: {}, effects: (function(*): {})}}
+ */
+export const searched = {
+  state: {
+    chatGroup: ["001", "002"],
+    user: [],
+    message: []
   },
   reducers: {
 

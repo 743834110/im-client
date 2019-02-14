@@ -1,5 +1,4 @@
 import Taro from '@tarojs/taro'
-import '@tarojs/async-await'
 /**
  * 进行
  * 获取指定组件的高度

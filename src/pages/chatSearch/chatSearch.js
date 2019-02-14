@@ -6,9 +6,21 @@ import SearchBar from "../../components/searchBar/searchBar";
 import ChatHint from "../../components/chatHint/chatHint";
 import ChatSearchBlock from "../../components/chatSearchBlock/chatSearchBlock";
 
-const mapStateToProps = (state) => ({
-  state
-});
+const mapStateToProps = (state) => {
+  let searchedChatGroup = state.searched.chatGroup.map(value => {
+    let object = state.chatGroup.entities[value];
+    return {
+      id: object.groupId,
+      title: object.name,
+      thumb: object.avatar
+    }
+  });
+  return {
+    searchedChatGroup: searchedChatGroup,
+    searchedUser: state.searched.user,
+    searchedMessage: state.searched.message
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch
@@ -29,6 +41,12 @@ export default class ChatSearch extends Component{
   state = {
     isHide: false,
   };
+
+  constructor(props) {
+    super(props);
+
+  }
+
 
   handleKeywordSearch = (value) => {
     console.log(value)
@@ -54,7 +72,7 @@ export default class ChatSearch extends Component{
 
   render() {
     let {isHide} = this.state;
-
+    let {searchedChatGroup, searchedUser, searchedMessage} = this.props;
     return (
       <View className='container'>
         <View>
@@ -63,13 +81,23 @@ export default class ChatSearch extends Component{
         </View>
         {
           !isHide? <View style={{marginTop: '8px'}}><ChatHint /></View>:
-            <ScrollView scrollY className='flex-1'>
-              <View style={{marginTop: '8px', width:'100%'}} >
-                <ChatSearchBlock title={'群组'} />
-              </View>
-              <View style={{marginTop: '8px'}} >
-                <ChatSearchBlock title={'联系人'} />
-              </View>
+            <ScrollView scrollY className='flex-1 display-flex-column'>
+              {
+                searchedChatGroup.length !== 0?
+                  <View style={{marginTop: '8px'}} >
+                  <ChatSearchBlock data={searchedChatGroup} title={'群组'} />
+                </View>: ''
+              }
+              {
+                searchedUser.length !== 0?
+                  <View style={{marginTop: '8px'}} >
+                    <ChatSearchBlock title={'联系人'} />
+                  </View>: ''
+              }
+              {
+                searchedMessage.length !== 0?
+                  '': ''
+              }
               <View style={{marginTop: '8px'}} >
                 <ChatSearchBlock title={'聊天记录'} />
               </View>

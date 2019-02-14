@@ -21,11 +21,26 @@ export default class ChatSearchBlock extends Component{
   };
 
   state = {
+    status: 'more'
+  };
 
+  componentWillReceiveProps(newProps) {
+    let {data} = this.props;
+    let status = "loading";
+    if (newProps.data.length === data.length) {
+      status = "noMore"
+    }
+    else if (newProps.data.length > data.length) {
+      status = "more";
+    }
+    setTimeout(() => this.setState({
+      status
+    }), 500)
   };
 
   render() {
-    let {title, onListItemClick, onLoadMoreClick} = this.props;
+    let {title, onListItemClick, onLoadMoreClick, data} = this.props;
+    let {status} = this.state;
 
     return (
       <View className='chat-search-block-container'>
@@ -33,9 +48,9 @@ export default class ChatSearchBlock extends Component{
           <Text>{title}</Text>
         </View>
         <View className='content'>
-          <CommonList onClick={onListItemClick} />
+          <CommonList data={data} onClick={onListItemClick} />
         </View>
-        <AtLoadMore onClick={onLoadMoreClick}  />
+        <AtLoadMore onClick={onLoadMoreClick} status={status} />
       </View>
     );
   }
