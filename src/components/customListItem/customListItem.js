@@ -17,6 +17,7 @@ export default class CustomListItem extends Component{
       title: '行者孙',
       note: '15软件服务外包1班1班1班1班1班1班1班1班1班1班',
       extraText: '2015874136',
+      fromId: "001"
     }
   };
 

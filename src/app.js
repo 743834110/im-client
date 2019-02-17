@@ -34,6 +34,7 @@ class App extends Component {
       'pages/operateStatus/operateStatus',
       'pages/chatOutline/chatOutline',
       'pages/chatSearch/chatSearch',
+      'pages/chatRoom/chatRoom',
     ],
     window: {
       backgroundTextStyle: 'light',

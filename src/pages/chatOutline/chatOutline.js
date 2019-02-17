@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch
+  changeChatRoomSelected: dispatch.selected.changeChatRoomSelected,
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -43,6 +43,21 @@ export default class ChatOutline extends Component {
     })
   };
 
+  /**
+   * 联系人点击事件
+   * 更新store中选中的数据
+   * @param index
+   * @param value
+   */
+  handleChatListItemClick = (index, value) => {
+    let {changeChatRoomSelected} = this.props;
+    changeChatRoomSelected(value.fromId, value.groupId)
+    Taro.navigateTo({
+      url: "/pages/chatRoom/chatRoom"
+    })
+  };
+
+
   render() {
     let {current, tabList} = this.state
     return (
@@ -59,7 +74,7 @@ export default class ChatOutline extends Component {
         <ScrollView scrollY className='flex-1'>
           <AtTabs className='overflow-y-auto' current={current} tabList={tabList} onClick={this.handleTabsClick}>
             <AtTabsPane current={current} index={0}>
-              <ChatList />
+              <ChatList onListItemClick={this.handleChatListItemClick} />
             </AtTabsPane>
             <AtTabsPane className='overflow-y-auto' current={current} index={1}>
               <AccordionList />

@@ -22,9 +22,12 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatch
-});
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+    test: dispatch.searched.test
+  }
+};
 
 /**
  * @author LTF
@@ -70,6 +73,23 @@ export default class ChatSearch extends Component{
     })
   };
 
+  handleChatGroupClick = (value) => {
+    let {test} = this.props;
+
+  };
+
+  handleMessageClick = (value) => {
+
+  };
+
+  handleUserClick = (value) => {
+
+  };
+
+  handleLoadMoreClick = (index) => {
+
+  };
+
   render() {
     let {isHide} = this.state;
     let {searchedChatGroup, searchedUser, searchedMessage} = this.props;
@@ -84,14 +104,14 @@ export default class ChatSearch extends Component{
             <ScrollView scrollY className='flex-1 display-flex-column'>
               {
                 searchedChatGroup.length !== 0?
-                  <View style={{marginTop: '8px'}} >
-                  <ChatSearchBlock data={searchedChatGroup} title={'群组'} />
+                  <View style={{marginTop: '8px', width: '100%'}} >
+                  <ChatSearchBlock data={searchedChatGroup} title={'群组'} onListItemClick={this.handleChatGroupClick} onLoadMoreClick={this.handleLoadMoreClick.bind(this, 0)} />
                 </View>: ''
               }
               {
                 searchedUser.length !== 0?
                   <View style={{marginTop: '8px'}} >
-                    <ChatSearchBlock title={'联系人'} />
+                    <ChatSearchBlock title={'联系人'} onListItemClick={this.handleUserClick} onLoadMoreClick={this.handleLoadMoreClick.bind(this, 1)} />
                   </View>: ''
               }
               {
@@ -99,7 +119,7 @@ export default class ChatSearch extends Component{
                   '': ''
               }
               <View style={{marginTop: '8px'}} >
-                <ChatSearchBlock title={'聊天记录'} />
+                <ChatSearchBlock title={'聊天记录'} onListItemClick={this.handleMessageClick} onLoadMoreClick={this.handleLoadMoreClick.bind(this, 2)} />
               </View>
             </ScrollView>
         }

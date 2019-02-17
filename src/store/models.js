@@ -140,7 +140,9 @@ export const searched = {
 
   },
   effects: (dispatch) => ({
-
+    test(payload, rootState) {
+      console.log(rootState)
+    }
   })
 };
 
@@ -151,8 +153,20 @@ export const searched = {
 export const selected = {
   state: {
     org: "",
-
-  }
+    chatRoom: {
+      from_id: "001",
+      group_id: "001",
+    }
+  },
+  reducers: {
+    changeSelected(state, payload) {
+      this.state[payload.key] = payload.value;
+    },
+    changeChatRoomSelected(state, fromId, groupId) {
+      state.chatRoom.from_id = fromId;
+      state.chatRoom.group_id = groupId;
+    }
+  },
 };
 
 

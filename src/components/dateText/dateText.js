@@ -16,12 +16,11 @@ export default class DateText extends Component{
   render() {
     let date = new Date(this.props.date);
     let {type} = this.props;
-    console.log(type)
     return (
       <Text>
         {
           type === 'full'? `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`:
-            type === 'time'? `${date.getHours()}:${date.getMinutes()}`:null
+            type === 'time'? `${date.getHours()}:${date.getMinutes() <= 9? "0" + date.getMinutes(): date.getMinutes()}`:null
 
         }
       </Text>

@@ -1,12 +1,9 @@
 .chat-list-item-container {
   position: relative;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
 
   .read-container {
     position: absolute;
-    right: 10px;
+    right: 30px;
     top: 0;
     height: 100%;
     display: flex;
@@ -29,5 +26,11 @@
       color: #999999;
     }
   }
+}
+.at-list__item-content {
+  overflow : hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: -90px;
 
 }

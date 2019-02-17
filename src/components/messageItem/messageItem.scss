@@ -1,0 +1,102 @@
+.message-item-container {
+  display: flex;
+  flex-direction: row;
+
+  &-right {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .avatar {
+
+  }
+
+
+  .message {
+    background-color: white;
+    color: #333;
+    font-size: 28px;
+    border-radius: 12px;
+    position: relative;
+    max-width: 40vw;
+    padding: 6px 9px;
+
+    // 位置信息
+    &-left {
+      margin-left: 30px;
+    }
+
+    &-right {
+      background-color: #6190E8;
+      color: white;
+      margin-right: 30px;
+      margin-left: 30px;
+    }
+
+    // 消息类型
+    &-text {
+      padding: 9px 24px;
+      max-width: 60vw;
+    }
+
+    &-image {
+    }
+
+    // 三角形位置
+    &-trangle-left {
+      position: absolute;
+      width:0;
+      height:0;
+      top: 15px;
+      right: 99%;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-right: 13px solid #fff;
+      border-radius: 10px;
+    }
+
+    &-trangle-right {
+      position: absolute;
+      width:0;
+      height:0;
+      top: 15px;
+      left: 99%;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-left: 13px solid #6190E8;
+      border-radius: 10px ;
+    }
+
+
+    .image {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+    }
+
+    .read-status {
+      position: absolute;
+      top: 100%;
+      right: 5%;
+      margin-top: 8px;
+
+      .read {
+        color: #999999;
+
+      }
+
+      .unread {
+        color: #6190E8;
+        width: auto;
+      }
+    }
+  }
+
+  .sending-status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+  }
+}

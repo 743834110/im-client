@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import PropTypes from 'prop-types'
-import {Text, View} from "@tarojs/components";
+import {View} from "@tarojs/components";
 import {AtList} from "taro-ui";
 import CustomListItem from "../customListItem/customListItem";
 import './chatList.scss'
@@ -19,10 +19,11 @@ export default class ChatList extends Component{
       {}
       ],
     onListItemClick: () => {},
+    unRead: undefined
   };
 
   render() {
-    let {data, onListItemClick} = this.props;
+    let {data, onListItemClick, unRead} = this.props;
     return (
       <AtList >
         {
@@ -30,7 +31,10 @@ export default class ChatList extends Component{
             <View className='chat-list-item-container' key={value.id}>
               <CustomListItem onClick={onListItemClick.bind(this, index)} />
               <View className='read-container'>
-                <UnReadTag />
+                {
+                  unRead?
+                    <UnReadTag value={unRead} />: ''
+                }
                 <View className='desc-text'>
                   <DateText type='time' />
                 </View>
@@ -51,6 +55,10 @@ ChatList.propTypes = {
   /**
    * 列表数据项点击事件
    */
-  onListItemClick: PropTypes.func
+  onListItemClick: PropTypes.func,
+  /**
+   * 未读消息数量
+   */
+  unRead: PropTypes.number
 
 };
