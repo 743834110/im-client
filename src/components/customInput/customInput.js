@@ -13,7 +13,10 @@ export default class CustomInput extends Component{
   static defaultProps = {
     placeholder: null,
     title: null,
-    type: null
+    type: null,
+    style: {
+      marginLeft: 0
+    }
   };
 
   state = {
@@ -22,7 +25,6 @@ export default class CustomInput extends Component{
 
 
   handleChange = (value) => {
-
     this.setState({
       value: value
     })
@@ -32,10 +34,11 @@ export default class CustomInput extends Component{
 
   render() {
     let {value} = this.state;
-    let {placeholder, title, type} = this.props;
+    let {placeholder, title, type, style} = this.props;
     return (
       <AtInput
         title={title}
+        customStyle={style}
         type={type === null? 'text': type}
         placeholder={placeholder === null? '占位符': placeholder}
         value={value}
@@ -58,5 +61,9 @@ CustomInput.propTypes = {
    * 类型
    */
   type: PropTypes.string,
+  /**
+   * 输入框样式
+   */
+  style: PropTypes.object
 
 };

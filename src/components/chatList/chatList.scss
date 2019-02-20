@@ -1,5 +1,8 @@
 .chat-list-item-container {
   position: relative;
+  overflow : hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   .read-container {
     position: absolute;

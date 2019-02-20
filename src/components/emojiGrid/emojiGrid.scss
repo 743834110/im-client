@@ -1,0 +1,13 @@
+.emoji-grid-container {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+
+  .emoji {
+    display: table-cell;
+    text-align: center;
+    font-size: 40px;
+  }
+}

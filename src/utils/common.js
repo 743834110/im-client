@@ -110,13 +110,19 @@ export const formatNumber = n => {
 /**
  * 根据既定的规则从
  * 组件引用对象获取将要被提交的数据
+ * 如果有submitValue有实体值时，则优先使用
  * @author LTF
  */
 export const getSubmitObject = (refs) => {
   let keys = Object.getOwnPropertyNames(refs);
   let object = {};
   Object.values(refs).forEach(((value, index) => {
-    object[keys[index]] = value.state.value;
+    if (value.state.submitValue) {
+      object[keys[index]] = value.state.submitValue;
+    }
+    else {
+      object[keys[index]] = value.state.value;
+    }
   }));
   return object;
 };

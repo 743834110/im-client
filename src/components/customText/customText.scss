@@ -1,0 +1,10 @@
+.custom-text-container {
+
+  .text {
+
+    &::selection {
+      background-color: #d6e4ef;
+      color: #fff;
+    }
+  }
+}

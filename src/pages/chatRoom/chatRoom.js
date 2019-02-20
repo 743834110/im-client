@@ -1,9 +1,10 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, ScrollView} from '@tarojs/components'
+import {View, ScrollView, Input} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 import CustomInput from "../../components/customInput/customInput";
 import MessageList from "../../components/messageList/messageList";
+import EmojiSwiper from "../../components/emojiSwiper/emojiSwiper";
 
 const mapStateToProps = (state) => {
 
@@ -29,8 +30,9 @@ export default class ChatRoom extends Component{
   };
 
   state = {
-
+    deleteSymbol: "[274E]"
   };
+
 
   constructor(props) {
     super(props);
@@ -41,6 +43,36 @@ export default class ChatRoom extends Component{
     console.log(params);
   }
 
+  handleScrollToUpper = () => {
+    Taro.showLoading({
+      title: 'loading',
+      mask: true
+    })
+      .then(res => console.log(res))
+    setTimeout(() => {
+      Taro.hideLoading()
+    }, 3000)
+  };
+
+
+  handleEmojiClick = (object) => {
+    let input = this.refs.input;
+    let {deleteSymbol} = this.state;
+    // 删除字符
+    if (object.value === deleteSymbol) {
+      input.setState(prevState => {
+        return {
+        }
+      });
+      return;
+    }
+    // 新增
+    input.setState(prevState => ({
+      value: prevState.value + object.showValue,
+      submitValue: prevState.value + object.value
+    }))
+  };
+
   render() {
     let {title} = this.state;
     return (
@@ -48,11 +80,14 @@ export default class ChatRoom extends Component{
         <View>
           <PopUpNavBar title={title} />
         </View>
-        <ScrollView scrollY className='flex-1'>
+        <ScrollView scrollY className='flex-1' onScrollToUpper={this.handleScrollToUpper}>
           <MessageList />
         </ScrollView>
-        <View>
-          <CustomInput />
+        <View className='input'>
+          <View style={{borderTop: '1px solid #d6e4ef', borderBottom: '1px solid #d6e4ef',}}>
+            <CustomInput  ref='input'  />
+          </View>
+          <EmojiSwiper onEmojiClick={this.handleEmojiClick} />
         </View>
       </View>
     );

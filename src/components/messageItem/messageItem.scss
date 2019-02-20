@@ -11,83 +11,94 @@
 
   }
 
+  .body {
+    margin-left: 20px;
+    margin-right: 20px;
 
-  .message {
-    background-color: white;
-    color: #333;
-    font-size: 28px;
-    border-radius: 12px;
-    position: relative;
-    max-width: 40vw;
-    padding: 6px 9px;
+    .from-user {
+      color: #999999;
+      font-size: 24px;
 
-    // 位置信息
-    &-left {
-      margin-left: 30px;
+      &-right {
+        text-align: right;
+      }
     }
 
-    &-right {
-      background-color: #6190E8;
-      color: white;
-      margin-right: 30px;
-      margin-left: 30px;
-    }
+    .message {
+      background-color: white;
+      color: #333;
+      font-size: 28px;
+      border-radius: 12px;
+      position: relative;
+      max-width: 40vw;
+      padding: 6px 9px;
 
-    // 消息类型
-    &-text {
-      padding: 9px 24px;
-      max-width: 60vw;
-    }
-
-    &-image {
-    }
-
-    // 三角形位置
-    &-trangle-left {
-      position: absolute;
-      width:0;
-      height:0;
-      top: 15px;
-      right: 99%;
-      border-top: 15px solid transparent;
-      border-bottom: 15px solid transparent;
-      border-right: 13px solid #fff;
-      border-radius: 10px;
-    }
-
-    &-trangle-right {
-      position: absolute;
-      width:0;
-      height:0;
-      top: 15px;
-      left: 99%;
-      border-top: 15px solid transparent;
-      border-bottom: 15px solid transparent;
-      border-left: 13px solid #6190E8;
-      border-radius: 10px ;
-    }
-
-
-    .image {
-      width: auto;
-      height: auto;
-      max-width: 100%;
-    }
-
-    .read-status {
-      position: absolute;
-      top: 100%;
-      right: 5%;
-      margin-top: 8px;
-
-      .read {
-        color: #999999;
-
+      // 位置信息
+      &-left {
       }
 
-      .unread {
-        color: #6190E8;
+      &-right {
+        background-color: #6190E8;
+        color: white;
+      }
+
+      // 消息类型
+      &-text {
+        padding: 9px 24px;
+        max-width: 60vw;
+        word-break: break-word;
+      }
+
+      &-image {
+      }
+
+      // 三角形位置
+      &-trangle-left {
+        position: absolute;
+        width:0;
+        height:0;
+        top: 10px;
+        right: 99%;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 13px solid #fff;
+        border-radius: 10px;
+      }
+
+      &-trangle-right {
+        position: absolute;
+        width:0;
+        height:0;
+        top: 10px;
+        left: 98%;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-left: 13px solid #6190E8;
+        border-radius: 10px ;
+      }
+
+
+      .image {
         width: auto;
+        height: auto;
+        max-width: 100%;
+      }
+
+      .read-status {
+        position: absolute;
+        top: 100%;
+        right: 5%;
+        margin-top: 8px;
+
+        .read {
+          color: #999999;
+
+        }
+
+        .unread {
+          color: #6190E8;
+          width: auto;
+        }
       }
     }
   }
