@@ -1,20 +1,59 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, ScrollView, Input} from '@tarojs/components'
+import {View, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
-import CustomInput from "../../components/customInput/customInput";
 import MessageList from "../../components/messageList/messageList";
-import EmojiSwiper from "../../components/emojiSwiper/emojiSwiper";
+import MediaInput from "../../components/mediaInput/mediaInput";
 
 const mapStateToProps = (state) => {
+  let chatRoom = state.selected.chatRoom;
+  let currentUserId = state.currentUser;
+  // 当前用户信息
+  let currentUser = state.users.entities[currentUserId];
+  // 聊天信息映射
+  let messages = state.message.mappings[chatRoom.chatId].map(value => {
+    let message = state.message.entities[value];
+    return message;
+  });
+  // 添加正在发送的消息
+  let sendingMessage = state.message.sending[chatRoom.chatId].map(value => ({
+    position: undefined,
+    ...value
+  }));
+  messages = [
+    ...messages,
+    ...sendingMessage
+  ];
+  messages.forEach(value => {
+    if (value.from === currentUserId) {
+      value.position = 'right';
+    }
+    else {
+      value.position = 'left';
+    }
+  });
 
   return {
-    chatRoom: state.selected.chatRoom
+    messages,
+    chatRoom,
+    currentUser
   }
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch
+  asyncSendingMessage: (chatRoom, currentUser, content) => {
+    let message = {};
+    message.id = new Date().getTime(),
+    message.from = currentUser.userId,
+    message.fromName = currentUser.userName,
+    message.fromAvatar = currentUser.userImageUrl,
+    message.to = chatRoom.chatId,
+    message.msgType = 'text',
+    message.chatType = chatRoom.chatType,
+    message.content = content,
+    message.createTime = new Date().getTime()
+    dispatch.message.asyncSendingMessage(message);
+  }
 });
 
 /**
@@ -29,11 +68,6 @@ export default class ChatRoom extends Component{
     navigationBarTitleText: ''
   };
 
-  state = {
-    deleteSymbol: "[274E]"
-  };
-
-
   constructor(props) {
     super(props);
   }
@@ -41,6 +75,11 @@ export default class ChatRoom extends Component{
   componentWillMount() {
     let params = this.$router.params;
     console.log(params);
+  }
+
+  componentWillReceiveProps(newProps) {
+    // console.log(this.refs.scrollView)
+    // this.refs.scrollView.container.scrollTop = this.refs.scrollView.container.scrollHeight;
   }
 
   handleScrollToUpper = () => {
@@ -54,40 +93,26 @@ export default class ChatRoom extends Component{
     }, 3000)
   };
 
-
-  handleEmojiClick = (object) => {
-    let input = this.refs.input;
-    let {deleteSymbol} = this.state;
-    // 删除字符
-    if (object.value === deleteSymbol) {
-      input.setState(prevState => {
-        return {
-        }
-      });
-      return;
-    }
-    // 新增
-    input.setState(prevState => ({
-      value: prevState.value + object.showValue,
-      submitValue: prevState.value + object.value
-    }))
+  handleButtonClick = (value) => {
+    let {chatRoom, currentUser, asyncSendingMessage} = this.props;
+    asyncSendingMessage(chatRoom, currentUser, value);
   };
+
+
 
   render() {
     let {title} = this.state;
+    let {messages} = this.props;
     return (
       <View className='container'>
         <View>
           <PopUpNavBar title={title} />
         </View>
-        <ScrollView scrollY className='flex-1' onScrollToUpper={this.handleScrollToUpper}>
-          <MessageList />
+        <ScrollView  lowerThreshold='20' scrollTop={messages.length * 1000} scrollY className='flex-1' onScrollToUpper={this.handleScrollToUpper} >
+          <MessageList list={messages} />
         </ScrollView>
         <View className='input'>
-          <View style={{borderTop: '1px solid #d6e4ef', borderBottom: '1px solid #d6e4ef',}}>
-            <CustomInput  ref='input'  />
-          </View>
-          <EmojiSwiper onEmojiClick={this.handleEmojiClick} />
+          <MediaInput onButtonClick={this.handleButtonClick} />
         </View>
       </View>
     );

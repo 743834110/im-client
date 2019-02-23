@@ -15,11 +15,7 @@ export default class EmojiGrid extends Component {
   static defaultProps = {
     onClick: () => {},
     columnNum: 7,
-    list: [
-      "[2601]", "[1F300]", "[1F301]", "[1F302]", "[1F303]", "[1F304]", "[1F304]",
-      "[2601]", "[1F300]", "[1F301]", "[1F302]", "[1F303]", "[1F304]", "[1F304]",
-      "[2601]", "[1F300]", "[1F301]", "[1F302]", "[1F303]", "[1F304]", "[E04A]",
-    ],
+    list: [],
   };
 
   state = {
@@ -33,8 +29,8 @@ export default class EmojiGrid extends Component {
       <View className='emoji-grid-container'>
         {
           list.map(value => (
-            <View className='emoji' style={{width: width}}>
-              <CustomText value={value} onClick={onClick} />
+            <View className='emoji' style={{width: width}} key={value} >
+              <CustomText text={value} onClick={onClick} />
             </View>
           ))
         }

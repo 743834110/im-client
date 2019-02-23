@@ -23,12 +23,12 @@ export default class CustomText extends Component{
 
   constructor(props) {
     super(props)
-    let {value} = this.props;
-    this.value = this.findEscapeCharCode(value);
+    let {text} = this.props;
+    this.value = this.findEscapeCharCode(text);
   }
 
   componentWillReceiveProps(newProps) {
-    let newValue = newProps.value;
+    let newValue = newProps.text;
     this.value = this.findEscapeCharCode(newValue);
   }
 
@@ -38,7 +38,9 @@ export default class CustomText extends Component{
    * @returns {*}
    */
   findEscapeCharCode(string) {
-
+    if (!string) {
+      return;
+    }
     string = string.replace(this.pattern, (value) => {
       let result = '0x' + value.slice(1, -1);
       if (result.length === 6) {
@@ -68,12 +70,13 @@ export default class CustomText extends Component{
 
 
   render() {
-    let {onClick, value} = this.props;
+    let {onClick, text} = this.props;
+
     return (
       <View
         className='custom-text-container'
         onClick={onClick.bind(this, {
-          value,
+          text,
           showValue: this.value
         })}
       >
@@ -89,7 +92,7 @@ CustomText.propTypes = {
   /**
    * 将要被显示的文本
    */
-  value: PropTypes.string,
+  text: PropTypes.string,
   /**
    * 文本点击事件
    */

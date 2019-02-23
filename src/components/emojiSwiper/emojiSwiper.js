@@ -26,15 +26,23 @@ export default class EmojiSwiper extends Component {
    * 表情包unicode编号列表
    * @type {Array}
    */
-  emojiLists = [[], [], []];
+  emojiLists = [];
 
 
   state = {
 
   };
 
-  shouldComponentUpdate(newProps) {
-    this.emojiLists = [];
+  constructor(props) {
+    super(props);
+    this.componentWillReceiveProps(props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.emojiLists.length !== 0) {
+      return;
+    }
+
     let {start, end, exclude, rowNum, columnNum, deleteSymbol} = newProps;
     let maxEmojiLenth = rowNum * columnNum - 1;
     let tempIndex = 0;
@@ -53,13 +61,11 @@ export default class EmojiSwiper extends Component {
         tempIndex++;
       }
     }
-    return true;
   }
 
   render() {
 
     let {onEmojiClick} = this.props;
-    console.log(this.emojiLists)
     return (
       <Swiper
         className='emoji-swiper-container'
@@ -68,8 +74,8 @@ export default class EmojiSwiper extends Component {
         indicatorDots
       >
         {
-          this.emojiLists.map(value => (
-            <SwiperItem>
+          this.emojiLists.map((value, index) => (
+            <SwiperItem key={index}>
               <EmojiGrid onClick={onEmojiClick} list={value}  />
             </SwiperItem>
           ))
@@ -107,7 +113,7 @@ EmojiSwiper.propTypes = {
   /**
    * 带有删除含义的unicode编号
    */
-  deleteSymbol: PropTypes.number
+  deleteSymbol: PropTypes.string
 
 };
 

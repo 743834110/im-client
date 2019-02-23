@@ -70,7 +70,7 @@ export default class MessageItem extends Component {
             <View className={`message-trangle-${message.position}`} />
             <View>
               {
-                message.msgType === 'text'? <CustomText value={message.content} />:
+                message.msgType === 'text'? <CustomText text={message.content} />:
                   message.msgType === 'image'?
                     <Image
                       className='image'

@@ -5,7 +5,11 @@
 export const users = {
   state: {
     entities: {
-
+      "001": {
+        userId: "001",
+        userName: '李田锋',
+        userImageUrl: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png"
+      }
     }
   },
   reducers: {
@@ -117,12 +121,57 @@ export const chatGroup = {
 export const message = {
   state: {
 
+    entities: {
+      "001": {
+        id: "001",
+        from: '006',
+        fromName: '李田锋',
+        fromAvatar: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        success: undefined,
+        read: true,
+        msgType: 'text',
+        chatType: '1',
+        content: '社会主义核心价值观',
+        createTime: new Date().getTime()
+      },
+      "002": {
+        id: "001",
+        from: '001',
+        fromName: '李田锋',
+        fromAvatar: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        success: true,
+        read: true,
+        msgType: 'text',
+        chatType: '1',
+        content: 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1550411795&di=78b0c3b6b0b15773ab6c830217195dac&src=http://b-ssl.duitang.com/uploads/item/201610/23/20161023062037_aHhQu.thumb.700_0.jpeg',
+        createTime: new Date().getTime()
+      },
+    },
+    // to or groupId timestamp: {}
+    sending: {
+      "003": []
+    },
+    // fromId or groupId: []
+    mappings: {
+      "003": ["001", "002"]
+    }
   },
   reducers: {
 
-  },
-  effects: (dispatch) => ({
+    sendingMessage(state, content) {
+      state.sending[content.to] = [
+        ...state.sending[content.to],
+        content
+      ]
 
+    }
+  },
+
+  effects: (dispatch) => ({
+    async asyncSendingMessage(content, rootState) {
+      dispatch.message.sendingMessage(content);
+
+    }
   })
 };
 
@@ -154,8 +203,8 @@ export const selected = {
   state: {
     org: "",
     chatRoom: {
-      from_id: "001",
-      group_id: "001",
+      chatType: 1,
+      chatId: "003",
     }
   },
   reducers: {
