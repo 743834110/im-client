@@ -58,12 +58,16 @@ export default class CommonList extends Component {
         }
       }
     ],
-    onClick: () => {
-    }
+    onClick: () => {},
+    onSwitchChange: () => {},
+  };
+
+  state = {
+
   };
 
   render() {
-    let {data, onClick} = this.props;
+    let {data, onClick, onSwitchChange} = this.props;
 
     return (
       <View>
@@ -80,6 +84,10 @@ export default class CommonList extends Component {
                 arrow={value.arrow}
                 note={value.note}
                 onClick={onClick.bind(this, value)}
+                isSwitch={value.switch}
+                switchIsCheck={value.check}
+                disabled={value.disabled}
+                onSwitchChange={onSwitchChange.bind(this, index)}
               />
             )})
           }
@@ -97,5 +105,9 @@ CommonList.propTypes = {
   /**
    * 列表点击事件
    */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  /**
+   * 选择开关事件
+   */
+  onSwitchChange: PropTypes.func
 };

@@ -1,0 +1,15 @@
+.user-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #6190e8;
+  height: 300px;
+
+  .text {
+    font-size: 28px;
+    margin-top: 16px;
+    color: white;
+
+  }
+}

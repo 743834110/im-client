@@ -1,5 +1,5 @@
 import { Component } from '@tarojs/taro';
-import { Swiper, SwiperItem, View } from '@tarojs/components';
+import { Swiper, SwiperItem } from '@tarojs/components';
 import PropTypes from 'prop-types'
 import './emojiSwiper.scss';
 import EmojiGrid from "../emojiGrid/emojiGrid";

@@ -12,7 +12,7 @@ export default class TabBar extends Component {
       {title: '校园资讯', iconPrefixClass: 'fa', iconType: 'folder', text: 'new', path: '/pages/index/index'},
       {title: '机构', iconType: 'camera', path: '/pages/orgOutline/orgOutline'},
       {title: '通讯', iconType: 'folder', text: '100', max: '99', path: '/pages/chatOutline/chatOutline'},
-      {title: '我的', iconType: 'folder', text: '100', max: '99', path: 'D'}
+      {title: '我的', iconType: 'folder', text: '100', max: '99', path: '/pages/userHome/userHome'}
     ],
     current: 0
   };
