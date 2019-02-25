@@ -22,10 +22,16 @@ export default class SingleFieldEdit extends Component {
     navigationBarTitleText: ''
   };
 
+  state = {
+
+  };
+
   componentWillMount() {
     let params = decodeURI(this.$router.params.params);
     this.setState(JSON.parse(params))
   }
+
+
 
   /**
    * 此处做一些兼容小程序使用ref变量的操作

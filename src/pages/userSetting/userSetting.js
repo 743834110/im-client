@@ -40,6 +40,7 @@ export default class UserSetting extends Component{
           <SimpleNavBar title={'设置'} />
         </View>
         <View className='flex-1'>
+
           <CommonList onSwitchChange={this.handleSwitchChange} data={commonListData} />
         </View>
       </View>

@@ -52,7 +52,9 @@ export default class UserHome extends Component{
   };
 
   handleOnUserCardClick = () => {
-
+    Taro.navigateTo({
+      url: "/pages/userAccount/userAccount"
+    })
   };
 
   render() {

@@ -45,6 +45,8 @@ export default class ManagerGroup extends Component {
     ]
   };
 
+
+
   handleOnClick = (value) => {
     let params = JSON.stringify(value.data);
     let url = encodeURI(value.url + "?params=" + params);

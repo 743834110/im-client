@@ -38,6 +38,7 @@ class App extends Component {
       'pages/userHome/userHome',
       'pages/userPublish/userPublish',
       'pages/userSetting/userSetting',
+      'pages/userAccount/userAccount',
     ],
     window: {
       backgroundTextStyle: 'light',

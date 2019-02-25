@@ -42,7 +42,6 @@ export default class ButtonList extends Component {
 
   render() {
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
-    console.log(data);
     return (
       <AtList >
         {
