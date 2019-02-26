@@ -74,7 +74,7 @@ export default class UserPublish extends Component{
           />
         </View>
         <View id='scrollView' className='flex-1'>
-          <RoutineList scrollHeight={scrollHeight} />
+          <RoutineList scrollHeight={scrollHeight} useUpperRefresh={false} />
         </View>
       </View>
     );

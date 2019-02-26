@@ -10,6 +10,23 @@ export const users = {
         userName: '李田锋',
         userImageUrl: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png"
       }
+    },
+    mappings: {
+      // 人性化显示
+      humanity: {
+        userName: {
+          alias: "账号",
+          operate: {
+            disabled: true
+          }
+        },
+        userImageUrl: {
+          alias: "头像",
+          operate: {
+
+          }
+        },
+      }
     }
   },
   reducers: {
@@ -82,6 +99,29 @@ export const role = {
   effects: (dispatch) => ({
 
   })
+};
+
+/**
+ * 客户端设置数据state
+ * @type {{state: {}, reducers: {}}}
+ */
+export const setting = {
+  state: {
+    entities: {
+      saveUserAndPassword: true,
+      saveClientData: false
+    },
+    mappings: {
+      humanity: {
+        saveUserAndPassword: '保存用户及密码',
+        saveClientData: '持久化数据'
+      }
+    }
+  },
+  reducers: {
+
+  }
+
 };
 
 /**

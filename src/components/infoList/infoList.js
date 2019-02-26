@@ -3,7 +3,7 @@ import {AtList} from 'taro-ui'
 import PropTypes from 'prop-types'
 import {View, Text} from "@tarojs/components";
 import CustomListItem from "../customListItem/customListItem";
-import './stringList.scss'
+import './infoList.scss'
 
 
 /**
@@ -11,7 +11,7 @@ import './stringList.scss'
  * @description 字符串列表
  * Created on 2019/2/25
  */
-export default class StringList extends Component{
+export default class InfoList extends Component{
 
   static defaultProps = {
     data: [],
@@ -31,9 +31,12 @@ export default class StringList extends Component{
             <View className='string-list-container' >
               <CustomListItem value={value} key={index} onClick={onClick}  />
               <View className='override'>
-                <Text className='text'>
-                  {value.extraText}
-                </Text>
+                {
+                  !value.extraThumb?
+                    <Text className='text'>
+                      {value.extraText}
+                    </Text>: ''
+                }
               </View>
             </View>
           ))
@@ -43,7 +46,7 @@ export default class StringList extends Component{
   }
 }
 
-StringList.propTypes = {
+InfoList.propTypes = {
   /**
    * 列表数据
    */

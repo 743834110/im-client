@@ -32,7 +32,8 @@ export default class CustomListItem extends Component{
         iconInfo={value.iconInfo}
         arrow={value.arrow}
         onClick={onClick.bind(this, value)}
-
+        extraThumb={value.extraThumb}
+        disabled={value.disabled}
       />
     );
   }
