@@ -39,21 +39,7 @@ export default class UserAccount extends Component{
   };
 
   state = {
-    data: [
-      {
-        id: '001',
-        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
-        title: '行者孙',
-        extraText: '2015874136',
-        arrow: "right"
-      },
-      {
-        id: '002',
-        title: '行者孙',
-        extraText: '2015874136',
-        arrow: "right"
-      }
-    ]
+
   };
 
   render() {
