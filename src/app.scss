@@ -17,6 +17,8 @@
   display: flex;
   flex: 1;
 }
+
+
 .scroll-view-flex-1 {
   flex: 1;
   display: flex;
@@ -78,6 +80,10 @@
 }
 .align-center {
   align-items: center;
+}
+
+.just-center {
+  justify-content: center;
 }
 
 .common-desc-text {

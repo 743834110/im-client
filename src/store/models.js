@@ -119,7 +119,10 @@ export const setting = {
     }
   },
   reducers: {
-
+    // 改变客户端配置
+    changeSetting(state, payload){
+      state.entities[payload.key] = payload.value;
+    }
   }
 
 };

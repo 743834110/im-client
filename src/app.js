@@ -40,6 +40,7 @@ class App extends Component {
       'pages/userPublish/userPublish',
       'pages/userSetting/userSetting',
       'pages/userAccount/userAccount',
+      'pages/forgetPassword/forgetPassword',
     ],
     window: {
       backgroundTextStyle: 'light',

@@ -43,7 +43,11 @@ export default class CustomInput extends Component{
         placeholder={placeholder === null? '占位符': placeholder}
         value={value}
         onChange={this.handleChange}
-      />
+      >
+        {
+          this.props.children
+        }
+      </AtInput>
     )
   }
 }

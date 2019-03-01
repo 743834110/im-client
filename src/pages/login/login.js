@@ -1,16 +1,19 @@
 import Taro,{ Component } from '@tarojs/taro';
-import {View} from '@tarojs/components';
+import {View, Text, Switch} from '@tarojs/components';
 import {connect} from "@tarojs/redux";
 import {AtButton} from 'taro-ui';
 import CustomInput from "../../components/customInput/customInput";
 
 const mapStateToProps = (state) => {
   return {
-
+    saveUserAndPassword: state.setting.entities.saveUserAndPassword
   }
 };
 const mapDispatchToProps = (dispatch) => ({
-  changeChatRoomSelected: dispatch.selected.changeChatRoomSelected,
+  changeSetting: (saveUserAndPassword) => {dispatch.setting.changeSetting({
+    value: saveUserAndPassword,
+    key: 'saveUserAndPassword'
+  });},
 });
 
 /**
@@ -25,19 +28,39 @@ export default class Login extends Component {
     navigationBarTitleText: ''
   };
 
+  handleLoginButtonClick = () => {
+
+  };
+
+  handleForgetPasswordClick = () => {
+    Taro.navigateTo({
+      url: "/pages/forgetPassword/forgetPassword"
+    })
+  };
+
+  handleSwitchChange = (event) => {
+    let {changeSetting} = this.props;
+    changeSetting(event.detail.value);
+  };
+
+
   render() {
+    let {saveUserAndPassword} = this.props;
     return (
-      <View className='container' style={{justifyContent: 'center'}} >
+      <View className='container' style={{justifyContent: 'center', paddingTop: '30px'}} >
         <View className='input'>
           <CustomInput placeholder='用户名' title='用户名' />
           <CustomInput placeholder='密码' title='密码' type='password' />
         </View>
+        <View className='setting margin-top-24 display-flex-row just-center align-center'>
+          <Text className='common-desc-text' style={{marginRight: '16px'}} >记住密码</Text>
+          <Switch onChange={this.handleSwitchChange} checked={saveUserAndPassword} />
+        </View>
         <View
-          className='button-group margin-top-24'
-          style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}
+          className='button-group margin-top-24 display-flex-row just-center'
         >
-          <AtButton type='primary' circle full customStyle={{width: '35%'}} >密码</AtButton>
-          <AtButton type='primary' circle full customStyle={{width: '35%'}} >忘记密码？</AtButton>
+          <AtButton type='primary' circle full customStyle={{width: '35%'}} onClick={this.handleLoginButtonClick} >登录</AtButton>
+          <AtButton type='primary' circle full customStyle={{width: '35%'}} onClick={this.handleForgetPasswordClick} >忘记密码？</AtButton>
         </View>
       </View>
     );
