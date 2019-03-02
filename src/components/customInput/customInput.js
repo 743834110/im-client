@@ -1,6 +1,7 @@
 import { Component } from '@tarojs/taro'
 import { AtInput }  from 'taro-ui'
 import PropTypes from 'prop-types'
+import {Text} from "@tarojs/components";
 
 /**
  * 封装版输入框组件
@@ -16,11 +17,14 @@ export default class CustomInput extends Component{
     type: null,
     style: {
       marginLeft: 0
-    }
+    },
+    mode: "plain",
+    onAuthClick: () => {},
   };
 
   state = {
-    value: ''
+    value: '',
+    send: false,
   };
 
 
@@ -30,11 +34,35 @@ export default class CustomInput extends Component{
     })
   };
 
+  handleTextClick = () => {
+    let {onAuthClick} = this.props;
+    this.setState({
+      send: true,
+      sendingNumber: 10,
+    });
+    onAuthClick();
+    let interval = setInterval(() => {
+      this.setState(prevState => {
+        let prevSendingNumber = prevState.sendingNumber;
+        let result = {};
+        if (prevSendingNumber !== 0) {
+          result.sendingNumber = prevSendingNumber - 1;
+
+        } else {
+          clearInterval(interval);
+          result.send = false;
+        }
+        return result;
+
+      })
+    }, 1000);
+
+  };
 
 
   render() {
-    let {value} = this.state;
-    let {placeholder, title, type, style} = this.props;
+    let {value, send, sendingNumber} = this.state;
+    let {placeholder, title, type, style, mode} = this.props;
     return (
       <AtInput
         title={title}
@@ -45,7 +73,12 @@ export default class CustomInput extends Component{
         onChange={this.handleChange}
       >
         {
-          this.props.children
+          mode === 'plain'? '':
+            mode === 'auth'? send?
+              <Text style={{color: '#999999', minWidth: '90px', textAlign: 'center'}}>
+                {sendingNumber}秒
+              </Text>: <Text style={{maxWidth: '90px'}} onClick={this.handleTextClick} >发送验证码</Text>:
+              mode === 'image'? '': ''
         }
       </AtInput>
     )
@@ -68,6 +101,10 @@ CustomInput.propTypes = {
   /**
    * 输入框样式
    */
-  style: PropTypes.object
+  style: PropTypes.object,
+  /**
+   * 输入框模式: plain, auth, image
+   */
+  mode: PropTypes.string
 
 };
