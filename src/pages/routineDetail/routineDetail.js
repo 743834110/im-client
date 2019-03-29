@@ -11,8 +11,6 @@ import InputBar from "../../components/inputBar/inputBar";
  */
 @connect((state) => ({
   state
-}), (dispatch) => ({
-  dispatch
 }))
 export default class RoutineDetail extends Component{
 

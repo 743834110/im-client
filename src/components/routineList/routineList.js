@@ -184,12 +184,15 @@ export default class RoutineList extends Component {
           </View>: ''
 
         }
-        {routineList.map((routine, index) => {
+        {routineList
+          .filter(element => element.routineType === type )
+          .map((routine) => {
           return (
-            <View key={index} className='routine-list-element'>
+            <View key={routine.key} className='routine-list-element'>
               <RoutineBlock
                 onRoutineClick={onRoutineClick}
                 onRoutineLongPress={onRoutineLongPress}
+                routine={routine}
               />
             </View>
           )

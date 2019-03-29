@@ -3,7 +3,7 @@ import {Provider} from '@tarojs/redux'
 import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 import '@tarojs/async-await'          // 全局引入一次即可
 import Index from './pages/index'
-import store from './store'
+import store from './utils/rematch'
 import './app.scss'
 
 

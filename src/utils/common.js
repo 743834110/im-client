@@ -103,7 +103,7 @@ export const formatTime = date => {
 };
 
 export const formatNumber = n => {
-  n = n.toString()
+  n = n.toString();
   return n[1] ? n : '0' + n
 };
 
@@ -125,4 +125,23 @@ export const getSubmitObject = (refs) => {
     }
   }));
   return object;
+};
+
+/**
+ * 完成entities到界面显示元素的映射
+ * @param entities {object}
+ * @param current {array}
+ */
+export const entitiesToViewObjects = (entities, current) =>
+  current.map(value => entities[value]);
+
+/**
+ * 删除数组中所有的元素
+ * @param target {array}
+ */
+export const popAll = (target) => {
+  const length = target.length;
+  for (let i = 0; i < length; i++) {
+    target.pop();
+  }
 };

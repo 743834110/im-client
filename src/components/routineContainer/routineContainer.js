@@ -131,9 +131,6 @@ export default class RoutineContainer extends Component{
     }, 500);
   }
 
-  componentWillUnmount() {
-  }
-
   /**
    * 处理标签标题点击事件
    */
@@ -152,8 +149,16 @@ export default class RoutineContainer extends Component{
     })
   };
 
+  handleOnLowerRefresh = () => {
+    let {onLowerRefresh, routine} = this.props;
+    onLowerRefresh({
+        ...routine.pagination,
+        current: routine.pagination.current + 1
+    })
+  };
+
   render() {
-    let {dict, routineList, onLowerRefresh, onUpperRefresh, onRoutineClick, onRoutineLongPress} = this.props;
+    let {dict, routine, onUpperRefresh, onRoutineClick, onRoutineLongPress} = this.props;
     let {current, scrollHeight} = this.state;
     return (
       <View style={{
@@ -163,7 +168,7 @@ export default class RoutineContainer extends Component{
         <AtTabs current={current} tabList={dict} onClick={this.handleTitleClick} className='at-tabs-wrapper'>
           {
             dict
-              .filter(element => element.type !== 'search')
+              .filter(element => element.type !== 'search' )
               .map((element, index) => (
               <AtTabsPane key={index} current={current} index={index}>
                 <View className='scroll-wrapper' style={{
@@ -173,8 +178,8 @@ export default class RoutineContainer extends Component{
                   <RoutineList
                     type={element.type}
                     onUpperRefresh={onUpperRefresh}
-                    onLowerRefresh={onLowerRefresh}
-                    routineList={routineList}
+                    onLowerRefresh={this.handleOnLowerRefresh}
+                    routineList={routine.list}
                     scrollHeight={scrollHeight}
                     onRoutineLongPress={onRoutineLongPress}
                     onRoutineClick={onRoutineClick}
@@ -201,7 +206,7 @@ RoutineContainer.propTypes = {
   /**
    * 日常活动数据
    */
-  routineList: PropTypes.array,
+  routine: PropTypes.object,
   /**
    * 某滑块顶部刷新事件
    */

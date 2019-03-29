@@ -11,17 +11,8 @@ export const logError = (name, action, info) => {
   if (!info) {
     info = 'empty'
   }
-  try {
-    let deviceInfo = getSystemInfoSync();
-    var device = JSON.stringify(deviceInfo)
-  } catch (e) {
-    console.error('not support getSystemInfoSync api', e.message)
-  }
-  let time = formatTime(new Date())
-  console.error(time, name, action, info, device)
-  if (typeof info === 'object') {
-    info = JSON.stringify(info)
-  }
+  let time = formatTime(new Date());
+  console.error(time, name, action, info);
 }
 
 

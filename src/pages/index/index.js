@@ -1,19 +1,25 @@
-import Taro, {Component} from '@tarojs/taro'
-import {View, Text, ScrollView} from '@tarojs/components'
-import {AtTabBar} from "taro-ui";
+import Taro, {PureComponent} from '@tarojs/taro'
+import {View} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import './index.scss'
-import RoutineList from "../../components/routineList/routineList";
 import TabBar from "../../components/tabBar/tabBar";
-import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import RoutineContainer from "../../components/routineContainer/routineContainer";
+import SQL from "../../utils/query";
 
-@connect((state) => ({
-  state
-}), (dispatch) => ({
-  dispatch
-}))
-export default class Index extends Component {
+@connect(({routine: {entities, pagination, mappings: {current}}, loading}) => {
+
+  return {
+    routine: {
+      list: new SQL()
+        .select(current)
+        .from(entities)
+        .exec(),
+      pagination
+    },
+    loading
+  }
+})
+export default class Index extends PureComponent {
 
   config = {
     navigationBarTitleText: ''
@@ -26,61 +32,51 @@ export default class Index extends Component {
   routineDetailPath = '/pages/routineDetail/routineDetail';
 
   constructor(props) {
-    super(props)
-    this.state = {
-      routineList: []
-    }
-  }
-
-  componentWillMount() {
+    super(props);
   }
 
   componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
+    const {dispatch} = this.props;
+    dispatch({
+      type: "routine/fetch",
+      payload: {}
+    })
   }
 
   componentDidShow() {
+
   }
 
   componentDidHide() {
+
   }
 
   /**
    * 顶部刷新事件
    */
   handleOnUpperRefresh = (target) => {
-    let {type} = target.props;
-    console.log(type)
-    setTimeout(() => {
-      this.setState(prevState => {
-        return {
-          routineList: [
-            ...prevState.routineList,
-            {}, {}, {}
-          ]
-        }
-      })
-    }, 1000)
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'routine/fetch',
+      payload: {}
+    })
   };
 
   /**
    * 底部刷新事件
    */
-  handleOnLowerRefresh = () => {
-    console.log("滚动加载")
-    setTimeout(() => {
-      this.setState(prevState => {
-        return {
-          routineList: [
-            ...prevState.routineList,
-          ]
+  handleOnLowerRefresh = (pagination) => {
+    const {dispatch} = this.props;
+    console.log(pagination)
+    dispatch({
+      type: 'routine/fetchLatter',
+      payload: {
+        pager: {
+          offset: pagination.current - 1,
+          limit: pagination.pageSize,
         }
-      })
-    }, 1000)
+      }
+    })
   };
 
   /**
@@ -103,7 +99,7 @@ export default class Index extends Component {
 
 
   render() {
-    let {routineList} = this.state;
+    let {routine} = this.props;
     return (
       <View className='container'>
 
@@ -111,7 +107,7 @@ export default class Index extends Component {
           <RoutineContainer
             onLowerRefresh={this.handleOnLowerRefresh}
             onUpperRefresh={this.handleOnUpperRefresh}
-            routineList={routineList}
+            routine={routine}
             onRoutineClick={this.handleRoutineClick}
             onRoutineLongPress={this.handleRoutinePress}
           />

@@ -14,17 +14,12 @@ import ItemSwitch from "../../components/itemSwitch/itemSwitch";
 const mapStateToProps = (state) => ({
   state
 });
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch
-});
-
 /**
  * 消息发布界面
  * @author litianfeng
  * Created on 2019/1/9
  */
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps)
 export default class RoutinePublish extends Component{
   config = {
     navigationBarTitleText: ''
