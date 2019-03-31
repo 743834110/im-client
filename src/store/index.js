@@ -1,6 +1,7 @@
 import * as models from './models'
 import routine from './routine'
-
+import user from './user'
+import socketTask from './socketTask'
 /**
  * 导出的state,每生成一个对象的state，都必须要
  * 在此配置对state对象，以至于被store对象感知和维护到
@@ -9,5 +10,7 @@ import routine from './routine'
  */
 export default {
   ...models,
-  routine
+  routine,
+  user,
+  socketTask
 }
