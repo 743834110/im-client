@@ -10,3 +10,9 @@ export const wsUrl = "ws://127.0.0.1:8880";
 // webSocket断开重连次数
 export const MAX_ATTEMPT_COUNT = 5;
 
+// 命令到模型state的映射。
+export const commandToModelMapping = {
+  '6': 'login/afterLogin',
+
+};
+

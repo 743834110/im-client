@@ -29,6 +29,19 @@ export default class RoutinePublish extends Component{
 
   };
 
+  componentDidMount() {
+    const params = this.$router.params;
+    console.log(params);
+    const {dispatch} = this.props;
+    // 要获取可见范围
+    dispatch({
+      type: 'org/fetchOne',
+      payload: {
+        ...params
+      }
+    })
+  }
+
   handleSubmit = (event) => {
     let object = getSubmitObject(this.refs);
     console.log(object)
@@ -64,8 +77,8 @@ export default class RoutinePublish extends Component{
           <View className='margin-top-24'>
             <AtList>
               <ItemPicker title={'可见范围'} />
-              <ItemPicker title={'消息分类'} />
-              <ItemPicker title={'截止日期'} mode='date' />
+              <ItemPicker title={'消息分类'} ref='routineType' />
+              <ItemPicker title={'截止日期'} mode='date' ref='endTime' />
               <ItemSwitch title={'启用横幅'} ref='banner' />
             </AtList>
           </View>

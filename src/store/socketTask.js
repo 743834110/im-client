@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import {wsUrl, MAX_ATTEMPT_COUNT} from "../utils/config";
+import {wsUrl, MAX_ATTEMPT_COUNT, commandToModelMapping} from "../utils/config";
 
 /**
  * @author LTF
@@ -46,7 +46,18 @@ const socketTask = {
       socketTask.onMessage(res => {
         const data = JSON.parse(res.data);
         this.changeWaitForMessage(data);
+        // 得到的登录token数据存储到本地中，供下次使用。
+        // 将返回在字符串转换成json对象，然后根据命令编码转发到适合的model当中。
+        console.log(data);
+        const type = commandToModelMapping[data.command];
+        if (type) {
+          dispatch({
+            type,
+            payload: data
+          })
+        }
       });
+
       this.saveOrUpdate({socketTask});
     },
 

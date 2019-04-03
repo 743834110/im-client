@@ -3,21 +3,34 @@ import {View, Image} from '@tarojs/components'
 import {connect} from "@tarojs/redux"
 import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 import OrgHomeTab from "../../components/orgHomeTab/orgHomeTab";
+import SQL from "../../utils/query";
 
-const mapStateToProps = (state) => ({
-  state
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch
-});
-
+const mapStateToProps = ({org: {entities, pagination, mappings: {current}}, loading, selected, routine}) => {
+  return {
+    org: {
+      list: new SQL()
+        .select(current)
+        .from(entities)
+        .exec(),
+      pagination
+    },
+    routine: {
+      list: new SQL()
+        .select(routine.mappings.current)
+        .from(routine.entities)
+        .exec(),
+      pagination: routine.pagination
+    },
+    loading,
+    selected
+  }
+};
 /**
  * @author litianfeng
  * @description 组织主页
  * Created on 2019/1/2
  */
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps)
 export default class OrgHome extends Component{
 
   config = {
@@ -28,17 +41,43 @@ export default class OrgHome extends Component{
 
   };
 
-  state = {
-    org: {}
-  };
-
   componentWillMount() {
-    let orgString = decodeURIComponent(this.$router.params.param);
-    console.log(orgString)
-    let org = JSON.parse(orgString);
-    this.setState({
-      org: org
+    // let orgString = decodeURIComponent(this.$router.params.param);
+    // console.log(orgString)
+    // let org = JSON.parse(orgString);
+    // this.setState({
+    //   org: org
+    // })
+  }
+
+  /**
+   * 获取组织信息
+   * 获取组织发布的消息
+   */
+  componentDidMount() {
+    const {dispatch} = this.props;
+    const params = this.$router.params;
+    dispatch({
+      type: 'org/fetchOne',
+      payload: {
+        ...params
+      }
+    });
+    dispatch({
+      type: 'routine/fetch',
+      payload: {
+        pager: {
+          param: {
+            ...params
+          },
+          sorter: {
+            createTime: 'desc',
+            endTime: 'asc'
+          }
+        }
+      }
     })
+
   }
 
   constructor(props) {
@@ -49,15 +88,16 @@ export default class OrgHome extends Component{
    * 处理点击弹窗元素事件
    * @param value
    */
-  handlePopUpBlockClick(value) {
-    console.log(value)
+  handlePopUpBlockClick = (value) => {
+    let {org: {list}} = this.props;
     Taro.navigateTo({
-      url: value.url
+      url: `${value.url}?orgId=${list[0].orgId}&orgType=${list[0].orgType}`
     })
-  }
+  };
 
   render() {
-    let {org} = this.state;
+    let {org, routine} = this.props;
+    console.log(org, routine);
     return (
       <View className='container'>
         <View>
@@ -70,11 +110,15 @@ export default class OrgHome extends Component{
                 height: '150px',
                 width: '100vw',
               }}
-              src='https://camo.githubusercontent.com/3e1b76e514b895760055987f164ce6c95935a3aa/687474703a2f2f73746f726167652e333630627579696d672e636f6d2f6d74642f686f6d652f6c6f676f2d3278313531333833373932363730372e706e67'
+              src={
+                org.list[0]?
+                  org.list[0].orgImageUrl:
+                  'https://camo.githubusercontent.com/3e1b76e514b895760055987f164ce6c95935a3aa/687474703a2f2f73746f726167652e333630627579696d672e636f6d2f6d74642f686f6d652f6c6f676f2d3278313531333833373932363730372e706e67'
+              }
             />
           </View>
           <View className='flex-1'>
-            <OrgHomeTab />
+            <OrgHomeTab org={org.list[0]} routineList={routine.list} />
           </View>
 
         </View>

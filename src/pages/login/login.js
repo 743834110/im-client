@@ -1,14 +1,15 @@
-import Taro,{ Component } from '@tarojs/taro';
+import Taro,{ PureComponent } from '@tarojs/taro';
 import {View, Text, Switch} from '@tarojs/components';
 import {connect} from "@tarojs/redux";
 import {AtButton} from 'taro-ui';
 import CustomInput from "../../components/customInput/customInput";
 import {getSubmitObject} from "../../utils/common";
 
-const mapStateToProps = ({setting: {entities}, socketTask, loading}) => {
+const mapStateToProps = ({setting: {entities}, login, loading}) => {
   return {
     saveUserAndPassword: entities.saveUserAndPassword,
-    loading: loading.global
+    loading: loading.global,
+    login
   }
 };
 const mapDispatchToProps = (dispatch) => ({
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
  * Created on 2019/2/28
  */
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Login extends Component {
+export default class Login extends PureComponent {
 
   config = {
     navigationBarTitleText: ''
@@ -39,7 +40,7 @@ export default class Login extends Component {
     const {dispatch} = this.props;
     dispatch.socketTask.wsConnectAndReConnect({
       callback: () => {
-        dispatch.user.login({...getSubmitObject(this.refs)})
+        dispatch.login.login({...getSubmitObject(this.refs)})
       }
     })
   };
@@ -57,9 +58,18 @@ export default class Login extends Component {
     changeSetting(event.detail.value);
   };
 
+  showModal = () => {
+    Taro.showModal({
+      title: '温馨提示',
+      content: '你输入用户名或密码有误，请稍后再试.'
+    })
+  };
+
 
   render() {
-    let {saveUserAndPassword, loading} = this.props;
+    let {saveUserAndPassword, loading, login} = this.props;
+    if (login.code && login.code == 10008) {this.showModal();}
+
     return (
       <View className='container' style={{justifyContent: 'center', paddingTop: '20px'}} >
         <View className='input'>

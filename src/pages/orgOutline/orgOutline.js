@@ -1,59 +1,72 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {PureComponent} from '@tarojs/taro'
 import {View, Text, ScrollView} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import InstituteSwiper from "../../components/instituteSwiper/instituteSwiper";
 import CommonList from "../../components/commonList/commonList";
 import TabBar from "../../components/tabBar/tabBar";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
+import SQL from "../../utils/query";
 
 /**
  * 机构轮廓页面
  */
 
-const mapStateToProps = (state) => ({
-  state
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
-export default class OrgOutline extends Component {
+const mapStateToProps = ({userOrg: {entities, pagination, mappings: {current}}, user: {currentUser}}) => {
+  return {
+    userOrg: {
+      list: new SQL()
+        .select(current)
+        .from(entities)
+        .exec(),
+      pagination
+    },
+    currentUser
+  }
+};
+@connect(mapStateToProps)
+export default class OrgOutline extends PureComponent {
 
   config = {
     navigationBarTitleText: ''
   };
 
-  static defaultProps = {
-    currentOrgEntrance: [
-      {
-        title: '15外包1班',
-        ext: {
-          path: ''
-        }
-      },
-      {
-        title: '朝歌艺术团',
-        ext: {
-          path: ''
-        }
-      },
-      {
-        title: 'ReflectMind',
-        ext: {
-          path: ''
-        }
+// {
+//   title: '15外包1班',
+//   ext: {
+//     path: ''
+//   }
+// }
+
+  currentOrgEntrance = (array = []) => {
+    return array.map(item => ({
+      title: item.shortName,
+      ...item,
+      ext: {
+        path: ''
       }
-    ]
+    }))
   };
+
+
+
 
   constructor(props) {
     super(props);
   }
 
-  componentWillMount() {
-
+  // 获取我的机构数据
+  componentDidMount() {
+    const {dispatch, currentUser} = this.props;
+    dispatch({
+      type: 'userOrg/fetch',
+      payload: {
+        pager: {
+          param: {
+            userId: currentUser
+          }
+        }
+      }
+    })
   }
 
   handleSwiperClick = (value) => {
@@ -71,10 +84,18 @@ export default class OrgOutline extends Component {
     })
   };
 
+  // 导航到我的机构页面
+  handleNavigateToOrgClick = (value) => {
+    console.log(value);
+    Taro.navigateTo({
+      url: `/pages/orgHome/orgHome?orgId=${value.orgId}`
+    })
+  };
+
 
 
   render() {
-    let {currentOrgEntrance} = this.props;
+    let {userOrg} = this.props;
     return (
       <View className='container'>
         <View>
@@ -103,10 +124,7 @@ export default class OrgOutline extends Component {
             >
               我的机构
             </Text>
-            <CommonList data={currentOrgEntrance} />
-            <CommonList data={currentOrgEntrance} />
-            <CommonList data={currentOrgEntrance} />
-            <CommonList data={currentOrgEntrance} />
+            <CommonList data={this.currentOrgEntrance(userOrg.list)} onClick={this.handleNavigateToOrgClick} />
           </View>
         </ScrollView>
         <View>

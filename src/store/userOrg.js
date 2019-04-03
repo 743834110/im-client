@@ -1,12 +1,12 @@
-import {queryById, addUser, queryUser, removeUser, updateUser} from '../services/user'
+import {queryById, addUserOrg, queryUserOrg, removeUserOrg, updateUserOrg} from '../services/userOrg'
 import {popAll} from "../utils/common";
 
 
 /**
- * user state对象
+ * userOrg state对象
  * @type {{effects: (function(*): {}), reducers: {}, state: {}}}
  */
-const user = {
+const userOrg = {
 
   state: {
 
@@ -19,50 +19,60 @@ const user = {
     mappings: {
       // 当前显示的序号
       current: []
-    },
-    // 当前用户
-    currentUser: ""
-
+    }
   },
 
   effects: (dispatch) => ({
 
     // 类下拉刷新数据拉取
     async fetch(payload) {
-      const response = await queryUser(payload);
+      const response = await queryUserOrg(payload);
       this.saveEntitiesAndPagination(response);
       this.deleteAndSaveCurrent(response);
     },
     // 持续分页数据提取
     async fetchLatter(payload) {
-      const response = await queryUser(payload);
+      const response = await queryUserOrg(payload);
       this.saveEntitiesAndPagination(response);
       this.saveCurrent(response);
-    },
-
+    }
   }),
 
   reducers: {
 
+    /**
+     * @param action 
+     * @param current {array}
+     */
     deleteAndSaveCurrent({entities, mappings: {current}}, action) {
       popAll(current);
       const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId));
+      result.forEach(value => current.push(value.userOrgId));
     },
 
+    /**
+     * @param action 
+     * @param current {array}
+     */
     saveCurrent({mappings: {current}}, action) {
       const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId))
+      result.forEach(value => current.push(value.userOrgId))
 
     },
 
+    /**
+     *
+     * @param entities
+     * @param pagination
+     * @param action
+     */
     saveEntitiesAndPagination({entities, pagination}, action) {
 
       // 组织entities
       const result = action.data.result || [];
       result.forEach(value => {
-        entities[value.routineId] = {
-          key: value.routineId,
+        entities[value.userOrgId] = {
+          key: value.userOrgId,
           ...value,
           files: []
         };
@@ -74,15 +84,15 @@ const user = {
       pagination.total = action.data.size;
     },
 
-    saveCurrentUser(state, action) {
-      state.currentUser = action.userId;
-      state.entities[action.userId] = {
-        key: action.userId,
-        ...action,
-      };
+    /**
+     *
+     * @param state
+     * @param action
+     */
+    saveObject(state, action) {
 
     }
   },
 };
 
-export default user;
+export default userOrg;

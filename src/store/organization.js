@@ -1,17 +1,21 @@
-import {queryById, addRoutine, queryRoutine, removeRoutine, updateRoutine} from '../services/routine'
+import {queryById, addOrganization, queryOrganization, removeOrganization, updateOrganization} from '../services/organization'
 import {popAll} from "../utils/common";
 
 
 /**
- * routine state对象
+ * organization state对象
  * @type {{effects: (function(*): {}), reducers: {}, state: {}}}
  */
-const routine = {
+const organization = {
 
   state: {
 
-    entities: {},
-    pagination: {},
+    entities: {
+
+    },
+    pagination: {
+
+    },
     mappings: {
       // 当前显示的序号
       current: []
@@ -22,13 +26,13 @@ const routine = {
 
     // 类下拉刷新数据拉取
     async fetch(payload) {
-      const response = await queryRoutine(payload);
+      const response = await queryOrganization(payload);
       this.saveEntitiesAndPagination(response);
       this.deleteAndSaveCurrent(response);
     },
     // 持续分页数据提取
     async fetchLatter(payload) {
-      const response = await queryRoutine(payload);
+      const response = await queryOrganization(payload);
       this.saveEntitiesAndPagination(response);
       this.saveCurrent(response);
     },
@@ -39,42 +43,36 @@ const routine = {
       this.saveObject(response);
       this.deleteAndSaveCurrentOne(response);
 
-    },
-
-    // 保存
-    async add(payload) {
-      const response = await addRoutine(payload);
-      this.saveObject(response);
     }
   }),
 
   reducers: {
 
     /**
-     * @param action
+     * @param action 
      * @param current {array}
      */
     deleteAndSaveCurrent({entities, mappings: {current}}, action) {
       popAll(current);
-      const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId));
+
+      const result = action.data? action.data.result? action.data.result: []: [];
+      result.forEach(value => current.push(value.orgId));
     },
 
-
-    deleteAndSaveCurrentOne({mappings: {current}}, action) {
+    deleteAndSaveCurrentOne ({mappings: {current}}, action) {
       popAll(current);
       if (action.data) {
-        current.push(action.data.routineId)
+        current.push(action.data.orgId)
       }
     },
 
     /**
-     * @param action
+     * @param action 
      * @param current {array}
      */
     saveCurrent({mappings: {current}}, action) {
       const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId))
+      result.forEach(value => current.push(value.orgId))
 
     },
 
@@ -89,10 +87,9 @@ const routine = {
       // 组织entities
       const result = action.data.result || [];
       result.forEach(value => {
-        entities[value.routineId] = {
-          key: value.routineId,
-          ...value,
-          files: []
+        entities[value.orgId] = {
+          key: value.orgId,
+          ...value
         };
       });
 
@@ -110,12 +107,12 @@ const routine = {
     saveObject({entities}, action) {
       // 组织entities
       const result = action.data || {};
-      entities[result.routineId] = {
-        key: result.routineId,
+      entities[result.orgId] = {
+        key: result.orgId,
         ...result,
       };
     }
   },
 };
 
-export default routine;
+export default organization;

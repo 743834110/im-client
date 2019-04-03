@@ -158,7 +158,6 @@ export default class RoutineList extends Component {
   render() {
     let {upperLoading, styl, lowerLoading} = this.state;
     let {routineList, useUpperRefresh, type, onRoutineClick, onRoutineLongPress} = this.props;
-
     return (
       <ScrollView
         style={styl}
@@ -185,7 +184,7 @@ export default class RoutineList extends Component {
 
         }
         {routineList
-          .filter(element => element.routineType === type )
+          .filter(element => type? element.routineType === type: true )
           .map((routine) => {
           return (
             <View key={routine.key} className='routine-list-element'>

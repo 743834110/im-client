@@ -3,7 +3,7 @@ import { HTTP_STATUS } from '../const/status'
 import { base } from './config'
 import { logError } from './error'
 
-const token = '';
+let token = null;
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -21,6 +21,14 @@ const codeMessage = {
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
+};
+
+/**
+ * 设置token
+ * @param _token
+ */
+export function setToken (_token) {
+  token = _token;
 };
 
 /**
@@ -62,6 +70,7 @@ export default function request(url, options) {
       url: base + url,
       data: body,
       method: method,
+      credentials: 'include',
       header: {
         'content-type': contentType,
         'token': token,

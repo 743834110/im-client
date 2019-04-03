@@ -28,7 +28,6 @@ export default class OrgHomeTab extends Component {
 
   state = {
     current: 0,
-    routineList: [],
     scrollHeight: '10px'
   };
 
@@ -60,8 +59,8 @@ export default class OrgHomeTab extends Component {
   };
 
   render() {
-    let {tabList, org} = this.props;
-    let {routineList, scrollHeight} = this.state;
+    let {tabList, org, routineList} = this.props;
+    let {scrollHeight} = this.state;
     return (
       <AtTabs
         customStyle={{

@@ -38,53 +38,6 @@ export const users = {
 
 };
 
-export const userOrg = {
-  state: {
-    entities: {
-      "001": {
-        userId: "001",
-        userImageUrl: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png",
-        orgName: "15软件服务外包1班",
-        userName: "行者孙"
-      },
-      "002": {
-        userId: "002",
-        userImageUrl: "http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png",
-        orgName: "15软件服务外包1班",
-        userName: "孙行者"
-      }
-    },
-    mappings: {
-
-    }
-  },
-
-  reducers: {
-
-  },
-  effects: (dispatch) => ({
-
-  })
-};
-
-/**
- * 组织state
- *
- */
-export const org = {
-  state: {
-    entities: {
-
-    }
-  },
-  reducers: {
-
-  },
-  effects: (dispatch) => ({
-
-  })
-};
-
 /**
  *
  * 角色state
@@ -252,7 +205,7 @@ export const selected = {
   },
   reducers: {
     changeSelected(state, payload) {
-      this.state[payload.key] = payload.value;
+      state[payload.key] = payload.value;
     },
     changeChatRoomSelected(state, fromId, groupId) {
       state.chatRoom.from_id = fromId;
@@ -280,9 +233,6 @@ export const selectedMembers = {
   }
 };
 
-export const currentUser = {
-  state: "001"
-};
 
 
 
