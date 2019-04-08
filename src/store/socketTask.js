@@ -51,6 +51,7 @@ const socketTask = {
         console.log(data);
         const type = commandToModelMapping[data.command];
         if (type) {
+          //
           dispatch({
             type,
             payload: data

@@ -86,7 +86,6 @@ export default class OrgOutline extends PureComponent {
 
   // 导航到我的机构页面
   handleNavigateToOrgClick = (value) => {
-    console.log(value);
     Taro.navigateTo({
       url: `/pages/orgHome/orgHome?orgId=${value.orgId}`
     })

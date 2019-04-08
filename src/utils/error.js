@@ -1,4 +1,4 @@
-import {getSystemInfoSync} from "@tarojs/taro";
+import Taro, {getSystemInfoSync} from "@tarojs/taro";
 import { getCurrentPageUrl, formatTime } from './common'
 
 /**
@@ -12,7 +12,10 @@ export const logError = (name, action, info) => {
     info = 'empty'
   }
   let time = formatTime(new Date());
-  console.error(time, name, action, info);
-}
+  Taro.showToast({
+    title: action,
+    icon: 'none'
+  });
+};
 
 

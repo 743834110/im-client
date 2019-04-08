@@ -12,7 +12,7 @@ export default class CustomListItem extends Component{
 
   static defaultProps = {
     value: {
-      id: '002',
+      key: '002',
       thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
       title: '行者孙',
       note: '15软件服务外包1班1班1班1班1班1班1班1班1班1班',
@@ -26,7 +26,7 @@ export default class CustomListItem extends Component{
     return (
       <AtListItem
         title={value.title}
-        key={value.id}
+        key={value.key}
         note={value.note}
         thumb={value.thumb}
         iconInfo={value.iconInfo}

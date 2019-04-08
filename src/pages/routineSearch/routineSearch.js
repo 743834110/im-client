@@ -2,7 +2,7 @@ import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import SearchBar from "../../components/searchBar/searchBar";
-import {getHeightOfComponent, getSystemInfo} from "../../utils/display";
+import {getSystemInfo} from "../../utils/display";
 import RoutineList from "../../components/routineList/routineList";
 
 /**
@@ -10,8 +10,6 @@ import RoutineList from "../../components/routineList/routineList";
  */
 @connect((state) => ({
   state
-}), (dispatch) => ({
-  dispatch
 }))
 export default class RoutineSearch extends Component{
 
@@ -39,14 +37,17 @@ export default class RoutineSearch extends Component{
           windowHeight: value.windowHeight
         })
       });
+
   }
 
   /**
    * 点击搜索事件
    * @param event
    */
-  handleOnKeywordSearch = (event) => {
-    console.log(event)
+  handleOnKeywordSearch = (value) => {
+    const {dispatch} = this.props;
+
+
   };
 
   /**

@@ -26,7 +26,6 @@ export default class RoutineDesc extends Component {
 
   render() {
     let {routine} = this.props;
-    console.log(routine);
     return (
       <View className='routine-desc-container at-article'>
         <View className='at-article__h1'>
@@ -51,7 +50,6 @@ export default class RoutineDesc extends Component {
           <View className='at-article__p'>
             <RichText nodes={routine.content} />
           </View>
-
           <View className='ending-info'>
             <Text style={{color: 'red'}}>
               {

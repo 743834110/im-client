@@ -74,7 +74,7 @@ export default class RoutineBlock extends Component{
 
   render() {
     let {routine} = this.props;
-    let {orgImageUrl, title, end, content, orgName, files, createTime, read} = routine;
+    let {orgImageUrl, title, end, content, shortName, files, createTime, read} = routine;
     return (
       <View
         className='routine-block-index'
@@ -99,7 +99,7 @@ export default class RoutineBlock extends Component{
             </Text>
           </View>
           <View className='org-name text'>
-            {orgName}
+            {shortName}
           </View>
           <View className='extra-info'>
             <View className='attachment'>

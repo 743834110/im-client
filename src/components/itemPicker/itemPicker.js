@@ -12,7 +12,12 @@ export default class ItemPicker extends Component{
   static defaultProps = {
     mode: "selector",
     handleChange: () => {},
-    range: ["本部门", "本机构", "本学院", "不限"],
+    range: [
+      {codeName: '新闻', codeId: 'NEWS'},
+      {codeName: '活动', codeId: 'ACTIVITY'},
+      {codeName: '招聘', codeId: 'RECRUIT'},
+      {codeName: '其他', codeId: 'OTHERS'},
+    ],
     title: "可见范围"
   };
 
@@ -28,11 +33,22 @@ export default class ItemPicker extends Component{
   handleChange = (event) => {
     let {range, handleChange, mode} = this.props;
     let value = mode === 'date'? event.detail.value: range[event.detail.value];
+    switch (mode) {
+      case 'date':
+        value = value.replace(/-/g, '/');
+        var date = new Date(value);
+        this.setState({
+          extraText: value,
+          value: date.getTime()
+        });
+        break;
+      default:
+        this.setState({
+          extraText: value.codeName,
+          value: value.codeId
+        })
 
-    this.setState({
-      extraText: value,
-      value: value
-    });
+    }
     handleChange(event.detail.value);
 
   };
@@ -40,8 +56,9 @@ export default class ItemPicker extends Component{
   render() {
     let {extraText} = this.state;
     let {title, mode, range, iconInfo} = this.props;
+    const concreteRange = range.map(item => item.codeName);
     return (
-      <Picker mode={mode} onChange={this.handleChange} range={range} >
+      <Picker  mode={mode} onChange={this.handleChange} range={concreteRange} >
         <AtListItem title={title} extraText={extraText} iconInfo={iconInfo} />
       </Picker>
     );

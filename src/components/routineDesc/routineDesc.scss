@@ -17,6 +17,8 @@
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
     text-indent: 2em;
     .ending-info {
       margin-top: 80px;

@@ -28,7 +28,10 @@ const dictionary = {
     async fetch(payload) {
       const response = await queryDictionary(payload);
       this.saveEntitiesAndPagination(response);
-      this.deleteAndSaveCurrent(response);
+      this.deleteAndSaveCurrent({
+        response,
+        currentType: payload.currentType
+      });
     },
     // 持续分页数据提取
     async fetchLatter(payload) {
@@ -52,9 +55,17 @@ const dictionary = {
      * @param action 
      * @param current {array}
      */
-    deleteAndSaveCurrent({entities, mappings: {current}}, action) {
+    deleteAndSaveCurrent({entities, mappings}, action) {
+      let currentType = "current";
+      if (action.currentType) {
+        currentType = action.currentType;
+      }
+      if (!mappings[currentType]) {
+        mappings[currentType] = [];
+      }
+      const current = mappings[currentType];
       popAll(current);
-      const result = action.data.result || [];
+      const result = action.response.data.result || [];
       result.forEach(value => current.push(value.dictionaryId));
     },
     

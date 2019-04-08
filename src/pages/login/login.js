@@ -83,7 +83,7 @@ export default class Login extends PureComponent {
         <View
           className='button-group margin-top-24 display-flex-row just-center'
         >
-          <AtButton type='primary' circle full customStyle={{width: '35vw', marginRight: "20px"}} loading={loading} onClick={this.handleLoginButtonClick} >登录</AtButton>
+          <AtButton disabled={loading} type='primary' circle full customStyle={{width: '35vw', marginRight: "20px"}} loading={loading} onClick={this.handleLoginButtonClick} >登录</AtButton>
           <AtButton type='primary' circle full customStyle={{width: '35vw'}} onClick={this.handleForgetPasswordClick} >忘记密码？</AtButton>
         </View>
       </View>

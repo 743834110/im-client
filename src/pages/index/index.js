@@ -67,7 +67,6 @@ export default class Index extends PureComponent {
    */
   handleOnLowerRefresh = (pagination) => {
     const {dispatch} = this.props;
-    console.log(pagination)
     dispatch({
       type: 'routine/fetchLatter',
       payload: {

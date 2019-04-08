@@ -14,8 +14,8 @@ export default class AccordionList extends Component{
   static defaultProps = {
     data: [
       {
-        shortName: '办公室',
-        id: '1',
+        name: '办公室',
+        key: '1',
         list: [
           {title: '张三', note: '描述信息', thumb: ''},
           {title: '张三', note: '描述信息', thumb: ''},
@@ -23,7 +23,18 @@ export default class AccordionList extends Component{
           {title: '张三', note: '描述信息', thumb: ''},
           {title: '张三', note: '描述信息', thumb: ''},
         ]
-      }
+      },
+      {
+        name: '办公室',
+        key: '1',
+        list: [
+          {title: '张三', note: '描述信息', thumb: ''},
+          {title: '张三', note: '描述信息', thumb: ''},
+          {title: '张三', note: '描述信息', thumb: ''},
+          {title: '张三', note: '描述信息', thumb: ''},
+          {title: '张三', note: '描述信息', thumb: ''},
+        ]
+      },
     ],
     options: null,
     onButtonItemClick: () => {},
@@ -39,21 +50,22 @@ export default class AccordionList extends Component{
     opens[index] = !opens[index];
     this.setState({
       opens
-    })
+    });
   };
 
   render() {
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
     let {opens} = this.state;
+    console.log(opens);
     return (
       <View>
         {
           data.map((value, index) => (
             <AtAccordion
               open={opens[index]}
-              key={value.id}
+              key={value.key}
               onClick={this.handleOnClick.bind(this, index)}
-              title={value.shortName}
+              title={value.name}
               customStyle={{
                 backgroundColor: 'white',
               }}

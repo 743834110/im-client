@@ -20,9 +20,8 @@ const login = {
      */
     async afterLogin(payload) {
       this.changeLoginStatus(payload);
-      // 当登录成功时，更新相关state，进行页面调转
+
       // 将用户信息发送至userState当中
-      // 将群组信息保存至group当中
       if (payload.code == '10007') {
         dispatch({
           type: 'user/saveCurrentUser',
@@ -30,11 +29,42 @@ const login = {
             userId: payload.user.id,
             userName: payload.user.nick,
             userImageUrl: payload.user.avatar,
+            terminal: payload.user.terminal
           }
         });
+        // 当登录成功时，更新相关state，进行页面调转
         Taro.redirectTo({
           url: '/pages/index/index'
         });
+        // 将群组信息发送至group当中
+        dispatch({
+          type: 'chatGroup/saveChatGroupAndUserId',
+          payload: payload.user.groups
+        });
+
+        // group信息刷新到messageAndChatGroup当中
+        dispatch({
+          type: 'messageAndChatGroup/saveGroupList',
+          payload: payload.user.groups,
+        });
+
+        // 处理群组当中的用户信息
+        const users = [];
+        payload.user.groups.forEach(group => {
+
+          group.users.forEach(user => {
+           users.push({
+             userId: user.id,
+             userName: user.nick,
+             userImageUrl: user.avatar
+           })
+          })
+        });
+        dispatch({
+          type: 'user/saveEntities',
+          payload: users
+        });
+
         // 保存token
         setToken(payload.user.extras.token);
       }

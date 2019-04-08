@@ -1,7 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import PropTypes from 'prop-types'
-import {AtList, AtListItem} from "taro-ui";
+import {AtActivityIndicator, AtList, AtListItem} from "taro-ui";
 
 /**
  * 通用列表组件
@@ -14,7 +14,22 @@ export default class CommonList extends Component {
   static defaultProps = {
     data: [
       {
-        title: '校园级机构',
+        title: '学校机构',
+        url: '/pages/orgReview/orgReview',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        arrow: 'right',
+        note: '',
+        iconInfo: {
+          size: 25,
+          color: '#78A4FA',
+          value: 'map-pin'
+        },
+        ext: {
+          path: ''
+        }
+      },
+      {
+        title: '学生校园级机构',
         url: '/pages/orgReview/orgReview',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         arrow: 'right',
@@ -60,6 +75,7 @@ export default class CommonList extends Component {
     ],
     onClick: () => {},
     onSwitchChange: () => {},
+    loading: undefined
   };
 
   state = {
@@ -67,10 +83,15 @@ export default class CommonList extends Component {
   };
 
   render() {
-    let {data, onClick, onSwitchChange} = this.props;
-
+    let {data, onClick, onSwitchChange, loading} = this.props;
     return (
       <View>
+        {
+          typeof loading !== 'undefined'?
+            loading?
+              <AtActivityIndicator mode='center' />: null
+            : null
+        }
         <AtList>
           {
             data.map((value, index) => {
@@ -109,5 +130,9 @@ CommonList.propTypes = {
   /**
    * 选择开关事件
    */
-  onSwitchChange: PropTypes.func
+  onSwitchChange: PropTypes.func,
+  /**
+   * 是否在加载过程中
+   */
+  loading: PropTypes.bool
 };

@@ -4,7 +4,7 @@ import request from '../utils/request';
  * 通过ID查询
  */
 export async function queryById(params) {
-  return request('/rest/routineService/queryById', {
+  return request('/rest/messageService/queryById', {
     method: 'POST',
     body: {
       ...params
@@ -17,8 +17,8 @@ export async function queryById(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function queryRoutine(params) {
-  return request('/rest/appRoutineService/queryByPager', {
+export async function queryMessage(params) {
+  return request('/rest/messageService/queryByPager', {
     method: 'POST',
     body: {
       ...params
@@ -31,8 +31,8 @@ export async function queryRoutine(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function removeRoutine(params) {
-  return request('/rest/routineService/deleteByIds', {
+export async function removeMessage(params) {
+  return request('/rest/messageService/deleteByIds', {
     method: 'POST',
     body: {
       ...params,
@@ -47,8 +47,8 @@ export async function removeRoutine(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function addRoutine(params) {
-  return request('/rest/appRoutineService/appInsert', {
+export async function addMessage(params) {
+  return request('/rest/messageService/insert', {
     method: 'POST',
     body: {
       ...params,
@@ -62,8 +62,8 @@ export async function addRoutine(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function updateRoutine(params = {}) {
-  return request(`/rest/routineService/update`, {
+export async function updateMessage(params = {}) {
+  return request(`/rest/messageService/update`, {
     method: 'POST',
     body: {
       ...params,

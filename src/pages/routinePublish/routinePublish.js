@@ -9,10 +9,17 @@ import CustomTextarea from "../../components/customTextarea/customTextarea";
 import CustomImagePicker from "../../components/customImagePicker/customImagePicker";
 import ItemPicker from "../../components/itemPicker/itemPicker";
 import ItemSwitch from "../../components/itemSwitch/itemSwitch";
+import SQL from "../../utils/query";
 
 
-const mapStateToProps = (state) => ({
-  state
+const mapStateToProps = ({dictionary: {entities, mappings: {current}}, loading}) => ({
+  dictionary: {
+    list: new SQL()
+      .select(current)
+      .from(entities)
+      .exec()
+  },
+  loading: loading.effects.routine.add
 });
 /**
  * 消息发布界面
@@ -31,20 +38,34 @@ export default class RoutinePublish extends Component{
 
   componentDidMount() {
     const params = this.$router.params;
-    console.log(params);
     const {dispatch} = this.props;
     // 要获取可见范围
     dispatch({
-      type: 'org/fetchOne',
+      type: 'dictionary/fetch',
       payload: {
-        ...params
+        pager: {
+          param: {
+            codeItemId: `ROUTINE_ACCESS_${params.orgType}`
+          },
+          sorter: {
+            codeName: 'desc'
+          }
+        }
       }
     })
   }
 
   handleSubmit = (event) => {
     let object = getSubmitObject(this.refs);
-    console.log(object)
+    const {dispatch} = this.props;
+    dispatch.routine.add({
+      routine: {
+        ...object,
+        orgId: this.$router.params.orgId,
+        orgName: decodeURIComponent(this.$router.params.orgName)
+      }
+
+    });
   };
 
   handleReSet = (event) => {
@@ -52,7 +73,7 @@ export default class RoutinePublish extends Component{
   };
 
   render() {
-
+    const {dictionary, loading} = this.props;
     return (
       <View className='container white'>
         <View>
@@ -76,14 +97,14 @@ export default class RoutinePublish extends Component{
           </View>
           <View className='margin-top-24'>
             <AtList>
-              <ItemPicker title={'可见范围'} />
+              <ItemPicker title={'可见范围'} ref='visibility' range={dictionary.list} />
               <ItemPicker title={'消息分类'} ref='routineType' />
               <ItemPicker title={'截止日期'} mode='date' ref='endTime' />
               <ItemSwitch title={'启用横幅'} ref='banner' />
             </AtList>
           </View>
           <View className='margin-top-24'>
-            <AtButton type='primary' onClick={this.handleSubmit}>提交</AtButton>
+            <AtButton loading={loading} type='primary' onClick={this.handleSubmit}>提交</AtButton>
           </View>
         </ScrollView>
       </View>

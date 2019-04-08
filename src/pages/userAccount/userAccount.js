@@ -4,9 +4,8 @@ import {connect} from "@tarojs/redux";
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import InfoList from "../../components/infoList/infoList";
 
-const mapStateToProps = (state) => {
-  let currentUser = state.users.entities[state.currentUser];
-  let humanity = state.users.mappings.humanity;
+const mapStateToProps = ({user: {entities, currentUser, mappings: {humanity}}}) => {
+  currentUser =entities[currentUser];
   let properties = Object.getOwnPropertyNames(humanity);
   let data = properties.map((value, index) => {
     return {

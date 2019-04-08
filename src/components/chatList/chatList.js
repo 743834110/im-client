@@ -15,28 +15,44 @@ export default class ChatList extends Component{
 
   static defaultProps = {
     data: [
-      {},
-      {}
+      {
+        key: '002',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        title: '行者孙',
+        note: '15软件服务外包1班1班1班1班1班1班1班1班1班1班',
+        extraText: '2015874136',
+        fromId: "001",
+        unRead: 3,
+      },
+      {
+        key: '002',
+        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
+        title: '行者孙',
+        note: '15软件服务外包1班1班1班1班1班1班1班1班1班1班',
+        extraText: '2015874136',
+        fromId: "001",
+        createTime: '',
+        unRead: ''
+      }
       ],
     onListItemClick: () => {},
-    unRead: undefined
   };
 
   render() {
-    let {data, onListItemClick, unRead} = this.props;
+    let {data, onListItemClick} = this.props;
     return (
       <AtList >
         {
           data.map((value, index) => (
-            <View className='chat-list-item-container' key={value.id}>
-              <CustomListItem onClick={onListItemClick.bind(this, index)} />
+            <View className='chat-list-item-container' key={value.key}>
+              <CustomListItem value={value} onClick={onListItemClick.bind(this, index)} />
               <View className='read-container'>
                 {
-                  unRead?
-                    <UnReadTag value={unRead} />: ''
+                  value.unRead?
+                    <UnReadTag value={value.unRead} />: ''
                 }
                 <View className='desc-text'>
-                  <DateText type='time' />
+                  <DateText type='time' date={value.createTime} />
                 </View>
               </View>
             </View>

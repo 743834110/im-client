@@ -1,12 +1,13 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text} from '@tarojs/components'
 import PropTypes from 'prop-types'
-import {AtActionSheet, AtActionSheetItem, AtIcon} from "taro-ui";
+import {AtIcon} from "taro-ui";
 import './frequentAsk.scss'
 
 /**
+ * @author LTF
  * FAQ组件:包含一问与一答
- *
+ * Last updated on 2019/4/4
  */
 export default class FrequentAsk extends Component {
 
@@ -34,7 +35,8 @@ export default class FrequentAsk extends Component {
         discussionId: 5,
         content: '什么时候上学心里没有一点b数吗？',
       }
-    ]
+    ],
+    onContentClick: () => {}
   };
 
 
@@ -43,9 +45,9 @@ export default class FrequentAsk extends Component {
 
 
   render() {
-    let {discussionList} = this.props;
-    let askList = discussionList.filter(value => !value.parentId);
-    let answerList = discussionList.filter(value => value.parentId);
+    const {discussionList, onContentClick} = this.props;
+    const askList = discussionList.filter(value => !value.parentId);
+    const answerList = discussionList.filter(value => value.parentId);
     return (
       <View className='sub-container'>
         <View className='icon-container'>
@@ -66,14 +68,14 @@ export default class FrequentAsk extends Component {
                     {askValue.content}
                   </Text>
                 </View>
-                <View className='discuss-answer' >
+                <View className='discuss-answer' onClick={onContentClick.bind(this, askValue, answerList)}>
                 <AtIcon value='chevron-right' size={20} color='#FBBE93' className='prefix' />
                 {
                   answerList
                     .filter(answerValue => typeof askValue !==  "undefined" && answerValue.parentId === askValue.discussionId)
                     .map((answerValue) => (
 
-                      <Text key={answerValue.discussionId}>
+                      <Text key={answerValue.discussionId}  >
                         {answerValue.content}
                       </Text>
                   ))
@@ -93,6 +95,8 @@ FrequentAsk.propTypes = {
    * 有关于日常活动的问答数据
    */
   discussionList: PropTypes.array,
-
-
+  /**
+   * 问题内容提交事件
+   */
+  onContentClick: PropTypes.func
 };

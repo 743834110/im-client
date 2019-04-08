@@ -5,7 +5,7 @@ import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 import OrgHomeTab from "../../components/orgHomeTab/orgHomeTab";
 import SQL from "../../utils/query";
 
-const mapStateToProps = ({org: {entities, pagination, mappings: {current}}, loading, selected, routine}) => {
+const mapStateToProps = ({organization: {entities, pagination, mappings: {current}}, loading, selected, routine}) => {
   return {
     org: {
       list: new SQL()
@@ -58,7 +58,7 @@ export default class OrgHome extends Component{
     const {dispatch} = this.props;
     const params = this.$router.params;
     dispatch({
-      type: 'org/fetchOne',
+      type: 'organization/fetchOne',
       payload: {
         ...params
       }
@@ -91,17 +91,16 @@ export default class OrgHome extends Component{
   handlePopUpBlockClick = (value) => {
     let {org: {list}} = this.props;
     Taro.navigateTo({
-      url: `${value.url}?orgId=${list[0].orgId}&orgType=${list[0].orgType}`
+      url: `${value.url}?orgId=${list[0].orgId}&orgType=${list[0].orgType}&orgName=${list[0].orgName}`
     })
   };
 
   render() {
     let {org, routine} = this.props;
-    console.log(org, routine);
     return (
       <View className='container'>
         <View>
-          <PopUpNavBar  onPopUpBlockClick={this.handlePopUpBlockClick} />
+          <PopUpNavBar title={org.list[0]? org.list[0].orgName: ''}  onPopUpBlockClick={this.handlePopUpBlockClick} />
         </View>
         <View className='flex-1 display-flex-column'>
           <View className='white '>

@@ -145,3 +145,11 @@ export const popAll = (target) => {
     target.pop();
   }
 };
+
+/**
+ * 产生唯一ID
+ * @return {string}
+ */
+export const generateId = () => {
+  return Number(Math.random().toString().substr(3,) + Date.now()).toString(36);
+};

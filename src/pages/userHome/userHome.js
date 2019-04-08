@@ -8,10 +8,10 @@ import CommonList from "../../components/commonList/commonList";
 import UserCard from "../../components/userCard/userCard";
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({user: {entities, currentUser}}) => {
 
   return {
-    currentUser: state.users.entities[state.currentUser]
+    currentUser: entities[currentUser]
   }
 };
 

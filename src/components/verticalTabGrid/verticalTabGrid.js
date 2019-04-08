@@ -14,21 +14,9 @@ export default class VerticalTabGrid extends Component{
   static defaultProps = {
     instituteList: [
       {shortName: '信息院1', orgId: '001'},
-      {shortName: '信息院2', orgId: '002'},
-      {shortName: '信息院3', orgId: '003'},
-      {shortName: '信息院4', orgId: '004'},
-      {shortName: '信息院5', orgId: '005'},
-      {shortName: '信息院6', orgId: '006'},
-      {shortName: '信息院7', orgId: '007'},
-      {shortName: '信息院8', orgId: '008'},
-      {shortName: '信息院9', orgId: '009'},
-      {shortName: '信息院10', orgId: '010'},
-      {shortName: '信息院11', orgId: '011'},
-      {shortName: '信息院12', orgId: '012'},
-      {shortName: '信息院13', orgId: '013'},
-      {shortName: '信息院14', orgId: '014'},
     ],
-    orgList: []
+    orgList: [],
+    onGridElementClick: () => {}
   };
 
   componentDidMount() {
@@ -42,12 +30,8 @@ export default class VerticalTabGrid extends Component{
     })
   };
 
-  handleElementClick = (value) => {
-    console.log(value)
-  }
-
   render() {
-    let {instituteList} = this.props;
+    let {instituteList, orgList, onGridElementClick} = this.props;
     let {scrollIntoViewId} = this.state;
     return (
       <View style={{
@@ -73,9 +57,9 @@ export default class VerticalTabGrid extends Component{
           scrollIntoView={scrollIntoViewId}
         >
           {
-            instituteList.map((value) => (
+            instituteList.map((value, index) => (
               <View id={`element-${value.orgId}`} key={value.orgId}>
-                <LabelGrid title={value.shortName} titleId={value.orgId} onGridElementClick={this.handleElementClick} />
+                <LabelGrid orgList={orgList[index]} title={value.shortName} titleId={value.orgId} onGridElementClick={onGridElementClick} />
               </View>
             ))
           }
@@ -93,5 +77,9 @@ VerticalTabGrid.propTypes = {
   /**
    * 学生机构信息列表
    */
-  orgList: PropTypes.array
+  orgList: PropTypes.array,
+  /**
+   * 元素点击事件
+   */
+  onGridElementClick: PropTypes.func
 };

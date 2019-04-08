@@ -4,8 +4,13 @@ import user from './user'
 import socketTask from './socketTask'
 import login from './login'
 import userOrg from './userOrg'
-import org from './organization'
+import organization from './organization'
 import dictionary from './dictionary'
+import discussion from './discussion'
+import chatGroup from './chatGroup'
+import workGroupMember from './workGroupMember'
+import message from './message'
+import messageAndChatGroup from './messageAndChatGroup'
 
 /**
  * 导出的state,每生成一个对象的state，都必须要
@@ -20,6 +25,11 @@ export default {
   socketTask,
   login,
   userOrg,
-  org,
-  dictionary
+  organization,
+  dictionary,
+  discussion,
+  chatGroup,
+  workGroupMember,
+  message,
+  messageAndChatGroup
 }

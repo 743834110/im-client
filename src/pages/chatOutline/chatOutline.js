@@ -1,4 +1,4 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {PureComponent} from '@tarojs/taro'
 import {View, ScrollView} from '@tarojs/components'
 import {connect} from '@tarojs/redux';
 import {AtSearchBar, AtTabs, AtTabsPane } from 'taro-ui';
@@ -6,17 +6,36 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import TabBar from "../../components/tabBar/tabBar";
 import ChatList from "../../components/chatList/chatList";
 import AccordionList from "../../components/accordionList/accordionList";
+import SQL from "../../utils/query";
 
-const mapStateToProps = (state) => ({
-  state
-});
+const mapStateToProps = ({chatGroup: {entities, mappings: {current}}, user, messageAndChatGroup}) => {
+  return {
+    chatGroup: {
+      list: new SQL().select(current).from(entities).exec()
+        .map(item => ({
+          ...item,
+          list: item.users.map(userId => ({
+            title: user.entities[userId].userName,
+            ...user.entities[userId]
+          }))
+        }))
+    },
+    messageAndChatGroup: {
+      list: new SQL()
+        .select(Array.from(messageAndChatGroup.mappings))
+        .from(messageAndChatGroup.entities)
+        .exec()
+    }
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeChatRoomSelected: dispatch.selected.changeChatRoomSelected,
+  dispatch
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class ChatOutline extends Component {
+export default class ChatOutline extends PureComponent {
 
   config = {
     navigationBarTitleText: ''
@@ -28,15 +47,17 @@ export default class ChatOutline extends Component {
       title: '消息'
     }, {
       title: '联系人'
-    }]
+    }],
   };
 
+  // 标签页切换
   handleTabsClick = (value) => {
     this.setState({
       current: value
     })
   };
 
+  //
   handleSearchBarClick = () => {
     Taro.navigateTo({
       url: "/pages/chatSearch/chatSearch"
@@ -51,15 +72,33 @@ export default class ChatOutline extends Component {
    */
   handleChatListItemClick = (index, value) => {
     let {changeChatRoomSelected} = this.props;
-    changeChatRoomSelected(value.fromId, value.groupId)
+    console.log(value);
+    // 设定当前聊天窗口的用户。
+    changeChatRoomSelected(value.chatType, value.key);
     Taro.navigateTo({
       url: "/pages/chatRoom/chatRoom"
     })
   };
 
+  /**
+   * 点击进入私聊页面
+   * @param value
+   */
+  handleAccordionItemClick = (value) => {
+    let {changeChatRoomSelected} = this.props;
+    console.log(value);
+    changeChatRoomSelected(2, value.userId);
+    Taro.navigateTo({
+      url: "/pages/chatRoom/chatRoom"
+    })
+    
+  };
+
 
   render() {
-    let {current, tabList} = this.state
+    const {current, tabList} = this.state;
+    const {chatGroup, messageAndChatGroup} = this.props;
+    console.log(messageAndChatGroup);
     return (
       <View className='container'>
         <View>
@@ -74,10 +113,10 @@ export default class ChatOutline extends Component {
         <ScrollView scrollY className='flex-1'>
           <AtTabs className='overflow-y-auto' current={current} tabList={tabList} onClick={this.handleTabsClick}>
             <AtTabsPane current={current} index={0}>
-              <ChatList onListItemClick={this.handleChatListItemClick} />
+              <ChatList data={messageAndChatGroup.list} onListItemClick={this.handleChatListItemClick} />
             </AtTabsPane>
             <AtTabsPane className='overflow-y-auto' current={current} index={1}>
-              <AccordionList />
+              <AccordionList data={chatGroup.list} onListItemClick={this.handleAccordionItemClick}  />
             </AtTabsPane>
           </AtTabs>
         </ScrollView>

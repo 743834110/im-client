@@ -16,6 +16,9 @@ export default class MediaInput extends Component {
   static defaultProps = {
     deleteSymbol: "[274E]",
     onButtonClick: () => {},
+    mediaEnabled: true,
+    placeHolder: undefined,
+    loading: false,
   };
 
   state = {
@@ -77,6 +80,7 @@ export default class MediaInput extends Component {
 
   render() {
     let {inputValue, selectedIconIndex} = this.state;
+    const {mediaEnabled, placeHolder, loading} = this.props;
     return (
       <View className='media-input-container'>
         <View className='media-input'>
@@ -86,17 +90,23 @@ export default class MediaInput extends Component {
               className='input'
               value={inputValue}
               onChange={this.handleOnChange}
-              maxlength={9999}
+              placeholder={placeHolder}
+              maxLength={999}
             />
           </View>
-          <View className='icon-container'>
-            <AtIcon value='streaming' size={30} className='icon' onClick={this.handleIconClick.bind(this, 0)} />
-            {
-              inputValue === ''?
-                <AtIcon value='add-circle' size={30} className='icon' onClick={this.handleIconClick.bind(this, 1)} />:
-                <AtButton size='small' type='primary' className='icon' onClick={this.handleButtonClick} >发送</AtButton>
-            }
-          </View>
+          {mediaEnabled?
+            <View className='icon-container'>
+              <AtIcon value='streaming' size={30} className='icon' onClick={this.handleIconClick.bind(this, 0)}/>
+              {
+                inputValue === '' ?
+                  <AtIcon value='add-circle' size={30} className='icon' onClick={this.handleIconClick.bind(this, 1)}/> :
+                  <AtButton disabled={loading} size='small' type='primary' className='icon' onClick={this.handleButtonClick}>发送</AtButton>
+              }
+            </View>:
+            <View className='icon-container'>
+              <AtButton disabled={loading}  size='small' type='primary' className='icon' onClick={this.handleButtonClick}>发送</AtButton>
+            </View>
+          }
         </View>
         {
           selectedIconIndex === 0?
@@ -111,5 +121,17 @@ MediaInput.propTypes = {
   /**
    * 发送按钮点击事件
    */
-  onButtonClick: PropTypes.func
+  onButtonClick: PropTypes.func,
+  /**
+   * 是否使用表情
+   */
+  mediaEnabled: PropTypes.bool,
+  /**
+   * 占位符
+   */
+  placeHolder: PropTypes.string,
+  /**
+   * 是否在读取中
+   */
+  loading: PropTypes.bool
 };

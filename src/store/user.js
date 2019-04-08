@@ -18,7 +18,22 @@ const user = {
     },
     mappings: {
       // 当前显示的序号
-      current: []
+      current: [],
+      // 人性化显示
+      humanity: {
+        userName: {
+          alias: "账号",
+          operate: {
+            disabled: true
+          }
+        },
+        userImageUrl: {
+          alias: "头像",
+          operate: {
+
+          }
+        },
+      }
     },
     // 当前用户
     currentUser: ""
@@ -47,13 +62,24 @@ const user = {
     deleteAndSaveCurrent({entities, mappings: {current}}, action) {
       popAll(current);
       const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId));
+      result.forEach(value => current.push(value.userId));
     },
 
     saveCurrent({mappings: {current}}, action) {
       const result = action.data.result || [];
-      result.forEach(value => current.push(value.routineId))
+      result.forEach(value => current.push(value.userId))
 
+    },
+
+    saveEntities({entities}, action) {
+      // 组织entities
+      const result = action || [];
+      result.forEach(value => {
+        entities[value.userId] = {
+          key: value.userId,
+          ...value,
+        };
+      });
     },
 
     saveEntitiesAndPagination({entities, pagination}, action) {

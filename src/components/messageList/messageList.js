@@ -100,7 +100,7 @@ export default class MessageList extends Component{
               let lastDateTime = index === 0? -1: list[index - 1].createTime;
               let interval = value.createTime - lastDateTime;
               return (
-                <View className='message-item-wrapper' key={value.id}>
+                <View className='message-item-wrapper' key={value.msgType}>
                   {
                       interval >= lastRecordTime?
                         <View className='date'>

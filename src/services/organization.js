@@ -27,6 +27,20 @@ export async function queryOrganization(params) {
 }
 
 /**
+ * 通过分页对象查询对象结构树
+ * @param params
+ * @return {Promise<*>}
+ */
+export async function queryOrganizationTree(params) {
+  return request('/rest/appOrganizationService/queryOrgTreeByPager', {
+    method: 'POST',
+    body: {
+      ...params
+    }
+  });
+}
+
+/**
  * 通过ID数组进行对象的删除
  * @param params
  * @return {Promise<*>}

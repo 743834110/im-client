@@ -53,7 +53,7 @@ export default class MessageItem extends Component {
         <View className='body'>
           <View className={`from-user from-user-${message.position}`}>
             {
-              message.chatType === "1"? message.fromName: ""
+              message.chatType == "1"? message.fromName: ""
             }
           </View>
           <View className={`message message-${message.position} message-${message.msgType} `}  >
@@ -61,9 +61,12 @@ export default class MessageItem extends Component {
               message.position === 'right'?
                 <View className='read-status'>
                   {
-                    message.read?
+                    !message.read || message.read.length === 0?
                       <View className='read'>已读</View>:
-                      <View className='unread' onClick={onUnreadClick.bind(this, message)}>未读</View>
+                      message.chatType == '2'?
+                        <View className='unread' onClick={onUnreadClick.bind(this, message)}>未读</View>:
+                        <View className='unread' onClick={onUnreadClick.bind(this, message)}>{message.read.length}人未读</View>
+
                   }
                 </View>: ''
             }
