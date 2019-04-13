@@ -20,8 +20,9 @@ export default class PopUpNavBar extends Component{
       {iconType: 'message', title: '发布消息', url: '/pages/routinePublish/routinePublish'},
       {iconType: 'link', title: '创建工作群', url: '/pages/buildGroup/buildGroup'},
       {iconType: 'settings', title: '管理', url: '/pages/manageGroup/manageGroup'},
-      {iconType: 'help', title: '反馈', url: '/pages/feedbackGroup/feedbackGroup'},
+      {iconType: 'help', title: '反馈', url: '/pages/addFeedback/addFeedback'},
     ],
+    showPopUp: false,
   };
 
   state = {
@@ -29,6 +30,18 @@ export default class PopUpNavBar extends Component{
       display: 'none'
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+    const {showPopUp} = nextProps;
+    const {hiddenStyle} = this.state;
+    if (!showPopUp && hiddenStyle.display !== 'none') {
+      this.setState({
+        hiddenStyle: {
+          display: 'none'
+        }
+      })
+    }
+  }
 
   handleExtraClick = (event) => {
     this.setState(prevState => {
@@ -89,5 +102,9 @@ PopUpNavBar.propTypes = {
   /**
    * 弹窗元素列表
    */
-  popUpList: PropTypes.array
+  popUpList: PropTypes.array,
+  /**
+   * 是否显示弹窗
+   */
+  showPopUp: PropTypes.bool,
 };

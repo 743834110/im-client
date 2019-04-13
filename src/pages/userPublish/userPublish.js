@@ -1,27 +1,27 @@
-import Taro,{ Component } from '@tarojs/taro';
-import {View, ScrollView} from '@tarojs/components';
+import Taro,{ PureComponent} from '@tarojs/taro';
+import {View} from '@tarojs/components';
 import {connect,} from "@tarojs/redux";
 import {AtSearchBar} from 'taro-ui';
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import RoutineList from "../../components/routineList/routineList";
+import SQL from "../../utils/query";
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = ({user, routine: {entities, pagination, mappings: {current}}}) => {
   return {
-    currentUser: state.users.entities[state.currentUser]
+    currentUser: user.entities[user.currentUser],
+    routine: {
+      list: new SQL().select(current).from(entities).exec(),
+      pagination
+    }
   }
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  changeChatRoomSelected: dispatch.selected.changeChatRoomSelected,
-});
 /**
  * @author LTF
  * @description 我的发布页面容器组件
  * Created on 2019/2/23
  */
-@connect(mapStateToProps, mapDispatchToProps)
-export default class UserPublish extends Component{
+@connect(mapStateToProps)
+export default class UserPublish extends PureComponent{
 
   config = {
     navigationBarTitleText: ''
@@ -49,6 +49,26 @@ export default class UserPublish extends Component{
         })
       })
       .exec();
+
+    // 查询个人发布信息
+    const {dispatch, currentUser} = this.props;
+    Taro.showLoading({
+      title: 'loading...',
+      mask: true
+    });
+    dispatch({
+      type: 'routine/fetch',
+      payload: {
+        pager: {
+          param: {
+            userId: currentUser.userId
+          }
+        },
+        callback: () => {
+          Taro.hideLoading();
+        }
+      }
+    })
   }
 
   handleOnSearchBarChange = (value) => {
@@ -56,12 +76,82 @@ export default class UserPublish extends Component{
       searchBarValue: value
     })
   };
-  handleOnSearchBarActionClick = (event) => {
-    console.log(event)
-  }
+
+  /**
+   * 日常活动搜索事件
+   * @param event
+   */
+  handleOnSearchBarActionClick = () => {
+    const {dispatch, currentUser} = this.props;
+    let {searchBarValue} = this.state;
+    Taro.showLoading({
+      title: 'loading...',
+      mask: true,
+    });
+    dispatch({
+      type: 'routine/fetch',
+      payload: {
+        pager: {
+          and: {
+            userId: currentUser.userId,
+          },
+          or: {
+            title: searchBarValue,
+            content: searchBarValue,
+            orgName: searchBarValue,
+          }
+        },
+        callback: () => {
+          Taro.hideLoading();
+        }
+      }
+    })
+  };
+
+  /**
+   * 下一页显示
+   */
+  handleLowerRefresh = () => {
+    const {dispatch, currentUser, routine: {pagination}} = this.props;
+    if (pagination.total <= pagination.current * pagination.pageSize) {
+      return;
+    }
+    console.log(pagination);
+    let {searchBarValue} = this.state;
+    dispatch({
+      type: 'routine/fetchLatter',
+      payload: {
+        pager: {
+          and: {
+            userId: currentUser.userId,
+          },
+          or: {
+            title: searchBarValue,
+            content: searchBarValue,
+            orgName: searchBarValue,
+          },
+          offset: pagination.current
+        },
+      }
+    })
+  };
+
+  /**
+   * routine显示栏点击事件
+   * 调转进入详情页面
+   */
+  handleRoutineClick = (target) => {
+    let {routine} = target.props;
+    Taro.navigateTo({
+      url: '/pages/routineDetail/routineDetail' + '?routine=' + JSON.stringify(routine),
+    })
+  };
+
+
 
   render() {
     let {searchBarValue, scrollHeight} = this.state;
+    let {routine} = this.props;
     return (
       <View className='container'>
         <View>
@@ -74,7 +164,7 @@ export default class UserPublish extends Component{
           />
         </View>
         <View id='scrollView' className='flex-1'>
-          <RoutineList scrollHeight={scrollHeight} useUpperRefresh={false} />
+          <RoutineList routineList={routine.list} onRoutineClick={this.handleRoutineClick} onLowerRefresh={this.handleLowerRefresh} scrollHeight={scrollHeight} useUpperRefresh={false} />
         </View>
       </View>
     );

@@ -35,7 +35,7 @@ export default class FeedbackList extends Component {
                 marginTop: '24px'
               }}
             >
-              <FeedBackListItem onButtonClick={onButtonClick} onContentClick={onContentClick} onImageClick={onImageClick} />
+              <FeedBackListItem data={value} onButtonClick={onButtonClick} onContentClick={onContentClick} onImageClick={onImageClick} />
             </View>
           ))
         }

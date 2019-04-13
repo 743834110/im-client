@@ -2,10 +2,10 @@
 // export base = "http://api.shudong.wang/v1/"
 
 // http连接基地址
-export const base = "http://192.168.1.4:8080";
+export const base = "http://192.168.1.6:8080";
 
 // ws连接基地址
-export const wsUrl = "ws://192.168.1.4:8880";
+export const wsUrl = "ws://192.168.1.6:8880";
 
 // webSocket断开重连次数
 export const MAX_ATTEMPT_COUNT = 5;
@@ -19,3 +19,10 @@ export const commandToModelMapping = {
 
 // 事件名称
 export const ON_MESSAGE = 'onMessage';
+
+// loadMore组件
+export const REFRESH_STATUS = {
+  NORMAL: 0,
+  REFRESHING: 1,
+  NO_MORE_DATA: 2
+}

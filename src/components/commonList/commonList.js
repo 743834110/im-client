@@ -29,7 +29,7 @@ export default class CommonList extends Component {
         }
       },
       {
-        title: '学生校园级机构',
+        title: '学生机构',
         url: '/pages/orgReview/orgReview',
         thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
         arrow: 'right',
@@ -84,10 +84,11 @@ export default class CommonList extends Component {
 
   render() {
     let {data, onClick, onSwitchChange, loading} = this.props;
+    const isLoadingDefined = typeof loading !== 'undefined';
     return (
       <View>
         {
-          typeof loading !== 'undefined'?
+          isLoadingDefined?
             loading?
               <AtActivityIndicator mode='center' />: null
             : null

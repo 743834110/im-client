@@ -59,7 +59,7 @@ export default class OrgHomeTab extends Component {
   };
 
   render() {
-    let {tabList, org, routineList} = this.props;
+    let {tabList, org, routineList, onLowerRefresh, onRoutineClick} = this.props;
     let {scrollHeight} = this.state;
     return (
       <AtTabs
@@ -80,7 +80,10 @@ export default class OrgHomeTab extends Component {
             <RoutineList
               scrollHeight={scrollHeight}
               routineList={routineList}
+              useUpperRefresh={false}
               onUpperRefresh={this.handleUpperRefresh}
+              onRoutineClick={onRoutineClick}
+              onLowerRefresh={onLowerRefresh}
             />
           </View>
         </AtTabsPane>
@@ -117,6 +120,14 @@ OrgHomeTab.propTypes = {
   /**
    * 有关于该组织发布的消息
    */
-  routineList: PropTypes.array
+  routineList: PropTypes.array,
+  /**
+   *
+   */
+  onRoutineClick: PropTypes.func,
+  /**
+   *
+   */
+  onLowerRefresh: PropTypes.func
 
 };

@@ -1,4 +1,4 @@
-import Taro,{ Component } from '@tarojs/taro';
+import Taro,{ PureComponent } from '@tarojs/taro';
 import {View} from '@tarojs/components';
 import {AtButton} from "taro-ui";
 import {connect} from "@tarojs/redux";
@@ -14,18 +14,13 @@ const mapStateToProps = ({user: {entities, currentUser}}) => {
     currentUser: entities[currentUser]
   }
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  changeChatRoomSelected: dispatch.selected.changeChatRoomSelected,
-});
-
 /**
  * @author LTF
  * @description 用户主页容器组件
  * Created on 2019/2/23
  */
-@connect(mapStateToProps, mapDispatchToProps)
-export default class UserHome extends Component{
+@connect(mapStateToProps)
+export default class UserHome extends PureComponent{
 
   config = {
     navigationBarTitleText: ''

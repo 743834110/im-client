@@ -12,8 +12,8 @@ const login = {
     // 登录:调用其他在socketTask的发送方法。
     async login(payload) {
       const socketTask = dispatch.socketTask;
-      await loginFunc(socketTask, payload);    },
-
+      await loginFunc(socketTask, payload);
+      },
 
     /**
      * 登录之后

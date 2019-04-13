@@ -56,7 +56,6 @@ export default class AccordionList extends Component{
   render() {
     let {data, options, onButtonItemClick, onListItemClick} = this.props;
     let {opens} = this.state;
-    console.log(opens);
     return (
       <View>
         {

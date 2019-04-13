@@ -1,29 +1,34 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {PureComponent} from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import SearchBar from "../../components/searchBar/searchBar";
 import {getSystemInfo} from "../../utils/display";
 import RoutineList from "../../components/routineList/routineList";
+import SQL from "../../utils/query";
 
 /**
  * 搜索组件的容器组件
  */
-@connect((state) => ({
-  state
-}))
-export default class RoutineSearch extends Component{
+@connect(({routine: {entities, pagination, mappings: {current}}}) => {
+  return {
+    routine: {
+      list: new SQL()
+        .select(current)
+        .from(entities)
+        .exec(),
+      pagination
+    },
+  }
+})
+export default class RoutineSearch extends PureComponent{
 
   config = {
     navigationBarTitleText: ''
   };
 
-  static defaultProps = {
-    routineList: []
-  };
-
   state = {
     windowHeight: 640,
-    routineList: []
+    searchBarValue: null,
   };
 
   constructor(props) {
@@ -38,6 +43,7 @@ export default class RoutineSearch extends Component{
         })
       });
 
+
   }
 
   /**
@@ -46,47 +52,81 @@ export default class RoutineSearch extends Component{
    */
   handleOnKeywordSearch = (value) => {
     const {dispatch} = this.props;
-
-
-  };
-
-  /**
-   * 顶部刷新事件
-   */
-  handleOnUpperRefresh = (target) => {
-    let {type} = target.props;
-    console.log(type)
-    setTimeout(() => {
-      this.setState(prevState => {
-        return {
-          routineList: [
-            ...prevState.routineList,
-            {}, {}, {}
-          ]
+    if (!value) {
+      return;
+    }
+    this.setState({
+      searchBarValue: value
+    });
+    Taro.showLoading({
+      title: 'loading',
+      mask: true
+    });
+    dispatch({
+      type: 'routine/fetch',
+      payload: {
+        pager: {
+          or: {
+            title: value,
+            content: value,
+            orgName: value,
+          },
+          
+        },
+        callback: () => {
+          Taro.hideLoading();
         }
-      })
-    }, 1000)
+      }
+    })
   };
 
   /**
    * 底部刷新事件
    */
   handleOnLowerRefresh = () => {
-    console.log("滚动加载")
-    setTimeout(() => {
-      this.setState(prevState => {
-        return {
-          routineList: [
-            ...prevState.routineList,
-          ]
+    const {searchBarValue} = this.state;
+    if (!searchBarValue) {
+      return;
+    }
+    const {dispatch, routine: {pagination}} = this.props;
+    if (pagination.total <= pagination.current * pagination.pageSize) {
+      return;
+    }
+    Taro.showLoading({
+      title: 'loading',
+      mask: true
+    });
+    dispatch({
+      type: 'routine/fetchLatter',
+      payload: {
+        pager: {
+          or: {
+            title: searchBarValue,
+            content: searchBarValue,
+            orgName: searchBarValue,
+          },
+          offset: pagination.current
+        },
+        callback: () => {
+          Taro.hideLoading();
         }
-      })
-    }, 1000)
+      }
+    })
+  };
+
+
+  handleRoutineClick = (target) => {
+    let {routine} = target.props;
+    Taro.navigateTo({
+      url: '/pages/routineDetail/routineDetail' + '?routine=' + JSON.stringify(routine),
+    })
   };
 
 
   render() {
-    let {windowHeight, routineList} = this.state;
+    let {windowHeight} = this.state;
+    let {routine} = this.props;
+
     return (
       <View className='container'>
         <View>
@@ -97,11 +137,11 @@ export default class RoutineSearch extends Component{
 
         <View className='flex-1'>
           <RoutineList
-            type='default'
-            routineList={routineList}
+            routineList={routine.list}
             scrollHeight={(windowHeight - 42) + 'px'}
-            onUpperRefresh={this.handleOnUpperRefresh}
             onLowerRefresh={this.handleOnLowerRefresh}
+            onRoutineClick={this.handleRoutineClick}
+            useUpperRefresh={false}
           />
         </View>
       </View>

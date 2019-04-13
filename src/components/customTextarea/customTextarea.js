@@ -1,4 +1,4 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { PureComponent } from '@tarojs/taro'
 import PropTypes from 'prop-types'
 import {AtTextarea} from "taro-ui";
 
@@ -7,7 +7,7 @@ import {AtTextarea} from "taro-ui";
  * @author　LTF
  * Created on 2019/1/11
  */
-export default class CustomTextarea extends Component {
+export default class CustomTextarea extends PureComponent {
 
   static defaultProps = {
     placeholder: null,
@@ -17,6 +17,14 @@ export default class CustomTextarea extends Component {
   state = {
     value: ""
   };
+
+  constructor(props) {
+    super(props);
+    const {value} = this.props;
+    this.setState({
+      value
+    })
+  }
 
   handleChange = (event) => {
     this.setState({
@@ -46,6 +54,10 @@ CustomTextarea.propTypes = {
   /**
    * 字符最大长度
    */
-  maxLength: PropTypes.number
+  maxLength: PropTypes.number,
+  /**
+   * 字符串值
+   */
+  value: PropTypes.string
 };
 

@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro'
-import { HTTP_STATUS } from '../const/status'
 import { base } from './config'
 import { logError } from './error'
 
 let token = null;
+let cookie = null;
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -72,9 +72,16 @@ export default function request(url, options) {
       method: method,
       credentials: 'include',
       header: {
+        cookie,
         'content-type': contentType,
         'token': token,
       },
+      success: (res) => {
+        if(res && res.header && res.header['Set-Cookie']){
+         cookie = res.header['Set-Cookie'];
+         console.log(cookie);
+        }
+      }
     };
     return Taro
       .request(option)

@@ -11,6 +11,8 @@ import chatGroup from './chatGroup'
 import workGroupMember from './workGroupMember'
 import message from './message'
 import messageAndChatGroup from './messageAndChatGroup'
+import feedback from './feedback'
+import file from './file'
 
 /**
  * 导出的state,每生成一个对象的state，都必须要
@@ -31,5 +33,7 @@ export default {
   chatGroup,
   workGroupMember,
   message,
-  messageAndChatGroup
+  messageAndChatGroup,
+  feedback,
+  file
 }

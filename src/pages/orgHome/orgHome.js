@@ -41,6 +41,10 @@ export default class OrgHome extends Component{
 
   };
 
+  constructor(props) {
+    super(props)
+  }
+
   componentWillMount() {
     // let orgString = decodeURIComponent(this.$router.params.param);
     // console.log(orgString)
@@ -80,8 +84,11 @@ export default class OrgHome extends Component{
 
   }
 
-  constructor(props) {
-    super(props)
+  /**
+   * 页面被重新展示时，关闭弹出对话框
+   */
+  componentDidShow() {
+
   }
 
   /**
@@ -91,9 +98,38 @@ export default class OrgHome extends Component{
   handlePopUpBlockClick = (value) => {
     let {org: {list}} = this.props;
     Taro.navigateTo({
-      url: `${value.url}?orgId=${list[0].orgId}&orgType=${list[0].orgType}&orgName=${list[0].orgName}`
+      url: `${value.url}?orgId=${list[0].orgId}&orgType=${list[0].orgType}&orgName=${list[0].orgName}}`
     })
   };
+
+  handleRoutineClick = (target) => {
+    let {routine} = target.props;
+    Taro.navigateTo({
+      url: '/pages/routineDetail/routineDetail' + '?routine=' + JSON.stringify(routine),
+    })
+  };
+
+  handleLowerRefresh = () => {
+    const {dispatch} = this.props;
+    const params = this.$router.params;
+    const {routine: {pagination}} = this.props;
+    dispatch({
+      type: 'routine/fetchLatter',
+      payload: {
+        pager: {
+          param: {
+            ...params
+          },
+          sorter: {
+            createTime: 'desc',
+            endTime: 'asc'
+          },
+          offset: pagination.current
+        }
+      }
+    })
+  };
+
 
   render() {
     let {org, routine} = this.props;
@@ -115,11 +151,11 @@ export default class OrgHome extends Component{
                   'https://camo.githubusercontent.com/3e1b76e514b895760055987f164ce6c95935a3aa/687474703a2f2f73746f726167652e333630627579696d672e636f6d2f6d74642f686f6d652f6c6f676f2d3278313531333833373932363730372e706e67'
               }
             />
+
           </View>
           <View className='flex-1'>
-            <OrgHomeTab org={org.list[0]} routineList={routine.list} />
+            <OrgHomeTab org={org.list[0]} routineList={routine.list} onLowerRefresh={this.handleLowerRefresh} onRoutineClick={this.handleRoutineClick}  />
           </View>
-
         </View>
       </View>
     )

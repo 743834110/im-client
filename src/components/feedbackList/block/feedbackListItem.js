@@ -1,6 +1,6 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
-import {AtButton} from 'taro-ui'
+import {AtButton, AtDivider} from 'taro-ui'
 import PropTypes from 'prop-types'
 import './feedbackListItem.scss'
 import DateText from "../../dateText/dateText";
@@ -39,10 +39,17 @@ export default class FeedBackListItem extends Component {
             {data.content}
           </View>
           <View className='image-container'>
-            <Image  src={data.imageUrlOne} className='image' onClick={onImageClick.bind(this, data, 0)} />
-            <Image src={data.imageURlTwo} className='image' onClick={onImageClick.bind(this,data, 1)} />
+            {
+              data.imageUrlOne?
+                <Image  src={data.imageUrlOne} className='image' onClick={onImageClick.bind(this, data, 0)} />: undefined
+            }
+            {
+              data.imageUrlTwo?
+                <Image src={data.imageURlTwo} className='image' onClick={onImageClick.bind(this,data, 1)} />: undefined
+            }
           </View>
           <View className='footer'>
+
             <View style={{
               flex: 1
             }}

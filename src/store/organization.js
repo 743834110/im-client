@@ -1,5 +1,6 @@
 import {queryById, addOrganization, queryOrganization, removeOrganization, updateOrganization, queryOrganizationTree} from '../services/organization'
 import {popAll} from "../utils/common";
+import Taro from '@tarojs/taro'
 
 
 /**
@@ -50,13 +51,34 @@ const organization = {
       const response = await queryById(payload);
       this.saveObject(response);
       this.deleteAndSaveCurrentOne(response);
+      if (payload.callback) {
+        payload.callback(response);
+      }
     },
 
     // 查询组织结构树
     async fetchOrganizationTree(payload) {
       const response = await queryOrganizationTree(payload);
       this.saveResponse(response);
-    }
+    },
+
+    // 更新组织信息
+    async update(payload) {
+      const response = await updateOrganization(payload);
+      Taro.showToast({
+        title: '修改成功!',
+        icon: 'success',
+        duration: 2000
+      });
+      if (payload.callback) {
+        payload.callback(response);
+      }
+    },
+
+    // 刷新信息
+    async refresh() {}
+
+
   }),
 
   reducers: {

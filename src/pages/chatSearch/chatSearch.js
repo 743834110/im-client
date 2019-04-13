@@ -10,9 +10,9 @@ const mapStateToProps = (state) => {
   let searchedChatGroup = state.searched.chatGroup.map(value => {
     let object = state.chatGroup.entities[value];
     return {
-      id: object.groupId,
-      title: object.name,
-      thumb: object.avatar
+      // id: object.groupId,
+      // title: object.name,
+      // thumb: object.avatar
     }
   });
   return {

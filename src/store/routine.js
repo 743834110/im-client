@@ -25,12 +25,18 @@ const routine = {
       const response = await queryRoutine(payload);
       this.saveEntitiesAndPagination(response);
       this.deleteAndSaveCurrent(response);
+      if (payload.callback) {
+        payload.callback();
+      }
     },
     // 持续分页数据提取
     async fetchLatter(payload) {
       const response = await queryRoutine(payload);
       this.saveEntitiesAndPagination(response);
       this.saveCurrent(response);
+      if (payload.callback) {
+        payload.callback();
+      }
     },
 
     // 根据Id来查询数据

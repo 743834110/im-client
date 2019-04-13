@@ -7,15 +7,10 @@ import {getSubmitObject} from "../../utils/common";
 import CustomTextarea from "../../components/customTextarea/customTextarea";
 
 
-const mapStateToProps = (state) => ({
-  state
+const mapStateToProps = ({loading}) => ({
+  loading
 });
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps)
 export default class SingleFieldEdit extends Component {
 
   config = {
@@ -28,6 +23,7 @@ export default class SingleFieldEdit extends Component {
 
   componentWillMount() {
     let params = decodeURI(this.$router.params.params);
+    console.log(JSON.parse(params));
     this.setState(JSON.parse(params))
   }
 
@@ -38,16 +34,23 @@ export default class SingleFieldEdit extends Component {
    */
   handleOnClick = () => {
    let data = getSubmitObject(this.refs);
-   let {keyName, keyValue} = this.state;
+   let {keyName, keyValue, type} = this.state;
    data[keyName] = keyValue;
    let {ref} = this.state;
    data[ref] = data["_input"];
    delete data["_input"];
-   console.log(data, ref)
+   const {dispatch} = this.props;
+    dispatch[type].update({
+      ...data,
+      callback(res) {
+      }
+    });
+
   };
 
   render() {
-    let {title} = this.state;
+    let {title, value, type} = this.state;
+    let {loading} = this.props;
     return (
       <View className='container'>
         <View>
@@ -57,10 +60,10 @@ export default class SingleFieldEdit extends Component {
           marginTop: '48px'
         }}
         >
-          <CustomTextarea height={400} ref='_input' />
+          <CustomTextarea height={400} ref='_input' value={value} />
         </View>
         <View className='margin-bottom-24'>
-          <AtButton full type='primary' onClick={this.handleOnClick}>保存</AtButton>
+          <AtButton full type='primary' disabled={loading.models[type]} loading={loading.models[type]} onClick={this.handleOnClick}>保存</AtButton>
         </View>
       </View>
     );
