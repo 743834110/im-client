@@ -23,7 +23,7 @@ export default class OrgHomeTab extends Component {
     org: {},
     routineList: [
       {}, {}, {}
-    ]
+    ],
   };
 
   state = {
@@ -59,7 +59,7 @@ export default class OrgHomeTab extends Component {
   };
 
   render() {
-    let {tabList, org, routineList, onLowerRefresh, onRoutineClick} = this.props;
+    let {tabList, org, routineList, onLowerRefresh, onRoutineClick, accordionList, onAccordionItemClick} = this.props;
     let {scrollHeight} = this.state;
     return (
       <AtTabs
@@ -91,7 +91,7 @@ export default class OrgHomeTab extends Component {
           tabList.length >= 3?
             <AtTabsPane current={this.state.current} index={2}>
             <View >
-              <AccordionList />
+              <AccordionList data={accordionList} onListItemClick={onAccordionItemClick}  />
             </View>
           </AtTabsPane>: ''
         }
@@ -121,6 +121,14 @@ OrgHomeTab.propTypes = {
    * 有关于该组织发布的消息
    */
   routineList: PropTypes.array,
+  /**
+   * 组织机构数据
+   */
+  accordionList: PropTypes.array,
+  /**
+   * 组织机构成员点击事件
+   */
+  onAccordionItemClick: PropTypes.func,
   /**
    *
    */

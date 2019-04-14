@@ -71,3 +71,17 @@ export async function updateUserOrg(params = {}) {
     },
   });
 }
+
+/**
+ * 查询用组织架构
+ * @param params
+ * @return {Promise<Taro.request.Promised<any>|never|void>}
+ */
+export async function queryUserOrgStructure(params) {
+  return request('/rest/appUserOrgService/queryStructureByPager', {
+    method: 'POST',
+    body: {
+      ...params,
+    }
+  })
+}

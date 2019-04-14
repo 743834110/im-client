@@ -11,14 +11,14 @@ import SQL from "../../utils/query";
  * 机构轮廓页面
  */
 
-const mapStateToProps = ({userOrg: {entities, pagination, mappings: {current}}, user: {currentUser}}) => {
+const mapStateToProps = ({userOrg, user: {currentUser}}) => {
   return {
     userOrg: {
       list: new SQL()
-        .select(current)
-        .from(entities)
+        .select(userOrg.mappings.current)
+        .from(userOrg.entities)
         .exec(),
-      pagination
+      pagination: userOrg.pagination
     },
     currentUser
   }
@@ -54,7 +54,7 @@ export default class OrgOutline extends PureComponent {
     super(props);
   }
 
-  // 获取我的机构数据
+  // 获取我的机构数据,获取我的学院入口:我的学院暂时没有载入该客户端
   componentDidMount() {
     const {dispatch, currentUser} = this.props;
     dispatch({
@@ -63,10 +63,15 @@ export default class OrgOutline extends PureComponent {
         pager: {
           param: {
             userId: currentUser
+          },
+          filter: {
+            orgType: ['CLASS', 'STUDENT_CLUB', 'STUDENT_AGENCY']
           }
         }
       }
     })
+
+
   }
 
   handleSwiperClick = (value) => {
@@ -95,6 +100,7 @@ export default class OrgOutline extends PureComponent {
 
   render() {
     let {userOrg} = this.props;
+    console.log(userOrg);
     return (
       <View className='container'>
         <View>

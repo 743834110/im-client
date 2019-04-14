@@ -57,20 +57,6 @@ export default class CommonList extends Component {
         ext: {
           path: ''
         }
-      },
-      {
-        title: '我的学院',
-        arrow: 'right',
-        thumb: 'http://www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png',
-        note: '',
-        iconInfo: {
-          size: 25,
-          color: '#78A4FA',
-          value: 'calendar'
-        },
-        ext: {
-          path: ''
-        }
       }
     ],
     onClick: () => {},

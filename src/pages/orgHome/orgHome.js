@@ -5,7 +5,7 @@ import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 import OrgHomeTab from "../../components/orgHomeTab/orgHomeTab";
 import SQL from "../../utils/query";
 
-const mapStateToProps = ({organization: {entities, pagination, mappings: {current}}, loading, selected, routine}) => {
+const mapStateToProps = ({organization: {entities, pagination, mappings: {current}}, loading, selected, routine, userOrg: {userOrgStructure}}) => {
   return {
     org: {
       list: new SQL()
@@ -20,6 +20,17 @@ const mapStateToProps = ({organization: {entities, pagination, mappings: {curren
         .from(routine.entities)
         .exec(),
       pagination: routine.pagination
+    },
+    userOrg: {
+      userOrgStructure: userOrgStructure.map(item => ({
+        key: item.orgId,
+        name: item.orgName,
+        list: item.userOrgList.map(userOrg => ({
+          title: userOrg.userName,
+          note: userOrg.roleName,
+          ...userOrg
+        }))
+      }))
     },
     loading,
     selected
@@ -57,17 +68,37 @@ export default class OrgHome extends Component{
   /**
    * 获取组织信息
    * 获取组织发布的消息
+   * 获取组织内部人员
    */
   componentDidMount() {
     const {dispatch} = this.props;
     const params = this.$router.params;
-    dispatch({
+    Taro.showLoading({
+      title: 'loading',
+      mask: true,
+    });
+    const promises = [];
+    promises.push(dispatch({
       type: 'organization/fetchOne',
       payload: {
-        ...params
+        ...params,
+        callback: (res) => {
+          dispatch({
+            type: 'userOrg/fetchUserOrgStructure',
+            payload: {
+              pager: {
+                param: {
+                  ...params,
+                  orgType: res.data.orgType,
+                  orgName: res.data.orgName
+                }
+              }
+            }
+          })
+        }
       }
-    });
-    dispatch({
+    }));
+   dispatch({
       type: 'routine/fetch',
       payload: {
         pager: {
@@ -80,8 +111,8 @@ export default class OrgHome extends Component{
           }
         }
       }
-    })
-
+    });
+    Promise.all(promises).then(() => Taro.hideLoading());
   }
 
   /**
@@ -113,6 +144,9 @@ export default class OrgHome extends Component{
     const {dispatch} = this.props;
     const params = this.$router.params;
     const {routine: {pagination}} = this.props;
+    if (pagination.total <= pagination.current * pagination.pageSize) {
+      return;
+    }
     dispatch({
       type: 'routine/fetchLatter',
       payload: {
@@ -130,9 +164,18 @@ export default class OrgHome extends Component{
     })
   };
 
+  /**
+   * 组织架构成员点击事件
+   * @param index
+   */
+  handleAccordionClick = (index) => {
+    const {userOrg: {userOrgStructure}, dispatch} = this.props;
+    console.log(dispatch);
+  };
 
   render() {
-    let {org, routine} = this.props;
+    let {org, routine, userOrg: {userOrgStructure}} = this.props;
+    console.log(userOrgStructure);
     return (
       <View className='container'>
         <View>
@@ -154,7 +197,7 @@ export default class OrgHome extends Component{
 
           </View>
           <View className='flex-1'>
-            <OrgHomeTab org={org.list[0]} routineList={routine.list} onLowerRefresh={this.handleLowerRefresh} onRoutineClick={this.handleRoutineClick}  />
+            <OrgHomeTab org={org.list[0]} accordionList={userOrgStructure} onAccordionItemClick={this.handleAccordionClick}  routineList={routine.list} onLowerRefresh={this.handleLowerRefresh} onRoutineClick={this.handleRoutineClick}  />
           </View>
         </View>
       </View>

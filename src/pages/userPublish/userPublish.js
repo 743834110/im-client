@@ -84,6 +84,9 @@ export default class UserPublish extends PureComponent{
   handleOnSearchBarActionClick = () => {
     const {dispatch, currentUser} = this.props;
     let {searchBarValue} = this.state;
+    if (!searchBarValue) {
+      return;
+    }
     Taro.showLoading({
       title: 'loading...',
       mask: true,
@@ -116,8 +119,10 @@ export default class UserPublish extends PureComponent{
     if (pagination.total <= pagination.current * pagination.pageSize) {
       return;
     }
-    console.log(pagination);
     let {searchBarValue} = this.state;
+    if (!searchBarValue) {
+      return;
+    }
     dispatch({
       type: 'routine/fetchLatter',
       payload: {
