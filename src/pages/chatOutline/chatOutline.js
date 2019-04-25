@@ -98,7 +98,6 @@ export default class ChatOutline extends PureComponent {
   render() {
     const {current, tabList} = this.state;
     const {chatGroup, messageAndChatGroup} = this.props;
-    console.log(messageAndChatGroup);
     return (
       <View className='container'>
         <View>

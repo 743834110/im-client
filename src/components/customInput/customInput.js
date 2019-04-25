@@ -1,4 +1,4 @@
-import { Component } from '@tarojs/taro'
+import Taro, { Component } from '@tarojs/taro'
 import { AtInput }  from 'taro-ui'
 import PropTypes from 'prop-types'
 import {Text} from "@tarojs/components";
@@ -22,10 +22,14 @@ export default class CustomInput extends Component{
     onAuthClick: () => {},
   };
 
-  state = {
-    value: '',
-    send: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      send: false,
+    };
+  }
 
 
   handleChange = (value) => {
@@ -105,6 +109,10 @@ CustomInput.propTypes = {
   /**
    * 输入框模式: plain, auth, image
    */
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  /**
+   * 点击请求获取验证码
+   */
+  onAuthClick: PropTypes.func
 
 };

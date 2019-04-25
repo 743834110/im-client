@@ -1,4 +1,4 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {PureComponent} from '@tarojs/taro'
 import {View, ScrollView, Text} from '@tarojs/components'
 import {connect} from "@tarojs/redux";
 import {AtSearchBar} from "taro-ui";
@@ -23,6 +23,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   changeSelected: (selectedList) => dispatch.selectedMembers.changeSelected(selectedList),
+  dispatch
 });
 
 /**
@@ -31,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
  * Created on 2019/1/15
  */
 @connect(mapStateToProps, mapDispatchToProps)
-export default class BuildGroup extends Component {
+export default class BuildGroup extends PureComponent {
 
   config = {
     navigationBarTitleText: ''
@@ -47,6 +48,12 @@ export default class BuildGroup extends Component {
 
   constructor(props) {
     super(props);
+  }
+
+  // 组件挂载，加载本次组织架构信息
+  componentDidMount() {
+    const {dispatch} = this.props;
+
   }
 
 

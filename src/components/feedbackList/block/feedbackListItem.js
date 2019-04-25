@@ -45,7 +45,7 @@ export default class FeedBackListItem extends Component {
             }
             {
               data.imageUrlTwo?
-                <Image src={data.imageURlTwo} className='image' onClick={onImageClick.bind(this,data, 1)} />: undefined
+                <Image src={data.imageUrlTwo} className='image' onClick={onImageClick.bind(this,data, 1)} />: undefined
             }
           </View>
           <View className='footer'>

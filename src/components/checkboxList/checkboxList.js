@@ -1,4 +1,4 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {PureComponent} from '@tarojs/taro'
 import {View, Checkbox} from '@tarojs/components'
 import PropTypes from 'prop-types'
 import {AtList, AtListItem} from 'taro-ui'
@@ -10,7 +10,7 @@ import {isRequireEnvironment} from "../../utils/display";
  * @author LTF
  * Created on 2019/1/16
  */
-export default class CheckboxList extends Component{
+export default class CheckboxList extends PureComponent{
 
   static defaultProps = {
     data: [
@@ -34,41 +34,52 @@ export default class CheckboxList extends Component{
     defaultIds: []
   };
 
+  state = {
+    listData: []
+  };
+
   constructor(props) {
     super(props);
 
     // 进行默认选中的数据和禁止点击的数据
     let {excludeIds, defaultIds, data} = this.props;
     data.forEach(value => {
-      value.disabled = excludeIds.some(excludeId => excludeId === value.id);
-      value.checked = defaultIds.some(defaultId => defaultId === value.id);
+      value.disabled = excludeIds.some(excludeId => excludeId === value.key);
+      value.checked = defaultIds.some(defaultId => defaultId === value.key);
     });
 
     this.state = {
-      data: data,
+      listData: [
+        ...data
+      ],
     };
   }
 
-
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.data)
+    console.log(this.props.data)
+  }
 
   handleCheckboxListClick = (index, event) => {
     this.handleCheckboxClick(index, event);
   };
 
   handleCheckboxClick = (index, event) => {
+
     event.stopPropagation();
-    let {data} = this.state;
+    let {listData} = this.state;
 
     // 检查该选项时候应该被排除在外
-    if (data[index].disabled) {
+    if (listData[index].disabled) {
       return;
     }
-
-    data[index].checked = !data[index].checked;
-    let value = data.filter(value => value.checked).map(value => value.id);
+    listData[index].checked = !listData[index].checked;
+    let value = listData.filter(value => value.checked).map(value => value.id);
+    console.log(listData);
     this.setState({
-      data: data,
-
+      listData: [
+        ...listData
+      ]
     });
     let {onCheckboxItemClick} = this.props;
     onCheckboxItemClick(value);
@@ -76,11 +87,12 @@ export default class CheckboxList extends Component{
   };
 
   render() {
-    let {data} = this.state;
+    let {listData, temp} = this.state;
+    console.log(temp);
     return (
       <AtList>
         {
-          data.map((value, index) => (
+          listData.map((value, index) => (
             <View
               key={index}
               className='checkbox-list-container'

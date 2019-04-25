@@ -1,12 +1,12 @@
-import {queryById, addChatGroup, queryChatGroup, removeChatGroup, updateChatGroup} from '../services/chatGroup'
+import {queryById, addRole, queryRole, removeRole, updateRole} from '../services/role'
 import {popAll} from "../utils/common";
 
 
 /**
- * chatGroup state对象
+ * role state对象
  * @type {{effects: (function(*): {}), reducers: {}, state: {}}}
  */
-const chatGroup = {
+const role = {
 
   state: {
 
@@ -14,7 +14,7 @@ const chatGroup = {
 
     },
     pagination: {
-
+      default: {}
     },
     mappings: {
       // 当前显示的序号
@@ -26,11 +26,14 @@ const chatGroup = {
 
     // 类下拉刷新数据拉取
     async fetch(payload) {
-      const response = await queryChatGroup(payload);
-      this.saveEntitiesAndPagination(response);
+      const response = await queryRole(payload);
+      this.saveEntitiesAndPagination({
+        response,
+        paginationType: payload.paginationType
+      });
       this.deleteAndSaveCurrent({
         response,
-        currentType: payload.currentType
+        currentType: payload.currentType,
       });
       if (payload.callback) {
         payload.callback()
@@ -39,9 +42,15 @@ const chatGroup = {
     
     // 持续分页数据提取
     async fetchLatter(payload) {
-      const response = await queryChatGroup(payload);
-      this.saveEntitiesAndPagination(response);
-      this.saveCurrent(response);
+      const response = await queryRole(payload);
+      this.saveEntitiesAndPagination({
+        response,
+        paginationType: payload.paginationType
+      });
+      this.saveCurrent({
+        response,
+        currentType: payload.currentType,
+      });
       if (payload.callback) {
         payload.callback()
       }
@@ -59,13 +68,23 @@ const chatGroup = {
    
     // 保存
     async add(payload) {
-      const response = await addChatGroup(payload);
+      const response = await addRole(payload);
       this.saveObject(response);
       if (payload.callback) {
         payload.callback()
       }
     },
+    
+    // 更新组织信息
+    async update(payload) {
+      const response = await updateRole(payload);
+      if (payload.callback) {
+        payload.callback(response);
+      }
+    },
 
+    // 刷新信息
+    async refresh() {}
   }),
 
   reducers: {
@@ -85,14 +104,14 @@ const chatGroup = {
       const current = mappings[currentType];
       popAll(current);
       const result = action.response.data.result || [];
-      result.forEach(value => current.push(value.groupId));
+      result.forEach(value => current.push(value.roleId));
     },
     
     
     deleteAndSaveCurrentOne ({mappings: {current}}, action) {
       popAll(current);
       if (action.data) {
-        current.push(action.data.groupId)
+        current.push(action.data.roleId)
       }
     },
 
@@ -100,10 +119,9 @@ const chatGroup = {
      * @param action 
      * @param current {array}
      */
-    saveCurrent({mappings: {current}}, action) {
-      const result = action.data.result || [];
-      result.forEach(value => current.push(value.groupId))
-
+    saveCurrent({mappings}, {response, currentType = 'current'}) {
+      const result = response.data.result || [];
+      result.forEach(value => mappings[currentType].push(value.roleId))
     },
 
     /**
@@ -112,22 +130,22 @@ const chatGroup = {
      * @param pagination
      * @param action
      */
-    saveEntitiesAndPagination({entities, pagination}, action) {
-
+    saveEntitiesAndPagination({entities, pagination}, {response, paginationType = 'default'}) {
+      console.log(paginationType)
       // 组织entities
-      const result = action.data.result || [];
+      const result = response.data.result || [];
       result.forEach(value => {
-        entities[value.groupId] = {
-          key: value.groupId,
+        entities[value.roleId] = {
+          key: value.roleId,
           ...value,
           files: []
         };
       });
-
       // 组织分页数据
-      pagination.current = parseInt(action.data.offset) + 1;
-      pagination.pageSize = action.data.limit;
-      pagination.total = action.data.size;
+      pagination[paginationType].current = parseInt(response.data.offset) + 1;
+      pagination[paginationType].pageSize = response.data.limit;
+      pagination[paginationType].total = response.data.size;
+
     },
 
     /**
@@ -138,36 +156,12 @@ const chatGroup = {
     saveObject({entities}, action) {
       // 组织entities
       const result = action.data || {};
-      entities[result.groupId] = {
-        key: result.groupId,
+      entities[result.roleId] = {
+        key: result.roleId,
         ...result,
       };
-    },
-
-    /**
-     * 保存chatGroup信息和群组里的用户ID,
-     * @param action {array}
-     * @param current {array}
-     */
-    saveChatGroupAndUserId({entities, mappings: {current}}, action) {
-      popAll(current);
-      action.forEach(item => {
-        current.push(item.group_id);
-        entities[item.group_id] = {
-          key: item.group_id,
-          groupId: item.group_id,
-          orgId: item.orgId,
-          name: item.name,
-          avatar: item.avatar,
-          users: item.users.map(user => user.id)
-        }
-      });
-
-
-
     }
-
   },
 };
 
-export default chatGroup;
+export default role;

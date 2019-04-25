@@ -63,8 +63,14 @@ export default class RoutinePublish extends Component{
         ...object,
         orgId: this.$router.params.orgId,
         orgName: decodeURIComponent(this.$router.params.orgName)
+      },
+      callback: (res) => {
+        // 跳转至发布结果界面
+        const status = res.status >= 200 && res.status <= 300;
+        Taro.navigateTo({
+          url: `/pages/operateStatus/operateStatus?status=${status}`
+        })
       }
-
     });
   };
 

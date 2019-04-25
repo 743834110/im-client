@@ -29,5 +29,5 @@ const options = {
 
 export default init({
   models: models,
-  plugins: [immerPlugin(), createLoadingPlugin(options)]
+  plugins: [immerPlugin(), createLoadingPlugin()]
 })

@@ -36,7 +36,7 @@ export default {
 
       let key = null;
       if (action.chatType == '1') {
-        key = action.groupId;
+        key = action.group_id;
       } else if (action.chatType == '2') {
         key = action.from;
       }

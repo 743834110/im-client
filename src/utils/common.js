@@ -117,6 +117,9 @@ export const getSubmitObject = (refs) => {
   let keys = Object.getOwnPropertyNames(refs);
   let object = {};
   Object.values(refs).forEach(((value, index) => {
+    if (!value || !value.state) {
+      return
+    }
     if (value.state.submitValue) {
       object[keys[index]] = value.state.submitValue;
     }

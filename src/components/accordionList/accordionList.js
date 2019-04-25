@@ -38,12 +38,16 @@ export default class AccordionList extends Component{
     ],
     options: null,
     onButtonItemClick: () => {},
-    onListItemClick: () => {}
+    onListItemClick: () => {},
+    onPickerChange: () => {}
   };
 
-  state = {
-    opens: []
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      opens: []
+    };
+  }
 
   handleOnClick = (index, open, event) => {
     let {opens} = this.state;
@@ -53,26 +57,31 @@ export default class AccordionList extends Component{
     });
   };
 
+
   render() {
-    let {data, options, onButtonItemClick, onListItemClick} = this.props;
+    let {data, options, onButtonItemClick, onListItemClick, onPickerChange} = this.props;
     let {opens} = this.state;
     return (
       <View>
         {
-          data.map((value, index) => (
-            <AtAccordion
-              open={opens[index]}
-              key={value.key}
-              onClick={this.handleOnClick.bind(this, index)}
-              title={value.name}
-              customStyle={{
-                backgroundColor: 'white',
-              }}
+          data.map((value, index) => {
+            const open = opens[index];
+            return (
+              <AtAccordion
+                open={open}
+                key={value.key}
+                onClick={this.handleOnClick.bind(this, index)}
+                title={value.name}
+                customStyle={{
+                  backgroundColor: 'white',
+                }}
 
-            >
-              <ButtonList data={value.list} options={options} onButtonItemClick={onButtonItemClick} onListItemClick={onListItemClick}  />
-            </AtAccordion>
-          ))
+              >
+                <ButtonList data={value.list} options={options} onPickerChange={onPickerChange.bind(this, index)}  onButtonItemClick={onButtonItemClick.bind(this, index)} onListItemClick={onListItemClick}  />
+              </AtAccordion>
+            )
+
+            })
         }
       </View>
     )
@@ -95,5 +104,9 @@ AccordionList.propTypes = {
   /**
    * 列表项点击事件
    */
-  onListItemClick: PropTypes.func
+  onListItemClick: PropTypes.func,
+  /**
+   * 选择器点击事件
+   */
+  onPickerChange: PropTypes.func
 };

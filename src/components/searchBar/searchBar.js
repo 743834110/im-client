@@ -13,7 +13,6 @@ export default class SearchBar extends Component {
 
   static defaultProps = {
     navigateBackPath: '',
-    actionName: '取消',
     showModal: false,
     onKeywordSearch: () => {},
     onFocus: () => {},
@@ -21,7 +20,8 @@ export default class SearchBar extends Component {
   };
 
   state = {
-    value: ''
+    value: '',
+    actionName: '取消',
   };
 
   constructor(props) {
@@ -36,18 +36,27 @@ export default class SearchBar extends Component {
    */
   handleActionClick = () => {
     let {showModal} = this.props;
-    showModal?
-    Taro.showModal({
-      title: '提示',
-      content: '操作不可逆，是否确认取消？',
-    })
-      .then(res => {
-        if (res.cancel) {
-          return;
-        }
-        this.navigateBack();
-      }):
+    let {value} = this.state;
+    if (showModal) {
+      Taro.showModal({
+        title: '提示',
+        content: '操作不可逆，是否确认取消？',
+      })
+        .then(res => {
+          if (res.cancel) {
+            return;
+          }
+          this.navigateBack();
+        })
+    }
+    else if (value) {
+      this.handleOnConfirm();
+    }
+    else {
       this.navigateBack();
+    }
+
+
   };
 
   navigateBack = () => {
@@ -71,7 +80,8 @@ export default class SearchBar extends Component {
    */
   handleOnChange = (value) => {
     this.setState({
-      value: value
+      value: value,
+      actionName: value? '搜索': '取消'
     })
   };
 
@@ -86,8 +96,8 @@ export default class SearchBar extends Component {
   };
 
   render() {
-    let {value} = this.state;
-    let {placeholder, actionName, onFocus, onBlur} = this.props;
+    let {value, actionName} = this.state;
+    let {placeholder, onFocus, onBlur} = this.props;
     return (
       <View>
         <AtForm
@@ -99,6 +109,7 @@ export default class SearchBar extends Component {
             onChange={this.handleOnChange}
             onActionClick={this.handleActionClick}
             placeholder={placeholder}
+            onConfirm={this.handleOnConfirm}
             onFocus={onFocus}
             onBlur={onBlur}
           />

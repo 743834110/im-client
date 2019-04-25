@@ -63,7 +63,7 @@ export default class RoutineSearch extends PureComponent{
       mask: true
     });
     dispatch({
-      type: 'routine/fetch',
+      type: 'routine/filterFetch',
       payload: {
         pager: {
           or: {
@@ -97,7 +97,7 @@ export default class RoutineSearch extends PureComponent{
       mask: true
     });
     dispatch({
-      type: 'routine/fetchLatter',
+      type: 'routine/filterFetchLatter',
       payload: {
         pager: {
           or: {

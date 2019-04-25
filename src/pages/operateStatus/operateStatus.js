@@ -1,5 +1,5 @@
-import Taro, {Component} from '@tarojs/taro'
-import {View, Icon, Text} from '@tarojs/components'
+import Taro, {PureComponent} from '@tarojs/taro'
+import {View, Icon} from '@tarojs/components'
 import {AtButton} from 'taro-ui';
 import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 
@@ -14,7 +14,7 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
  * @author LTF
  * Created on 2019/2/7
  */
-export default class OperateStatus extends Component{
+export default class OperateStatus extends PureComponent{
 
   config = {
     navigationBarTitleText: ''
@@ -24,14 +24,18 @@ export default class OperateStatus extends Component{
 
   };
 
+  /**
+   * 接收参数，
+   */
   componentWillMount() {
     this.setState({
       url: "/pages/addMember/addMember",
       delta: 2,
       status: false,
-      success: "发布成功",
-      _false: "发布失败",
+      success: "操作成功",
+      _false: "操作失败",
       message: "fdfdfdss",
+      ...this.$router.params
     })
   }
 
@@ -60,13 +64,13 @@ export default class OperateStatus extends Component{
         <View className='flex-1'>
             {
               status?
-                <View style={{textAlign: 'center'}}>
+                <View style={{textAlign: 'center'}} className='margin-top-24'>
                   <View>
                     <Icon size='60' type='success' color='#118EE9' />
                   </View>
                   <View className='common-title-text'>{success}</View>
                 </View>:
-                <View style={{textAlign: 'center'}}>
+                <View style={{textAlign: 'center'}} className='margin-top-24'>
                   <View>
                     <Icon size='60' type='warn' />
                   </View>

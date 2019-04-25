@@ -66,7 +66,7 @@ export default class ManagerGroup extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps) {
     const {organization} = this.props;
     this.setState(prevState => ({
       data: prevState.data.map(item => {
@@ -76,7 +76,9 @@ export default class ManagerGroup extends Component {
             ...item.data,
             keyName: 'orgId',
             keyValue: this.$router.params.orgId,
-            value: organization.list[0]? organization.list[0][item.data.ref]: undefined
+            value: organization.list[0]? organization.list[0][item.data.ref]: undefined,
+            orgType: this.$router.params.orgType,
+            orgName: this.$router.params.orgName
           }
         }
       })

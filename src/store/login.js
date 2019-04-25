@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro';
 import {login as loginFunc} from '../services/user';
 import {setToken} from '../utils/request';
+import {sendGetCaptcha, resetPassword, validateCaptcha} from "../services/user";
 
 const login = {
   state: {
@@ -8,6 +9,30 @@ const login = {
   },
 
   effects: (dispatch) => ({
+
+    // 向服务器请求发送验证码
+    async sendGetCaptcha(payload) {
+      const response = await sendGetCaptcha(payload);
+      if (payload.callback) {
+        payload.callback(response);
+      }
+    },
+
+    // 发送验证验证号码请求
+    async sendValidateCaptcha(payload) {
+      const response = await validateCaptcha(payload);
+      if (payload.callback) {
+        payload.callback(response)
+      }
+    },
+
+    // 进行密码重置
+    async resetPassword(payload) {
+      const response = await resetPassword(payload);
+      if (payload.callback) {
+        payload.callback(response);
+      }
+    },
 
     // 登录:调用其他在socketTask的发送方法。
     async login(payload) {
@@ -60,9 +85,19 @@ const login = {
            })
           })
         });
+
+        // 处理好友信息
         dispatch({
           type: 'user/saveEntities',
           payload: users
+        });
+
+        // 获取聊天离线信息
+        dispatch({
+          type: 'message/getOfflineMessage',
+          payload: {
+            userId: payload.user.id
+          }
         });
 
         // 保存token

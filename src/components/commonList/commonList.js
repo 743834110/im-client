@@ -91,7 +91,7 @@ export default class CommonList extends Component {
                 title={value.title}
                 arrow={value.arrow}
                 note={value.note}
-                onClick={onClick.bind(this, value)}
+                onClick={onClick.bind(this, value, index)}
                 isSwitch={value.switch}
                 switchIsCheck={value.check}
                 disabled={value.disabled}

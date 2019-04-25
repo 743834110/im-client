@@ -29,9 +29,10 @@ export default class ButtonList extends Component {
         extraText: '2015874136',
       }
     ],
-    options: ["移除"],
+    options: [],
     onListItemClick: () => {},
-    onButtonItemClick: () => {}
+    onButtonItemClick: () => {},
+    onPickerChange: () => {}
 
   };
 
@@ -41,14 +42,14 @@ export default class ButtonList extends Component {
 
 
   render() {
-    let {data, options, onButtonItemClick, onListItemClick} = this.props;
+    let {data, options, onButtonItemClick, onListItemClick, onPickerChange} = this.props;
     return (
       <AtList >
         {
           data.map((value, index) => (
             <View className='swipe-list-item-container' key={value.id}>
               <AtListItem
-
+                disabled={'delete' === value.method}
                 className='list-item'
                 title={value.title}
                 key={value.id}
@@ -67,7 +68,7 @@ export default class ButtonList extends Component {
                       <View className='button-wrapper' key={optionIndex}>
                         {
                           isObject?
-                            <Picker mode={option.mode} onChange={option.onChange.bind(this, optionIndex, value, index)} range={option.range} >
+                            <Picker mode={!option.mode? 'selector': option.mode} onChange={onPickerChange.bind(this, value, index, optionIndex)} range={option.range} >
                               <AtButton
                                 type='primary'
                                 size='small'
@@ -78,7 +79,7 @@ export default class ButtonList extends Component {
                             <AtButton
                               type='primary'
                               size='small'
-                              onClick={onButtonItemClick.bind(this, optionIndex, value, index)}
+                              onClick={onButtonItemClick.bind(this, value, index, optionIndex)}
                             >
                               {option}
                             </AtButton>
@@ -113,7 +114,9 @@ ButtonList.propTypes = {
    * 列表项中按钮点击事件
    */
   onButtonItemClick: PropTypes.func,
-
-
+  /**
+   * 选择器选择事件
+   */
+  onPickerChange: PropTypes.func
 
 };

@@ -29,7 +29,15 @@ const codeMessage = {
  */
 export function setToken (_token) {
   token = _token;
-};
+}
+
+/**
+ * 获取token
+ * @return {*}
+ */
+export function getToken() {
+  return token;
+}
 
 /**
  * @author LTF
@@ -42,6 +50,7 @@ const checkStatus = response => {
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response;
   }
+  console.log(response);
   const errorText = codeMessage[response.statusCode] || response.statusText;
   Taro.showToast({
     title: errorText,
@@ -51,6 +60,13 @@ const checkStatus = response => {
   error.response = response;
   throw error;
 };
+
+Taro.addInterceptor(async function checkNetStatus(chain) {
+  const requestParams = chain.requestParams;
+  const { method, data, url } = requestParams;
+  console.log(`http ${method || 'GET'} --> ${url} data: `, data)
+  return chain.proceed(requestParams)
+});
 
 /**
  *
@@ -79,13 +95,29 @@ export default function request(url, options) {
       success: (res) => {
         if(res && res.header && res.header['Set-Cookie']){
          cookie = res.header['Set-Cookie'];
-         console.log(cookie);
         }
-      }
+      },
     };
+
+
     return Taro
       .request(option)
       .then(checkStatus)
       .then(response => response.data)
-      .catch(e => logError('api', '请求接口出现问题', e))
+      .catch(e => {
+        // 先检查是否是网络的问题
+        Taro.getNetworkType()
+          .then(res => {
+            if (res.networkType === 'none') {
+              Taro.showToast({
+                title: "暂无网络连接",
+                icon: 'none'
+              });
+            }
+            else {
+              logError('api', '请求接口出现问题', e)
+            }
+
+          })
+      })
   }

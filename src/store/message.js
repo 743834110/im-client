@@ -4,6 +4,7 @@
  */
 import Taro from '@tarojs/taro';
 import {ON_MESSAGE} from "../utils/config";
+import {getOfflineMessage, getHistoryMessage} from "../services/message";
 
 
 export default {
@@ -39,10 +40,40 @@ export default {
     mappings: {
       "003": ["001", "002"]
     },
+    // 分页数据
+    pagination: {
+
+    }
 
   },
 
   effects: (dispatch) => ({
+
+    /**
+     * 请求获取离线信息
+     * @param payload
+     * @return {Promise<void>}
+     */
+    async getOfflineMessage(payload) {
+      const content = getOfflineMessage(payload);
+      dispatch.socketTask.send(content);
+    },
+
+    async getHistoryMessage(payload) {
+      const content = getHistoryMessage(payload);
+      dispatch.socketTask.send(content);
+    },
+
+    // 接收到离线信息,为空时将直接调出该操作。
+    async onReceivingOfflineMessage(payload) {
+      if (!payload.data) {
+        return;
+      }
+      this.batchSavePrevEntities(payload.data.friends);
+      this.batchSavePrevEntities(payload.data.groups);
+      this.batchSavePrevMappings(payload.data.friends);
+      this.batchSavePrevMappings(payload.data.groups);
+    },
 
     // 正在发送消息时:发送看from,回来看to
     async asyncSendingMessage(content, rootState) {
@@ -54,12 +85,13 @@ export default {
     // 消息回复
     async asyncSendingReplyMessage(content, rootState) {
       // this.saveEntities(content);
+      console.log("进行消息回复")
       dispatch.socketTask.send(content);
     },
 
     // 接受到信息时
     async onReceivingMessage (payload, rootState) {
-      console.log(payload);
+      console.log("接受到外部信息")
       // 包含引用源时，解析成源头。
       let data = payload.data;
       if (data.extras && data.extras.referer) {
@@ -84,9 +116,9 @@ export default {
       });
     },
 
-    // 当收到服务器的响应时
+    // 当收到服务器发送成功的响应时
     async afterSendingMessage (payload) {
-      console.log(payload);
+      console.log("发送成功");
       // 包含引用源时，解析成源头。
       let data = payload.data;
       if (data.extras && data.extras.referer) {
@@ -99,7 +131,7 @@ export default {
 
       // 告诉messageAndChatGroup有消息来了，需要更新messageAndChatGroup
       dispatch.messageAndChatGroup.saveMessage(data);
-
+      console.log(data.read)
       this.saveEntities({
         ...data,
         success: true,
@@ -111,7 +143,7 @@ export default {
   reducers: {
     // 1为公聊，2为私聊
     saveToMapping({mappings}, action) {
-      const to = action.chatType == 1? action.groupId: action.to;
+      const to = action.chatType == 1? action.group_id: action.to;
       if (!mappings[to]) {
         mappings[to] = [];
       }
@@ -119,12 +151,37 @@ export default {
     },
     // 1为公聊，2为私聊
     saveFromMapping({mappings}, action) {
-      const from = action.chatType == 1? action.groupId: action.from;
+      const from = action.chatType == 1? action.group_id: action.from;
       if (!mappings[from]) {
         mappings[from] = [];
       }
       mappings[from].push(action.msgId);
     },
+
+    // 获取历史数据是需要向数据前面插入信息序号
+    batchSavePrevMappings({mappings}, action) {
+      for (let key in action) {
+        if (!mappings[key]) {
+          mappings[key] = [];
+        }
+
+        mappings[key].unshift(...action[key].map(item => item.msgId))
+      }
+    },
+
+    // 批量保存历史信息
+    batchSavePrevEntities({entities}, action) {
+      for (let key in action) {
+        action[key].forEach(item => {
+          entities[item.msgId] = {
+            key: item.msgId,
+            ...item,
+            success: true
+          }
+        });
+      }
+    },
+
 
     saveEntities({entities}, action) {
       entities[action.msgId] = {

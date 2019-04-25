@@ -38,17 +38,17 @@ export default class Index extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: "routine/fetch",
+      type: "routine/filterFetch",
       payload: {}
     })
+
   }
 
-  componentDidShow() {
 
+  componentDidShow() {
   }
 
   componentDidHide() {
-
   }
 
   /**
@@ -57,7 +57,7 @@ export default class Index extends PureComponent {
   handleOnUpperRefresh = (target) => {
     const {dispatch} = this.props;
     dispatch({
-      type: 'routine/fetch',
+      type: 'routine/filterFetch',
       payload: {}
     })
   };
@@ -68,7 +68,7 @@ export default class Index extends PureComponent {
   handleOnLowerRefresh = (pagination) => {
     const {dispatch} = this.props;
     dispatch({
-      type: 'routine/fetchLatter',
+      type: 'routine/filterFetchLatter',
       payload: {
         pager: {
           offset: pagination.current - 1,

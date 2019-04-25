@@ -5,10 +5,10 @@ import {AtButton} from 'taro-ui';
 import CustomInput from "../../components/customInput/customInput";
 import {getSubmitObject} from "../../utils/common";
 
-const mapStateToProps = ({setting: {entities}, login, loading}) => {
+const mapStateToProps = ({setting: {entities}, login, loading, socketTask: {waitForMessage}}) => {
   return {
     saveUserAndPassword: entities.saveUserAndPassword,
-    loading: loading.global,
+    loading: waitForMessage,
     login
   }
 };
@@ -33,14 +33,37 @@ export default class Login extends PureComponent {
   };
 
   /**
-   *
+   * 登录code
+   */
+  code;
+
+  /**
+   * 进行登录
    * /pages/index/index
    */
   handleLoginButtonClick = () => {
     const {dispatch} = this.props;
+    const object = getSubmitObject(this.refs)
+    // 检查提交信息的完整性
+    if (!object.loginname || !object.password) {
+      Taro.showToast({
+        title: '用户名和密码不能为空',
+        icon: 'none'
+      })
+      return;
+    }
+
+
+    Taro.showLoading({
+      title: '正在连接服务器...',
+      mask: true,
+    });
     dispatch.socketTask.wsConnectAndReConnect({
       callback: () => {
-        dispatch.login.login({...getSubmitObject(this.refs)})
+        Taro.hideLoading();
+        dispatch.login.login({
+          ...object
+        })
       }
     })
   };
@@ -59,6 +82,11 @@ export default class Login extends PureComponent {
   };
 
   showModal = () => {
+    const {login} = this.props;
+    if (login.code === this.code) {
+      return;
+    }
+    this.code = login.code;
     Taro.showModal({
       title: '温馨提示',
       content: '你输入用户名或密码有误，请稍后再试.'

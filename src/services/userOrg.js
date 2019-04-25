@@ -85,3 +85,12 @@ export async function queryUserOrgStructure(params) {
     }
   })
 }
+
+export async function editInputBean(params) {
+  return request('/rest/appUserOrgService/editByInputBean', {
+    method: 'POST',
+    body: {
+      ...params
+    }
+  })
+}

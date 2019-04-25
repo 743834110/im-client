@@ -6,36 +6,36 @@ import MessageList from "../../components/messageList/messageList";
 import MediaInput from "../../components/mediaInput/mediaInput";
 import {generateId} from "../../utils/common";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({selected, user, message, chatGroup, socketTask: {waitForMessage}}) => {
 
 
-  let chatRoom = state.selected.chatRoom;
-  let currentUserId = state.user.currentUser;
+  let chatRoom = selected.chatRoom;
+  let currentUserId = user.currentUser;
   // 当前用户信息
-  let currentUser = state.user.entities[currentUserId];
+  let currentUser = user.entities[currentUserId];
   // 聊天信息映射,显示方向由message的state判断。
-  let messages = state.message.mappings[chatRoom.chatId]? state.message.mappings[chatRoom.chatId]: [];
+  let messages = message.mappings[chatRoom.chatId]? message.mappings[chatRoom.chatId]: [];
   // 用于标记发送者和接受者是同一个人的情况的变量: true为有，false为左边
   let currentReverse = true;
   messages = messages.map(value => {
-    let message = {
-      ...state.message.entities[value]
+    let _message = {
+      ...message.entities[value]
     };
 
     // 标明位置
-    if (message.from === currentUserId && message.to !== currentUserId) {
-      message.position = 'right';
+    if (_message.from === currentUserId && _message.to !== currentUserId) {
+      _message.position = 'right';
 
-    } else if (message.from === currentUserId && message.to === currentUserId) {
-      message.position = currentReverse? 'right': 'left';
+    } else if (_message.from === currentUserId && _message.to === currentUserId) {
+      _message.position = currentReverse? 'right': 'left';
       currentReverse = !currentReverse;
 
     } else {
-      message.position = 'left';
+      _message.position = 'left';
     }
 
 
-    return message;
+    return _message;
   });
 
 
@@ -43,8 +43,9 @@ const mapStateToProps = (state) => {
     messages,
     chatRoom,
     currentUser,
-    targetUser: state.user.entities[chatRoom.chatId],
-    targetGroup: state.chatGroup.entities[chatRoom.chatId]
+    targetUser: user.entities[chatRoom.chatId],
+    targetGroup: chatGroup.entities[chatRoom.chatId],
+    loading: waitForMessage
   }
 };
 
@@ -57,7 +58,7 @@ const mapDispatchToProps = (dispatch) => ({
     message.fromName = currentUser.userName;
     message.fromAvatar = currentUser.userImageUrl;
     message.to = chatRoom.chatId;
-    message.groupId = chatRoom.chatId;// 具体的根据交给chatType处理
+    message.group_id = chatRoom.chatId;// 具体的根据交给chatType处理
     message.msgType = 'text';// te
     message.chatType = chatRoom.chatType;
     message.content = content;
@@ -65,16 +66,17 @@ const mapDispatchToProps = (dispatch) => ({
     message.createTime = now.getTime();
     // 公聊
     if (chatRoom.chatType == '1') {
-      message.read = [
-
-      ]
+      message.read = []
     }
     // 私聊
     else if (chatRoom.chatType == '2') {
       const chatId = new String(chatRoom.chatId);
+      Taro.getEnv()
       message.read = [chatId];
     }
-
+    else {
+      message.read = []
+    }
     dispatch.message.asyncSendingMessage(message);
   },
   dispatch
@@ -92,30 +94,61 @@ export default class ChatRoom extends PureComponent{
     navigationBarTitleText: ''
   };
 
+
   constructor(props) {
     super(props);
+    console.log("构造")
   }
+
 
   /**
    * 标记已读
    * 非数组返回，找不到返回，未发送成功的也返回,不是在右边的返回,找到去除，找到重新发送消息
+   * 不兼容微信端
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    const {dispatch} = this.props;
-    const {messages, currentUser} = nextProps;
+    const {loading} = nextProps;
+    if (this.props.loading === loading) {
+      return;
+    }
+    if (loading) {
+      Taro.showLoading({
+        title: 'loading...',
+        mask: true
+      })
+    }
+    else {
+      Taro.hideLoading();
+    }
+  }
 
-    messages.forEach(item => {
+  // 当messages为空时，将请求聊天内容
+  componentDidShow() {
+    let {messages} = this.props;
+    // if (messages.length === 0) {
+    //   this.handleScrollToUpper()
+    // }
+    // 空闲时发送
+    setInterval(() => {
+      this.updateReadStatus(this.props);
+    }, 3000)
+  }
 
+  updateReadStatus = (props) => {
+    let {messages, currentUser, dispatch, loading} = props;
+    if (loading) {
+      return;
+    }
+    messages.forEach((item, _index) => {
       if (item.position !== 'left') {
         return;
       }
+      // if (item.success === true) {
+      //   return;
+      // }
 
-      if (!item.success) {
-        return;
-      }
-
-      if (!item.read || !item.read instanceof Array) {
+      if (!item.read || !item.read instanceof Array || item.read.length === 0) {
         return;
       }
 
@@ -123,9 +156,11 @@ export default class ChatRoom extends PureComponent{
       if (index === -1) {
         return;
       }
-      item.read.splice(index, 1);
-      dispatch.message.asyncSendingReplyMessage({
+      // 为防止对已seal对象进行修改而报的错误，将另开对象进行操作
+      const read = item.read.slice(0, index).concat(item.read.slice(index + 1));
+      const replyMessage = {
         ...item,
+        read,
         from: currentUser.userId,
         fromName: currentUser.userName,
         fromAvatar: currentUser.userImageUrl,
@@ -138,20 +173,50 @@ export default class ChatRoom extends PureComponent{
             to: item.to,
           }
         }
+      };
+      console.log(item, _index)
+      dispatch({
+        type: 'message/asyncSendingReplyMessage',
+        payload: replyMessage
       });
     })
-  }
+  };
 
 
+  /**
+   * 获取历史聊天信息
+   * 将这一个时间点的作为上一个时间点的最后信息获取时间
+   * 当前以一天为区间来获取聊天信息
+   */
   handleScrollToUpper = () => {
-    Taro.showLoading({
-      title: 'loading',
-      mask: true
-    })
-      .then(res => console.log(res));
-    setTimeout(() => {
-      Taro.hideLoading()
-    }, 3000)
+    const {chatRoom, currentUser, dispatch, messages} = this.props;
+
+    // 当消息为空时，将事先获取头10条信息
+    if (messages.length !== 0) {
+      dispatch({
+        type: 'message/getHistoryMessage',
+        payload: {
+          userId: currentUser.userId,
+          groupId: chatRoom.chatType == '1' ? chatRoom.chatId : undefined,
+          fromUserId: chatRoom.chatId,
+          endTime: messages[0].createTime - 1,
+          beginTime: new Date(messages[0].createTime - 24 * 60 * 60 * 1000).getTime(),
+        }
+      })
+    }
+    else {
+      dispatch({
+        type: 'message/getHistoryMessage',
+        payload: {
+          userId: currentUser.userId,
+          groupId: chatRoom.chatType == '1' ? chatRoom.chatId : undefined,
+          fromUserId: chatRoom.chatId,
+          endTime: Date.now(),
+          beginTime: new Date(Date.now() - 24 * 60 * 60 * 1000).getTime(),
+        }
+      })
+    }
+
   };
 
   handleButtonClick = (value) => {
@@ -162,13 +227,16 @@ export default class ChatRoom extends PureComponent{
 
 
   render() {
-    let {messages, targetUser} = this.props;
+    let {messages, targetUser = {}, targetGroup = {}, chatRoom: {chatType}} = this.props;
+    // 公聊采用组织名称，私聊采用对方的用户名称。
+    const navTitle = chatType == '1'? targetGroup.name: targetUser.userName;
     return (
       <View className='container'>
         <View>
-          <PopUpNavBar title={''} />
+          <PopUpNavBar title={navTitle} />
         </View>
-        <ScrollView  lowerThreshold='20' scrollTop={messages.length * 1000} scrollY className='flex-1' onScrollToUpper={this.handleScrollToUpper} >
+        <ScrollView  lowerThreshold='20' scrollTop={messages.length * 1000} scrollY className='flex-1'>
+
           <MessageList list={messages} />
         </ScrollView>
         <View className='input'>

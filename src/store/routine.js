@@ -1,4 +1,4 @@
-import {queryById, addRoutine, queryRoutine, removeRoutine, updateRoutine} from '../services/routine'
+import {queryById, addRoutine, queryRoutine, filterByPager} from '../services/routine'
 import {popAll} from "../utils/common";
 
 
@@ -39,6 +39,25 @@ const routine = {
       }
     },
 
+    // 过滤类下拉刷新数据拉取
+    async filterFetch(payload) {
+      const response = await filterByPager(payload);
+      this.saveEntitiesAndPagination(response);
+      this.deleteAndSaveCurrent(response);
+      if (payload.callback) {
+        payload.callback();
+      }
+    },
+    // 过滤持续分页数据提取
+    async filterFetchLatter(payload) {
+      const response = await filterByPager(payload);
+      this.saveEntitiesAndPagination(response);
+      this.saveCurrent(response);
+      if (payload.callback) {
+        payload.callback();
+      }
+    },
+
     // 根据Id来查询数据
     async fetchOne(payload) {
       const response = await queryById(payload);
@@ -52,7 +71,7 @@ const routine = {
       const response = await addRoutine(payload);
       this.saveObject(response);
       if (payload.callback) {
-        payload.callback();
+        payload.callback(response);
       }
     }
   }),

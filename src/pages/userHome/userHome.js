@@ -6,6 +6,7 @@ import SimpleNavBar from "../../components/simpleNavBar/simpleNavBar";
 import TabBar from "../../components/tabBar/tabBar";
 import CommonList from "../../components/commonList/commonList";
 import UserCard from "../../components/userCard/userCard";
+import {setToken} from "../../utils/request";
 
 
 const mapStateToProps = ({user: {entities, currentUser}}) => {
@@ -31,19 +32,47 @@ export default class UserHome extends PureComponent{
       {title: '我的发布', url: '/pages/userPublish/userPublish', arrow: 'right'},
       {title: '我的收藏', url: '/pages/orgReview/orgReview', arrow: 'right'},
       {title: '设置', url: '/pages/userSetting/userSetting', arrow: 'right'},
-      {title: '反馈', url: '/pages/orgReview/orgReview', arrow: 'right'},
+      // {title: '反馈', url: '/pages/orgReview/orgReview', arrow: 'right'},
       {title: '关于', url: '/pages/orgReview/orgReview', arrow: 'right'},
     ]
   };
 
-  handleCommonListClick = (data) => {
-    Taro.navigateTo({
-      url: data.url
-    })
+  handleCommonListClick = (data, index) => {
+    if (index === 1) {
+      Taro.showModal({
+        content: '该功能正在开发中...',
+        showCancel: false
+      })
+    }
+    else if (index !== 3) {
+      Taro.navigateTo({
+        url: data.url
+      })
+    }
+    else {
+      Taro.showModal({
+        content: '校园发布助手alpha版',
+        showCancel: false
+      })
+    }
   };
 
+  /**
+   * 退出登录,跳转到登录界面
+   */
   handleOnButtonClick = () => {
-
+    const {dispatch} = this.props;
+    Taro.showModal({
+      content: '是否要退出登录'
+    }).then(res => {
+      if (res.confirm) {
+        dispatch.socketTask.close();
+        setToken(null);
+        Taro.redirectTo({
+          url: '/pages/login/login'
+        })
+      }
+    })
   };
 
   handleOnUserCardClick = () => {

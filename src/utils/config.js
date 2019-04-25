@@ -2,10 +2,10 @@
 // export base = "http://api.shudong.wang/v1/"
 
 // http连接基地址
-export const base = "http://192.168.1.6:8080";
+export const base = "https://berby.xyz:8080";
 
 // ws连接基地址
-export const wsUrl = "ws://192.168.1.6:8880";
+export const wsUrl = "wss://berby.xyz:8880";
 
 // webSocket断开重连次数
 export const MAX_ATTEMPT_COUNT = 5;
@@ -14,7 +14,8 @@ export const MAX_ATTEMPT_COUNT = 5;
 export const commandToModelMapping = {
   '6': 'login/afterLogin',
   '12': 'message/afterSendingMessage',
-  '11': 'message/onReceivingMessage'
+  '11': 'message/onReceivingMessage',
+  '20': 'message/onReceivingOfflineMessage'
 };
 
 // 事件名称

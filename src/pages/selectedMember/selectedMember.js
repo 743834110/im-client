@@ -10,14 +10,16 @@ import ButtonList from "../../components/buttonList/buttonList";
  * @returns {{selectedMembers: any[], currentUser: *}}
  */
 const mapStateToProps = (state) => {
-  let userOrg = state.userOrg.entities;
+  let userOrg = state.userOrg .entities;
   let data = state.selectedMembers
-    .map(userId => ({
+    .map(userId => userOrg[userId]? {
       id: userId,
       thumb: userOrg[userId].userImageUrl,
       title: userOrg[userId].userName,
       note: userOrg[userId].orgName
-    }));
+    }: {
+
+    });
   return {
     data: data,
     selectedMembers: state.selectedMembers,

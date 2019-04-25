@@ -74,7 +74,7 @@ export default class AddFeedBack extends PureComponent {
                 duration: 2000,
                 success: () => {
                   setTimeout(() => {
-                    Taro.navigateTo({
+                    Taro.redirectTo({
                       url: `/pages/orgHome/orgHome?orgId=${orgId}`
                     })
                   }, 2000)

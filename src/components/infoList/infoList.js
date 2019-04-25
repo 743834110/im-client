@@ -28,7 +28,7 @@ export default class InfoList extends Component{
       <AtList >
         {
           data.map((value, index) => (
-            <View className='string-list-container' >
+            <View className='string-list-container' key={value.id} >
               <CustomListItem value={value} key={index} onClick={onClick}  />
               <View className='override'>
                 {

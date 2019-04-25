@@ -1,11 +1,17 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
 import {connect} from "@tarojs/redux"
+import { AtNoticebar } from 'taro-ui'
 import PopUpNavBar from "../../components/popUpNavBar/popUpNavBar";
 import OrgHomeTab from "../../components/orgHomeTab/orgHomeTab";
 import SQL from "../../utils/query";
 
-const mapStateToProps = ({organization: {entities, pagination, mappings: {current}}, loading, selected, routine, userOrg: {userOrgStructure}}) => {
+const mapStateToProps = ({
+                           organization: {entities, pagination, mappings: {current}},
+                           loading,
+                           selected,
+                           routine,
+                           userOrg: {userOrgStructure}, chatGroup}) => {
   return {
     org: {
       list: new SQL()
@@ -13,6 +19,12 @@ const mapStateToProps = ({organization: {entities, pagination, mappings: {curren
         .from(entities)
         .exec(),
       pagination
+    },
+    chatGroup: {
+      list: new SQL()
+        .select(chatGroup.mappings.current)
+        .from(chatGroup.entities)
+        .exec()
     },
     routine: {
       list: new SQL()
@@ -52,17 +64,17 @@ export default class OrgHome extends Component{
 
   };
 
+  state = {
+    popUpList: [
+      {iconType: 'message', title: '发布消息', url: '/pages/routinePublish/routinePublish'},
+      {iconType: 'link', title: '创建工作群', url: '/pages/buildGroup/buildGroup'},
+      {iconType: 'settings', title: '管理', url: '/pages/manageGroup/manageGroup'},
+      {iconType: 'help', title: '反馈', url: '/pages/addFeedback/addFeedback'},
+    ]
+  };
+
   constructor(props) {
     super(props)
-  }
-
-  componentWillMount() {
-    // let orgString = decodeURIComponent(this.$router.params.param);
-    // console.log(orgString)
-    // let org = JSON.parse(orgString);
-    // this.setState({
-    //   org: org
-    // })
   }
 
   /**
@@ -123,6 +135,34 @@ export default class OrgHome extends Component{
   }
 
   /**
+   * 利用当前组织和用户所在的组织进行比较
+   * 当用户在当前组织当中，则可以进行更多的操作，
+   * 以达到限制用户更多的操作的目的
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    const {chatGroup, org: {list}} = nextProps;
+    console.log(list);
+    if (chatGroup.list.some(item => this.$router.params.orgId === item.orgId)) {
+      this.setState({
+        popUpList: [
+          {iconType: 'message', title: '发布消息', url: '/pages/routinePublish/routinePublish'},
+          {iconType: 'link', title: '创建工作群', url: '/pages/buildGroup/buildGroup'},
+          {iconType: 'settings', title: '管理', url: '/pages/manageGroup/manageGroup'},
+          {iconType: 'help', title: '反馈', url: '/pages/addFeedback/addFeedback'},
+        ]
+      })
+    }
+    else {
+      this.setState({
+        popUpList: [
+          {iconType: 'help', title: '反馈', url: '/pages/addFeedback/addFeedback'},
+        ]
+      })
+    }
+  }
+
+  /**
    * 处理点击弹窗元素事件
    * @param value
    */
@@ -166,22 +206,36 @@ export default class OrgHome extends Component{
 
   /**
    * 组织架构成员点击事件
-   * @param index
+   * 切换到聊天界面
+   * 请求的组织架构数据还没有加载到userOrgState当中
+   * 可能用户信息还没有刷新到user的state当中，需要将userId，userName信息刷新到聊天界面当中
+   * @param value
    */
-  handleAccordionClick = (index) => {
-    const {userOrg: {userOrgStructure}, dispatch} = this.props;
-    console.log(dispatch);
+  handleAccordionClick = (value) => {
+    const {dispatch} = this.props;
+    console.log(dispatch, value);
+    dispatch.user.saveEntities([{userId: value.userId, userName: value.userName}]);
+    dispatch.selected.changeChatRoomSelected(2, value.userId);
+    Taro.navigateTo({
+      url: "/pages/chatRoom/chatRoom"
+    })
   };
 
   render() {
     let {org, routine, userOrg: {userOrgStructure}} = this.props;
-    console.log(userOrgStructure);
+    let {popUpList} = this.state;
     return (
       <View className='container'>
         <View>
-          <PopUpNavBar title={org.list[0]? org.list[0].orgName: ''}  onPopUpBlockClick={this.handlePopUpBlockClick} />
+          <PopUpNavBar popUpList={popUpList} title={org.list[0]? org.list[0].orgName: ''}  onPopUpBlockClick={this.handlePopUpBlockClick} />
         </View>
         <View className='flex-1 display-flex-column'>
+          {
+            org.list[0] && org.list[0].orgAnnounce?
+              <AtNoticebar icon='volume-plus' close>
+                {org.list[0].orgAnnounce}
+              </AtNoticebar>: null
+          }
           <View className='white '>
             <Image
               style={{

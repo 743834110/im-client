@@ -35,10 +35,11 @@
 		"@tarojs/taro-tt": "1.2.21",
 		"@tarojs/taro-weapp": "1.2.21",
 		"immutable": "^4.0.0-rc.12",
+		"lodash": "4.17.11",
 		"nerv-devtools": "^1.3.9",
 		"nervjs": "^1.3.9",
 		"prop-types": "latest",
-		"taro-ui": "2.0.0"
+		"taro-ui": "2.1.0"
 	},
 	"devDependencies": {
 		"@tarojs/plugin-babel": "1.2.21",

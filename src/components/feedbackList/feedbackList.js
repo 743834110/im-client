@@ -24,7 +24,6 @@ export default class FeedbackList extends Component {
 
   render() {
     let {list, onButtonClick, onContentClick, onImageClick} = this.props;
-    console.log(list);
     return (
       <View>
         {

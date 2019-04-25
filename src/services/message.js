@@ -71,3 +71,30 @@ export async function updateMessage(params = {}) {
     },
   });
 }
+
+
+/**
+ * 获取请求离线信息数据结构
+ * @param params
+ * @return {{cmd: number, type: number, userId: *}}
+ */
+export function getOfflineMessage(params) {
+  return {
+    cmd: 19,
+    type: 0,
+    ...params
+  }
+}
+
+/**
+ * 获取请求历史信息数据结构
+ * @param params
+ * @return {{cmd: number, type: number}}
+ */
+export function getHistoryMessage(params) {
+  return {
+    cmd: 19,
+    type: 1,
+    ...params
+  }
+}

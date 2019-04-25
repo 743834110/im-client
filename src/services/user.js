@@ -74,6 +74,47 @@ export async function updateUser(params = {}) {
 }
 
 /**
+ * 请求发送验证码
+ * @return {Promise<void>}
+ */
+export async function sendGetCaptcha(params) {
+  return request('/rest/appUserService/getEmailCaptcha', {
+    method: 'POST',
+    body: {
+      ...params
+    }
+  })
+}
+
+/**
+ * 重置密码
+ * @param params
+ * @return {Promise<Taro.request.Promised<any>|never|void>}
+ */
+export async function resetPassword(params) {
+  return request('/rest/appUserService/resetPassword', {
+    method: 'POST',
+    body: {
+      ...params
+    }
+  })
+}
+
+/**
+ * 请求验证验证码
+ * @param params
+ * @return {Promise<Taro.request.Promised<any>|never|void>}
+ */
+export async function validateCaptcha(params) {
+  return request('/rest/appUserService/validateCaptcha', {
+    method: 'POST',
+    body: {
+      ...params
+    }
+  })
+}
+
+/**
  * 使用ws协议进行登录操作
  * @param params
  * @param socketTask

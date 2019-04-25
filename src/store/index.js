@@ -13,6 +13,7 @@ import message from './message'
 import messageAndChatGroup from './messageAndChatGroup'
 import feedback from './feedback'
 import file from './file'
+import role from './role'
 
 /**
  * 导出的state,每生成一个对象的state，都必须要
@@ -35,5 +36,6 @@ export default {
   message,
   messageAndChatGroup,
   feedback,
-  file
+  file,
+  role
 }

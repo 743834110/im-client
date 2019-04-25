@@ -166,6 +166,7 @@ export default class UserPublish extends PureComponent{
             onChange={this.handleOnSearchBarChange}
             actionName={'搜索'}
             onActionClick={this.handleOnSearchBarActionClick}
+            onConfirm={this.handleOnSearchBarActionClick}
           />
         </View>
         <View id='scrollView' className='flex-1'>

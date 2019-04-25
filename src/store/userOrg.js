@@ -1,4 +1,4 @@
-import {queryById, addUserOrg, queryUserOrg, removeUserOrg, updateUserOrg, queryUserOrgStructure} from '../services/userOrg'
+import {queryById, addUserOrg, queryUserOrg, removeUserOrg, updateUserOrg, queryUserOrgStructure, editInputBean} from '../services/userOrg'
 import {popAll} from "../utils/common";
 
 
@@ -93,12 +93,35 @@ const userOrg = {
       const response = await queryUserOrgStructure(payload);
       this.saveUserOrgStructure(response);
     },
+
+    // 批量更新userOrg
+    async batchUpdate(payload) {
+     const response = await editInputBean(payload);
+      if (payload.callback) {
+        payload.callback(response);
+      }
+    }
+
+
   }),
 
   reducers: {
+
     //
     saveUserOrgStructure(state, action) {
       state.userOrgStructure = action.data;
+    },
+
+    // 更新userOrgStructure
+    updateUserOrgStructure({userOrgStructure}, {outerIndex, innerIndex, _userOrg, callback}) {
+      userOrgStructure[outerIndex].userOrgList[innerIndex] = {
+        ...userOrgStructure[outerIndex].userOrgList[innerIndex],
+        ..._userOrg
+      };
+      if (callback) {
+        callback();
+      }
+
     },
     /**
      * @param action 

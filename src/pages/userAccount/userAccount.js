@@ -11,8 +11,8 @@ const mapStateToProps = ({user: {entities, currentUser, mappings: {humanity}}}) 
     return {
       id: index,
       title: humanity[value].alias,
-      extraText: currentUser[value],
-      extraThumb: value === 'userImageUrl'? currentUser[value]: undefined,
+      extraText: currentUser? currentUser[value]: undefined,
+      extraThumb: value === 'userImageUrl' && currentUser? currentUser[value]: undefined,
       arrow: 'right',
       ...humanity[value].operate
     }
@@ -43,7 +43,6 @@ export default class UserAccount extends Component{
 
   render() {
     let {data} = this.props;
-    console.log(data);
     return (
       <View className='container'>
         <View>

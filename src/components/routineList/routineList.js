@@ -42,7 +42,6 @@ export default class RoutineList extends Component {
   componentWillReceiveProps(props) {
     let {lowerLoading, scrollHeight} = props;
     let {routineList} = this.props;
-    console.log(scrollHeight)
     if (props.routineList.length <= routineList.length) {
       lowerLoading = 'noMore'
     }
@@ -61,6 +60,10 @@ export default class RoutineList extends Component {
       })
 
   }
+
+  prevent = (evt) => {
+    evt.preventDefault();
+  };
 
   handleTouchStart = (event) => {
     this.startPos = event.touches["0"].pageY;
@@ -102,12 +105,20 @@ export default class RoutineList extends Component {
       if (transitionHeight > 20) {
         // 更改刷新阈值
         this.upperRefresh = true
+        if (process.env.TARO_ENV === 'h5') {
+          document.body.addEventListener('touchmove', this.prevent);
+        }
       }
     }
   };
 
 
   handleTouchEnd = () => {
+
+    if (process.env.TARO_ENV === 'h5') {
+      document.body.removeEventListener('touchmove', this.prevent);
+    }
+
     let {onUpperRefresh} = this.props;
     if (this.upperRefresh) {
       this.setState({

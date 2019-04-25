@@ -4,7 +4,7 @@ import request from '../utils/request';
  * 通过ID查询
  */
 export async function queryById(params) {
-  return request('/rest/routineService/queryById', {
+  return request('/rest/roleService/queryById', {
     method: 'POST',
     body: {
       ...params
@@ -17,37 +17,22 @@ export async function queryById(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function queryRoutine(params) {
-  return request('/rest/appRoutineService/queryByPager', {
+export async function queryRole(params) {
+  return request('/rest/roleService/queryByPager', {
     method: 'POST',
     body: {
       ...params
     }
   });
 }
-
-/**
- * 通过routine分页过滤对象查询
- * @param params
- * @return {Promise<*>}
- */
-export async function filterByPager(params) {
-  return request('/rest/appRoutineService/filterByPager', {
-    method: 'POST',
-    body: {
-      ...params
-    }
-  });
-}
-
 
 /**
  * 通过ID数组进行对象的删除
  * @param params
  * @return {Promise<*>}
  */
-export async function removeRoutine(params) {
-  return request('/rest/routineService/deleteByIds', {
+export async function removeRole(params) {
+  return request('/rest/roleService/deleteByIds', {
     method: 'POST',
     body: {
       ...params,
@@ -62,8 +47,8 @@ export async function removeRoutine(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function addRoutine(params) {
-  return request('/rest/appRoutineService/appInsert', {
+export async function addRole(params) {
+  return request('/rest/roleService/insert', {
     method: 'POST',
     body: {
       ...params,
@@ -77,8 +62,8 @@ export async function addRoutine(params) {
  * @param params
  * @return {Promise<*>}
  */
-export async function updateRoutine(params = {}) {
-  return request(`/rest/routineService/update`, {
+export async function updateRole(params = {}) {
+  return request(`/rest/roleService/update`, {
     method: 'POST',
     body: {
       ...params,
